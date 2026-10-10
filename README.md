@@ -19,7 +19,7 @@
 cd backend
 cp .env.example .env
 pip install -r requirements.txt
-uvicorn app.main:app --reload --port 8000
+uvicorn app.main:app --reload --port 8002
 ```
 
 ### 前端
@@ -30,7 +30,7 @@ npm install
 npm run dev
 ```
 
-前端运行在 `http://localhost:5183`（局域网可用 `http://<本机IP>:5183` 访问），自动代理 `/api` 请求到后端 `http://localhost:8000`。
+前端运行在 `http://localhost:5183`（局域网可用 `http://<本机IP>:5183` 访问），自动代理 `/api` 请求到后端 `http://localhost:8002`。
 
 ## 项目结构
 
