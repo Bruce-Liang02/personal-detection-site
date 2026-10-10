@@ -241,61 +241,53 @@ export default function InvoicePage() {
 
         {tab === 'orders' ? (
           <>
-            {/* ═══ 筛选表单 ═══ */}
-            <div className="mt-5 flex items-start gap-6">
-              <div className="flex-1 space-y-[10px]">
-                <div className="flex items-center gap-[36px]">
-                  <div className="flex items-center gap-[30px]">
-                    <span className="text-body text-ink-2 shrink-0">订单编号</span>
-                    <input
-                      value={draft.orderNo}
-                      onChange={e => setDraft({ ...draft, orderNo: e.target.value })}
-                      onKeyDown={e => e.key === 'Enter' && handleSearch()}
-                      placeholder="请输入"
-                      className="input-field w-[194px]"
-                    />
-                  </div>
-                  <div className="flex items-center gap-[30px]">
-                    <span className="text-body text-ink-2 shrink-0">筛选时间</span>
-                    <DateRangePicker
-                      startDate={draft.from}
-                      endDate={draft.to}
-                      onStartDateChange={v => setDraft({ ...draft, from: v })}
-                      onEndDateChange={v => setDraft({ ...draft, to: v })}
-                    />
-                  </div>
+            {/* ═══ 筛选表单（单行：与截图一致） ═══ */}
+            <div className="mt-5 flex items-center gap-6">
+              <div className="flex-1 flex items-center gap-[30px]">
+                <div className="flex items-center gap-[30px]">
+                  <span className="text-body text-ink-2 shrink-0">订单编号</span>
+                  <input
+                    value={draft.orderNo}
+                    onChange={e => setDraft({ ...draft, orderNo: e.target.value })}
+                    onKeyDown={e => e.key === 'Enter' && handleSearch()}
+                    placeholder="请输入"
+                    className="input-field w-[194px]"
+                  />
                 </div>
-                <div className="flex items-center gap-[36px]">
-                  <div className="flex items-center gap-[30px]">
-                    <span className="text-body text-ink-2 shrink-0">开票状态</span>
-                    <div className="relative">
-                      <select
-                        value={draft.status}
-                        onChange={e => setDraft({ ...draft, status: e.target.value })}
-                        className="input-field w-[170px] appearance-none pl-3 pr-8 cursor-pointer"
-                      >
-                        <option value="">请选择</option>
-                        <option value="未开票">未开票</option>
-                        <option value="开票中">开票中</option>
-                        <option value="已开票">已开票</option>
-                      </select>
-                      <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-3 pointer-events-none" />
-                    </div>
+                <div className="flex items-center gap-[30px]">
+                  <span className="text-body text-ink-2 shrink-0">筛选时间</span>
+                  <DateRangePicker
+                    startDate={draft.from}
+                    endDate={draft.to}
+                    onStartDateChange={v => setDraft({ ...draft, from: v })}
+                    onEndDateChange={v => setDraft({ ...draft, to: v })}
+                  />
+                </div>
+                <div className="flex items-center gap-[30px]">
+                  <span className="text-body text-ink-2 shrink-0">开票状态</span>
+                  <div className="relative">
+                    <select
+                      value={draft.status}
+                      onChange={e => setDraft({ ...draft, status: e.target.value })}
+                      className="input-field w-[170px] appearance-none pl-3 pr-8 cursor-pointer"
+                    >
+                      <option value="">请选择</option>
+                      <option value="未开票">未开票</option>
+                      <option value="开票中">开票中</option>
+                      <option value="已开票">已开票</option>
+                    </select>
+                    <ChevronDown size={14} className="absolute right-3 top-1/2 -translate-y-1/2 text-ink-3 pointer-events-none" />
                   </div>
                 </div>
               </div>
-              <div className="flex gap-3 self-center">
-                <button onClick={handleReset} className="btn-outline btn-sm">
-                  重置
-                </button>
-                <button onClick={handleSearch} className="btn-primary btn-sm">
-                  搜索
-                </button>
+              <div className="flex gap-3 shrink-0">
+                <button onClick={handleReset} className="btn-outline btn-sm">重置</button>
+                <button onClick={handleSearch} className="btn-primary btn-sm">搜索</button>
               </div>
             </div>
 
             {/* ═══ 工具栏：合并开票 + 发票抬头管理 ═══ */}
-            <div className="mt-8 flex items-center gap-3">
+            <div className="mt-6 flex items-center gap-3">
               <button
                 onClick={() => openMerge()}
                 className="btn-primary btn-sm"
@@ -318,14 +310,14 @@ export default function InvoicePage() {
               <table className="w-full table-fixed text-body">
                 <colgroup>
                   <col style={{ width: 40 }} />
-                  <col style={{ width: 56 }} />
-                  <col style={{ width: 240 }} />
-                  <col style={{ width: 88 }} />
-                  <col style={{ width: 88 }} />
+                  <col style={{ width: 50 }} />
+                  <col style={{ width: 260 }} />
                   <col style={{ width: 100 }} />
-                  <col style={{ width: 150 }} />
-                  <col style={{ width: 129 }} />
-                  <col />
+                  <col style={{ width: 80 }} />
+                  <col style={{ width: 90 }} />
+                  <col style={{ width: 180 }} />
+                  <col style={{ width: 88 }} />
+                  <col style={{ width: 90 }} />
                 </colgroup>
                 <thead>
                   <tr className="table-head h-[48px]">
@@ -388,6 +380,21 @@ export default function InvoicePage() {
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* ═══ 分页栏 ═══ */}
+            <div className="mt-4 flex items-center justify-between text-caption text-ink-2">
+              <span>共 {filteredOrders.length} 项数据</span>
+              <div className="flex items-center gap-2">
+                <select className="input-field !h-7 !w-[110px] text-caption">
+                  <option>10 条/页</option>
+                  <option>20 条/页</option>
+                  <option>50 条/页</option>
+                </select>
+                <button className="btn-ghost btn-sm !h-7">‹</button>
+                <button className="btn-sm !h-7 !px-2.5 border border-brand bg-brand text-white rounded">1</button>
+                <button className="btn-ghost btn-sm !h-7">›</button>
+              </div>
             </div>
           </>
         ) : (
@@ -453,6 +460,21 @@ export default function InvoicePage() {
                   )}
                 </tbody>
               </table>
+            </div>
+
+            {/* ═══ 分页栏 ═══ */}
+            <div className="mt-4 flex items-center justify-between text-caption text-ink-2">
+              <span>共 {filteredInvoices.length} 项数据</span>
+              <div className="flex items-center gap-2">
+                <select className="input-field !h-7 !w-[110px] text-caption">
+                  <option>10 条/页</option>
+                  <option>20 条/页</option>
+                  <option>50 条/页</option>
+                </select>
+                <button className="btn-ghost btn-sm !h-7">‹</button>
+                <button className="btn-sm !h-7 !px-2.5 border border-brand bg-brand text-white rounded">1</button>
+                <button className="btn-ghost btn-sm !h-7">›</button>
+              </div>
             </div>
           </>
         )}
