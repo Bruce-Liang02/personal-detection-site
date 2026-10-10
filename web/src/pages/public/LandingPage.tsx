@@ -117,7 +117,7 @@ export default function LandingPage() {
       </header>
 
       {/* === HERO SECTION - CSS 3D Animation (VPCS Style) === */}
-      <section className="relative overflow-hidden h-[600px]" style={{ background: 'linear-gradient(135deg, #e8f4fd 0%, #f0f4ff 50%, #f5f0ff 100%)' }}>
+      <section className="relative overflow-hidden h-[600px]" style={{ background: 'url(/hero-bg.png) center / cover no-repeat' }}>
         {/* Animated background orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-32 -right-32 w-[700px] h-[700px] rounded-full opacity-[0.08]" style={{ background: 'radial-gradient(circle, #017173, transparent 70%)', animation: 'glow1 8s ease-in-out infinite' }} />

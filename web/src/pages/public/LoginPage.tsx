@@ -4,7 +4,7 @@ import BrandLogo from '@/components/ui/BrandLogo'
 import { useAuthStore } from '@/stores/authStore'
 import SliderCaptcha from '@/components/ui/SliderCaptcha'
 import { RegisterModal, ResetPasswordModal } from '@/components/ui/AccountModals'
-import { Eye, EyeOff, Loader2, User, Lock, Smartphone, Check, Search } from 'lucide-react'
+import { Eye, EyeOff, Loader2, User, Lock, Smartphone, Check } from 'lucide-react'
 
 export default function LoginPage() {
   const [tab, setTab] = useState<'account' | 'code'>('account')
@@ -91,72 +91,14 @@ export default function LoginPage() {
             ))}
           </div>
 
-          {/* 示意图（参考轮播插画样式：浏览器窗口 + 检测标签） */}
+          {/* 示意图（浏览器窗口 + 检测标签 + 检测报告插画） */}
           <div className="relative mt-9 select-none" aria-hidden>
-            {/* 检测标签 */}
-            <div className="absolute -left-3 top-[44%] z-10 px-3.5 py-2 rounded-md bg-gradient-to-b from-[#43d0a6] to-[#17a67f] text-white text-[15px] font-bold shadow-[0_6px_16px_rgba(23,166,127,0.4)]">
-              课程论文检测
-            </div>
-            {/* 浏览器窗口 */}
-            <div className="rounded-2xl bg-gradient-to-b from-[#e3eaf7] to-[#d3ddec] p-2.5 shadow-[0_24px_60px_rgba(29,33,41,0.18)]">
-              <div className="bg-white rounded-xl overflow-hidden">
-                {/* 标题栏 */}
-                <div className="flex items-center px-4 py-2.5 border-b border-[#f0f2f7]">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#f56c6c] mr-1.5" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#f7ba2b] mr-1.5" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#41b883]" />
-                  <div className="ml-auto flex items-center gap-1.5 bg-[#f5f6fa] rounded-full px-3 py-1 text-[11px] text-[#a1a8b3]">
-                    https://cqms.fanyu.com/
-                    <Search size={11} />
-                  </div>
-                </div>
-                {/* 内容区 */}
-                <div className="grid grid-cols-5 gap-4 p-5">
-                  {/* 报告卡 */}
-                  <div className="col-span-2 rounded-lg bg-[#f8f9fc] border border-[#eef1f6] p-3">
-                    <div className="h-2 w-2/3 rounded bg-[#e5e9f2] mb-2.5" />
-                    <div className="h-2 w-full rounded bg-[#eef1f7] mb-1.5" />
-                    <div className="h-2 w-5/6 rounded bg-[#eef1f7] mb-3" />
-                    <div className="flex items-center gap-3">
-                      <svg viewBox="0 0 36 36" className="w-14 h-14 -rotate-90 shrink-0">
-                        <circle cx="18" cy="18" r="14" fill="none" stroke="#eef1f7" strokeWidth="6" />
-                        <circle cx="18" cy="18" r="14" fill="none" stroke="#f56c6c" strokeWidth="6" strokeDasharray="35 53" strokeLinecap="round" />
-                        <circle cx="18" cy="18" r="14" fill="none" stroke="#f7ba2b" strokeWidth="6" strokeDasharray="12 76" strokeDashoffset="-35" strokeLinecap="round" />
-                      </svg>
-                      <div className="flex-1 space-y-1.5">
-                        <div className="h-2 w-full rounded bg-[#eef1f7]" />
-                        <div className="h-2 w-4/5 rounded bg-[#eef1f7]" />
-                        <div className="h-2 w-3/5 rounded bg-[#eef1f7]" />
-                      </div>
-                    </div>
-                  </div>
-                  {/* 清单卡 */}
-                  <div className="col-span-3 rounded-lg bg-[#f8f9fc] border border-[#eef1f6] p-3 space-y-3">
-                    {[0, 1, 2].map(i => (
-                      <div key={i} className="flex items-center gap-2.5 rounded-md bg-white border border-[#eef1f6] px-2.5 py-2">
-                        <span className="w-5 h-5 rounded bg-[#22c07d] flex items-center justify-center shrink-0">
-                          <Check size={12} className="text-white" />
-                        </span>
-                        <div className="flex-1 space-y-1">
-                          <div className="h-1.5 w-full rounded bg-[#e5e9f2]" />
-                          <div className="h-1.5 w-2/3 rounded bg-[#eef1f7]" />
-                        </div>
-                      </div>
-                    ))}
-                    {/* 柱状图 */}
-                    <div className="flex items-end gap-1.5 h-10 px-1">
-                      {[25, 40, 20, 33, 15].map((h, i) => (
-                        <div
-                          key={i}
-                          className="flex-1 rounded-t"
-                          style={{ height: `${h}%`, background: ['#a9c4f5', '#f56c6c', '#a9c4f5', '#f56c6c', '#22c07d'][i] }}
-                        />
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+            <img
+              src="/login-illustration.png"
+              alt=""
+              className="h-[300px] w-auto"
+              draggable={false}
+            />
           </div>
         </div>
 
