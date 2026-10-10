@@ -2,7 +2,7 @@
 from __future__ import annotations
 
 import secrets
-from sqlalchemy import select
+from sqlalchemy import select, or_
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.security import hash_password, verify_password, create_access_token, create_refresh_token
@@ -12,9 +12,16 @@ from app.schemas.auth import LoginIn, LoginOut, RegisterIn
 
 async def register(db: AsyncSession, data: RegisterIn) -> User:
     """Create a new user account."""
-    # Check uniqueness
+    # Check uniqueness:
+    # - 用户名始终参与唯一性校验
+    # - 手机号仅在用户提供时才校验，否则 User.phone == None 会被 SQLAlchemy
+    #   转成 IS NULL，误匹配所有未绑手机号的账号。
+    clauses = [User.username == data.username]
+    if data.phone:
+        clauses.append(User.phone == data.phone)
+
     exists = await db.execute(
-        select(User).where((User.username == data.username) | (User.phone == data.phone))
+        select(User).where(or_(*clauses))
     )
     if exists.scalar_one_or_none():
         raise ValueError("用户名或手机号已存在")
