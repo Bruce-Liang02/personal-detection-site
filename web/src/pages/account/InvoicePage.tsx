@@ -318,11 +318,11 @@ export default function InvoicePage() {
               <table className="w-full table-fixed text-body">
                 <colgroup>
                   <col style={{ width: 40 }} />
+                  <col style={{ width: 56 }} />
+                  <col style={{ width: 240 }} />
                   <col style={{ width: 88 }} />
-                  <col style={{ width: 150 }} />
                   <col style={{ width: 88 }} />
-                  <col style={{ width: 88 }} />
-                  <col style={{ width: 129 }} />
+                  <col style={{ width: 100 }} />
                   <col style={{ width: 150 }} />
                   <col style={{ width: 129 }} />
                   <col />
