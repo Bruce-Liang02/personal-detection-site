@@ -92,11 +92,11 @@ export default function LoginPage() {
           </div>
 
           {/* 示意图（参考轮播插画样式：浏览器窗口 + 检测标签） */}
-          <div className="relative mt-9 select-none" style={{ aspectRatio: '2.8/1' }} aria-hidden>
+          <div className="relative mt-9 select-none" aria-hidden>
             <img
               src="/login-illustration.png"
               alt="课程论文检测示意图"
-              className="w-full h-full object-contain"
+              className="w-full h-auto"
             />
           </div>
         </div>
