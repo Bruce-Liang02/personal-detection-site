@@ -199,7 +199,7 @@ export default function PaperDetectionPage() {
         style={{
           backgroundImage: 'url(/paper-banner.png)',
           backgroundSize: 'cover',
-          backgroundPosition: '0 0',
+          backgroundPosition: 'right center',
           backgroundRepeat: 'no-repeat',
         }}
       >

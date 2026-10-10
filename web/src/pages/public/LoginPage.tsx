@@ -96,7 +96,7 @@ export default function LoginPage() {
             <img
               src="/login-illustration.png"
               alt=""
-              className="h-[300px] w-auto"
+              className="h-[420px] w-auto -mb-[120px]"
               draggable={false}
             />
           </div>

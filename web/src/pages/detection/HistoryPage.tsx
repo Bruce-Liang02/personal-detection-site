@@ -358,7 +358,7 @@ export default function HistoryPage() {
             </thead>
             <tbody>
               {filtered.map((r) => {
-                const cardBg = '/card-chachong.svg'
+                const cardBg = '/report-type-bg.png'
                 const remainingMs = getRemainingMs(r)
                 const unpaidAndExpired = r.status === '解析完成' && !r.paid && remainingMs <= 0
                 const reportExpired = r.status === '检测完成' && isExpired180Days(r)
@@ -378,18 +378,17 @@ export default function HistoryPage() {
                     {/* 报告数据行 */}
                     <tr className="border-b border-[#F2F3F5]">
                       <td className="py-4 px-2">
-                        <div className="rounded overflow-hidden" style={{ backgroundImage: `url(${cardBg})`, backgroundSize: 'cover', minHeight: '60px' }}>
-                          <div className="px-3 py-2">
-                            <div className="flex items-center gap-2">
-                              <span className="text-[12px] font-bold px-1.5 py-0.5 rounded" style={{ background: r.typeCard.badgeBg, color: r.typeCard.badgeColor, fontSize: '10px' }}>
-                                {r.typeCard.badge}
-                              </span>
-                              <span className="text-[13px] font-bold text-[#1D2129]">{r.typeCard.logo}</span>
-                            </div>
-                            <span className="inline-block text-[11px] mt-1 px-1.5 py-0.5 rounded border text-[#F53F3F] border-[#F53F3F] bg-white">
-                              {r.version}
-                            </span>
+                        <div
+                          className="w-[300px] max-w-full rounded-[8px] overflow-hidden flex flex-col justify-center gap-2.5 px-4"
+                          style={{ backgroundImage: `url(${cardBg})`, backgroundSize: 'cover', minHeight: '96px' }}
+                        >
+                          <div className="flex items-center gap-2">
+                            <img src="/cmsq-logo.png" alt="CQMS" className="h-[20px] shrink-0" draggable={false} />
+                            <span className="text-[14px] font-bold text-[#1D2129]">{r.typeCard.logo}</span>
                           </div>
+                          <span className="self-start inline-block text-[11px] px-1.5 py-0.5 rounded border text-[#F53F3F] border-[#F53F3F] bg-white">
+                            {r.version}
+                          </span>
                         </div>
                       </td>
                       <td className="text-center py-4 px-2">
