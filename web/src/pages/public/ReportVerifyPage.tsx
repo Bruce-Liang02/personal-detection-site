@@ -31,13 +31,13 @@ export function ReportVerifyContent() {
 
   return (
     <>
-      {/* ═══ Banner 区块（官网 top_bg 规格：高 220px，标题 44px/700 #072155，插图 320×177） ═══ */}
+      {/* ═══ Banner 区块（高 220px，标题 44px/700 text-ink，插图 320×177） ═══ */}
       <div className="relative h-[220px] w-full overflow-hidden" style={{ background: 'url(/verify-bg.png) 0% 0% / 100% 100% no-repeat' }}>
         <div className="pt-[48px]" style={{ paddingLeft: '23.4%' }}>
-          <p className="text-[44px] font-bold leading-[1.1] tracking-[1.76px] text-[#072155] mb-4 whitespace-nowrap">
-            <span className="text-[#e51b1f] mr-1">CQMS</span>独家认证
+          <p className="text-[44px] font-bold leading-[1.1] tracking-[1.76px] text-ink mb-4 whitespace-nowrap">
+            <span className="text-brand-700 mr-1">CQMS</span>独家认证
           </p>
-          <p className="text-[44px] font-bold leading-[1.1] tracking-[1.76px] text-[#072155] whitespace-nowrap">
+          <p className="text-[44px] font-bold leading-[1.1] tracking-[1.76px] text-ink whitespace-nowrap">
             维普课程论文报告验真
           </p>
         </div>
@@ -46,27 +46,26 @@ export function ReportVerifyContent() {
       </div>
 
       {/* ═══ Content（官网 .main 规格：白底，main_box 1000px 渐变卡片） ═══ */}
-      <div className="bg-white w-full pt-[40px] pb-[20px] px-4">
+      <div className="bg-page w-full pt-[40px] pb-[20px] px-4">
         <div
-          className="relative w-full max-w-[1000px] min-h-[504px] mx-auto rounded-[8px] px-[40px] py-[40px] md:px-[134px]"
-          style={{ border: '1px solid #e4e7f2', background: 'linear-gradient(#eef6ff 0%, #ffffff 22.35%)' }}
+          className="relative w-full max-w-[1000px] min-h-[504px] mx-auto rounded-lg px-[40px] py-[40px] md:px-[134px] bg-gradient-to-b from-brand-soft to-white border border-line"
         >
           {/* 左侧水印徽章 */}
           <div className="absolute left-0 top-0 w-[290px] h-[279px] pointer-events-none" style={{ background: 'url(/verify-icon.png) center / contain no-repeat' }} />
 
           {/* 检测类型 */}
           <div className="relative flex items-center gap-6 mb-[20px] flex-wrap">
-            <div className="shrink-0 text-[14px] text-[#1d2129] leading-[26px]">检测类型</div>
+            <div className="shrink-0 text-[14px] text-ink leading-[26px]">检测类型</div>
             <div className="flex items-center gap-[12px] flex-wrap">
               {DETECTION_TYPES.map(t => (
                 <div
                   key={t.key}
                   onClick={() => setSelectedType(t.key)}
                   className="w-[140px] h-[48px] flex items-center justify-center cursor-pointer select-none
-                    bg-white text-[16px] rounded-[4px] transition-colors"
+                    bg-white text-[16px] rounded-md transition-colors"
                   style={{
-                    border: selectedType === t.key ? '1px solid #E44548' : '1px solid #e5e6eb',
-                    color: selectedType === t.key ? '#E44548' : '#1d2129',
+                    border: selectedType === t.key ? '1px solid var(--brand)' : '1px solid var(--line)',
+                    color: selectedType === t.key ? 'var(--brand)' : 'var(--ink)',
                   }}
                 >
                   {t.label}
@@ -77,11 +76,10 @@ export function ReportVerifyContent() {
 
           {/* 报告编号 + 验真按钮（官网：输入框与按钮间距 12px，按钮 120×48） */}
           <div className="relative flex items-center gap-6 flex-wrap">
-            <div className="shrink-0 text-[14px] text-[#1d2129] leading-[26px]">报告编号</div>
+            <div className="shrink-0 text-[14px] text-ink leading-[26px]">报告编号</div>
             <div className="flex-1 min-w-[320px] flex items-center">
               <input
-                className="flex-1 h-[48px] mr-[12px] px-4 bg-white text-[14px] text-[#1d2129] rounded-[4px] placeholder:text-[#a9aeb8] focus:outline-none focus:border-[#E44548]"
-                style={{ border: '1px solid #e5e6eb' }}
+                className="input-field h-[48px] flex-1 mr-[12px] rounded-md"
                 placeholder="请输入"
                 value={reportNumber}
                 onChange={e => { setReportNumber(e.target.value); setResult(null) }}
@@ -90,8 +88,7 @@ export function ReportVerifyContent() {
               <button
                 onClick={handleVerify}
                 disabled={loading}
-                className="w-[120px] h-[48px] rounded-[4px] bg-[#E44548] hover:bg-[#c93a3d] disabled:opacity-60 text-white text-[16px]
-                  flex items-center justify-center gap-1.5 transition-colors shrink-0"
+                className="btn-primary w-[120px] !h-[48px] shrink-0 text-[16px]"
               >
                 {loading ? '验真中…' : <><Search size={16} /> 报告验真</>}
               </button>
@@ -101,19 +98,19 @@ export function ReportVerifyContent() {
           {/* 结果区（官网 result_box：无结果时展示 nodata 插图 + 提示文字） */}
           <div className="relative w-full">
             {result ? (
-              <div className={`mt-[24px] rounded-[4px] p-[20px] flex items-start gap-3
-                ${result.valid ? 'bg-[#e8ffea]' : 'bg-[#ffece8]'}`}
-                style={{ border: result.valid ? '1px solid #a8d9b0' : '1px solid #f3c1bd' }}>
+              <div className={`mt-[24px] rounded-md p-[20px] flex items-start gap-3
+                ${result.valid ? 'bg-success-soft border border-success-border' : 'bg-danger-soft border border-danger-border'}`}
+                >
                 {result.valid ? (
-                  <CheckCircle2 size={20} className="text-[#00b42a] shrink-0 mt-0.5" />
+                  <CheckCircle2 size={20} className="text-success shrink-0 mt-0.5" />
                 ) : (
-                  <AlertCircle size={20} className="text-[#f53f3f] shrink-0 mt-0.5" />
+                  <AlertCircle size={20} className="text-danger shrink-0 mt-0.5" />
                 )}
                 <div className="flex-1">
                   {result.valid ? (
                     <>
-                      <p className="font-bold text-[#00b42a] text-[14px] mb-2">验真通过，报告真实有效</p>
-                      <div className="space-y-1.5 text-[13px] text-[#4e5969]">
+                      <p className="font-bold text-success text-[14px] mb-2">验真通过，报告真实有效</p>
+                      <div className="space-y-1.5 text-[13px] text-ink-2">
                         <p>论文标题：{result.info?.title}</p>
                         <p>检测时间：{result.info?.time}</p>
                         <p>综合评分：{result.info?.score}</p>
@@ -121,8 +118,8 @@ export function ReportVerifyContent() {
                     </>
                   ) : (
                     <>
-                      <p className="font-bold text-[#f53f3f] text-[14px] mb-1">未找到该报告</p>
-                      <p className="text-[13px] text-[#4e5969]">请检查报告编号是否输入正确，或联系客服 400-607-5550</p>
+                      <p className="font-bold text-danger text-[14px] mb-1">未找到该报告</p>
+                      <p className="text-[13px] text-ink-2">请检查报告编号是否输入正确，或联系客服 400-607-5550</p>
                     </>
                   )}
                 </div>
@@ -130,7 +127,7 @@ export function ReportVerifyContent() {
             ) : (
               <div className="flex flex-col items-center justify-center gap-[16px] pt-[40px]">
                 <img src="/verify-nodata.png" alt="" className="w-[256px] h-[120px]" />
-                <span className="text-[14px] text-[#4e5969] leading-[22px]">请输入报告编号进行验真</span>
+                <span className="text-[14px] text-ink-2 leading-[22px]">请输入报告编号进行验真</span>
               </div>
             )}
           </div>
@@ -156,53 +153,60 @@ export default function ReportVerifyPage() {
   }, [])
 
   return (
-    <div className="min-h-screen bg-[#f7f7f7] flex flex-col">
+    <div className="min-h-screen bg-page flex flex-col">
       {/* ═══ Navbar ═══ */}
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
+      <header className="sticky top-0 z-50 bg-white border-b border-line">
         <div className="w-full px-6 h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link to={isLoggedIn ? '/dashboard' : '/'} className="flex items-center gap-3 shrink-0">
+            <Link to="/" className="flex items-center gap-3 shrink-0">
               <BrandLogo size={48} />
               <div className="leading-tight">
-                <p className="text-[20px] font-black text-[#017173] tracking-wide">
+                <p className="text-[20px] font-black text-brand-700 tracking-wide">
                   研究生课程论文写作训练与学术规范检测系统
                 </p>
-                <p className="text-[11px] text-gray-400 font-semibold tracking-wider -mt-0.5">
+                <p className="text-[11px] text-ink-3 font-semibold tracking-wider -mt-0.5">
                   GRADUATE COURSE PAPER WRITING &amp; ACADEMIC NORMS DETECTION SYSTEM
                 </p>
               </div>
             </Link>
             <div className="hidden md:flex items-center gap-0.5">
-              <span className="px-3.5 py-1.5 text-[15px] font-bold text-[#D73431]">报告验真</span>
-              <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="px-3.5 py-1.5 text-[15px] font-medium text-gray-600 hover:text-[#D73431] transition-colors rounded">报告演示</a>
-              <Link to="/download-report" className="px-3.5 py-1.5 text-[15px] font-medium text-gray-600 hover:text-[#D73431] transition-colors rounded">下载报告</Link>
+              <span className="px-3.5 py-1.5 text-[15px] font-bold text-brand">报告验真</span>
+              <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-brand transition-colors rounded">报告演示</a>
+              <Link to="/download-report" className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-brand transition-colors rounded">下载报告</Link>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-1.5 text-sm text-gray-800">
+            <div className="hidden sm:flex items-center gap-1.5 text-sm text-ink-2">
               <Phone size={13} />
               <span className="font-medium">400-607-5550</span>
             </div>
             {isLoggedIn ? (
               <>
-                <span className="text-[#d6dae5]">|</span>
+                <span className="text-line">|</span>
                 <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="flex items-center gap-2 rounded hover:bg-gray-50 transition-colors px-2 py-1"
+                    className="flex items-center gap-2 rounded hover:bg-line-lighter transition-colors px-2 py-1"
                   >
                     <img src="/avatar.png" alt="avatar" className="w-8 h-8 rounded-full" />
-                    <span className="text-[14px] text-[#1d2129]">{user?.nickname || user?.username}</span>
-                    <ChevronDown size={13} className="text-[#86909c]" />
+                    <div className="leading-tight text-left">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[14px] text-ink">{user?.nickname || user?.username}</span>
+                        <ChevronDown size={13} className="text-ink-3" />
+                      </div>
+                      <div className="mt-0.5">
+                        <span className="badge-brand">个人用户</span>
+                      </div>
+                    </div>
                   </button>
                   {menuOpen && (
-                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg border border-[#e5e6eb] shadow-lg py-1 z-50">
-                      <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-[#4e5969] hover:bg-gray-50">
+                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg border border-line shadow-lg py-1 z-50">
+                      <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-ink-2 hover:bg-line-lighter">
                         <User size={13} /> 个人资料
                       </Link>
                       <button
                         onClick={() => { logout(); setMenuOpen(false); navigate('/login') }}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[#E44548] hover:bg-[#ffece8]"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-danger hover:bg-danger-soft"
                       >
                         <LogOut size={13} /> 退出登录
                       </button>
@@ -211,7 +215,7 @@ export default function ReportVerifyPage() {
                 </div>
               </>
             ) : (
-              <Link to="/login" className="bg-[#E44548] hover:bg-[#c93a3d] text-white text-sm font-bold px-5 py-2 rounded transition-colors">
+              <Link to="/login" className="btn-primary btn-md text-caption">
                 登录/注册
               </Link>
             )}

@@ -54,13 +54,13 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col relative" style={{ background: 'url(/login-bg.jpg) center / cover no-repeat #eef2ff' }}>
+    <div className="min-h-screen flex flex-col relative bg-page" style={{ background: 'url(/login-bg.jpg) center / cover no-repeat var(--page)' }}>
       {/* ═══ 左上角署名（点击返回首页） ═══ */}
       <Link to="/" className="flex lg:absolute lg:top-[34px] lg:left-[44px] items-center gap-3 px-6 pt-6 lg:p-0 z-10 cursor-pointer shrink-0">
         <BrandLogo size={44} />
         <div className="leading-tight">
-          <p className="text-[17px] font-extrabold text-[#1d2129]">研究生课程论文写作训练与学术规范检测系统</p>
-          <p className="text-[10px] text-[#86909c] tracking-wider">GRADUATE COURSE PAPER WRITING &amp; ACADEMIC NORMS DETECTION SYSTEM</p>
+          <p className="text-[17px] font-extrabold text-ink">研究生课程论文写作训练与学术规范检测系统</p>
+          <p className="text-[10px] text-ink-3 tracking-wider">GRADUATE COURSE PAPER WRITING &amp; ACADEMIC NORMS DETECTION SYSTEM</p>
         </div>
       </Link>
 
@@ -70,20 +70,20 @@ export default function LoginPage() {
         <div className="hidden lg:block w-[50%] max-w-[680px] shrink-0">
           {/* 文本（依据检测报告与产品手册生成） */}
           <h1 className="text-[34px] font-black leading-tight mb-5">
-            <span className="text-[#e51b1f]">写作训练</span>
-            <span className="mx-3 text-[#dcdfe6] font-normal">|</span>
-            <span className="text-[#1d2129]">学术规范检测</span>
+            <span className="text-brand-700">写作训练</span>
+            <span className="mx-3 text-line font-normal">|</span>
+            <span className="text-ink">学术规范检测</span>
           </h1>
-          <p className="text-[15px] leading-[26px] text-[#4e5969]">
+          <p className="text-[15px] leading-[26px] text-ink-2">
             系统从学术诚信、格式规范、语言表达、结构逻辑四大维度开展智能质检，
             依托十万级学术资源库与动态语义＋指纹比对算法，精准识别重复内容，
             并结合 AI 生成特征算法快速识别疑似 AI 生成文本，输出结构化改进建议。
           </p>
-          <p className="mt-6 text-[15px] font-bold text-[#1d2129]">适用论文类型</p>
+          <p className="mt-6 text-[15px] font-bold text-ink">适用论文类型</p>
           <div className="mt-3 flex flex-wrap gap-x-8 gap-y-2">
             {['研究生课程论文'].map(s => (
-              <span key={s} className="flex items-center gap-1.5 text-[14px] text-[#1d2129]">
-                <span className="w-[18px] h-[18px] rounded-full bg-[#165DFF] flex items-center justify-center">
+              <span key={s} className="flex items-center gap-1.5 text-[14px] text-ink">
+                <span className="w-[18px] h-[18px] rounded-full bg-brand flex items-center justify-center">
                   <Check size={11} className="text-white" />
                 </span>
                 {s}
@@ -103,18 +103,18 @@ export default function LoginPage() {
         </div>
 
         {/* 右：登录卡片 */}
-        <div className="relative w-full max-w-[440px] bg-white rounded-lg shadow-[0_8px_40px_rgba(29,33,41,0.08)] px-10 py-9">
-          <h2 className="text-[26px] font-bold text-[#1d2129] mb-5">欢迎登录</h2>
+        <div className="relative w-full max-w-[440px] card px-10 py-9">
+          <h2 className="text-[26px] font-bold text-ink mb-5">欢迎登录</h2>
 
           {/* Tab：用户登录 / 验证码登录 */}
-          <div className="flex gap-8 border-b border-[#e5e6eb] mb-6">
+          <div className="flex gap-8 border-b border-line mb-6">
             {([['account', '用户登录'], ['code', '验证码登录']] as const).map(([key, label]) => (
               <button
                 key={key}
                 type="button"
                 onClick={() => { setTab(key); setError('') }}
                 className={`pb-2.5 text-[16px] -mb-px border-b-2 transition-colors ${
-                  tab === key ? 'text-[#E44548] border-[#E44548] font-medium' : 'text-[#4e5969] border-transparent hover:text-[#E44548]'
+                  tab === key ? 'text-brand-700 border-brand font-medium' : 'text-ink-2 border-transparent hover:text-brand'
                 }`}
               >
                 {label}
@@ -123,15 +123,15 @@ export default function LoginPage() {
           </div>
 
           {error && (
-            <div className="mb-4 bg-[#ffece8] text-[#f53f3f] text-sm rounded px-4 py-2.5">{error}</div>
+            <div className="mb-4 bg-danger-soft text-danger text-caption rounded-md px-4 py-2.5">{error}</div>
           )}
 
           {tab === 'account' ? (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="relative">
-                <User size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86909c]" />
+                <User size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
                 <input
-                  className="w-full h-11 pl-10 pr-3 rounded border border-[#e5e6eb] text-[14px] text-[#1d2129] placeholder:text-[#86909c] focus:outline-none focus:border-[#E44548]"
+                  className="input-field h-11 pl-10 pr-3"
                   placeholder="手机号/用户名"
                   value={username}
                   onChange={e => setUsername(e.target.value)}
@@ -139,9 +139,9 @@ export default function LoginPage() {
                 />
               </div>
               <div className="relative">
-                <Lock size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86909c]" />
+                <Lock size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
                 <input
-                  className="w-full h-11 pl-10 pr-11 rounded border border-[#e5e6eb] text-[14px] text-[#1d2129] placeholder:text-[#86909c] focus:outline-none focus:border-[#E44548]"
+                  className="input-field h-11 pl-10 pr-11"
                   type={showPwd ? 'text' : 'password'}
                   placeholder="密码"
                   value={password}
@@ -150,7 +150,7 @@ export default function LoginPage() {
                 />
                 <button
                   type="button"
-                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#86909c] hover:text-[#4e5969]"
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-ink-3 hover:text-ink-2"
                   onClick={() => setShowPwd(!showPwd)}
                 >
                   {showPwd ? <EyeOff size={17} /> : <Eye size={17} />}
@@ -163,7 +163,7 @@ export default function LoginPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full h-11 rounded bg-[#E44548] hover:bg-[#c93a3d] disabled:opacity-60 text-white text-[15px] font-medium flex items-center justify-center transition-colors"
+                className="btn-primary w-full !h-11 text-subtitle"
               >
                 {loading ? <Loader2 className="animate-spin" size={18} /> : '立即登录'}
               </button>
@@ -171,9 +171,9 @@ export default function LoginPage() {
           ) : (
             <form onSubmit={e => { e.preventDefault(); setError('验证码登录功能开发中') }} className="space-y-4">
               <div className="relative">
-                <Smartphone size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86909c]" />
+                <Smartphone size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
                 <input
-                  className="w-full h-11 pl-10 pr-3 rounded border border-[#e5e6eb] text-[14px] text-[#1d2129] placeholder:text-[#86909c] focus:outline-none focus:border-[#E44548]"
+                  className="input-field h-11 pl-10 pr-3"
                   placeholder="手机号"
                   value={phone}
                   onChange={e => setPhone(e.target.value)}
@@ -181,9 +181,9 @@ export default function LoginPage() {
                 />
               </div>
               <div className="relative">
-                <Lock size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#86909c]" />
+                <Lock size={17} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-ink-3" />
                 <input
-                  className="w-full h-11 pl-10 pr-28 rounded border border-[#e5e6eb] text-[14px] text-[#1d2129] placeholder:text-[#86909c] focus:outline-none focus:border-[#E44548]"
+                  className="input-field h-11 pl-10 pr-28"
                   placeholder="验证码"
                   value={code}
                   onChange={e => setCode(e.target.value)}
@@ -192,14 +192,14 @@ export default function LoginPage() {
                 <button
                   type="button"
                   onClick={handleSendCode}
-                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[13px] text-[#E44548] font-medium"
+                  className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[13px] text-brand font-medium hover:text-brand-800"
                 >
                   获取验证码
                 </button>
               </div>
               <button
                 type="submit"
-                className="w-full h-11 rounded bg-[#E44548] hover:bg-[#c93a3d] text-white text-[15px] font-medium transition-colors"
+                className="btn-primary w-full !h-11 text-subtitle"
               >
                 立即登录
               </button>
@@ -212,29 +212,29 @@ export default function LoginPage() {
               type="checkbox"
               checked={agreed}
               onChange={e => setAgreed(e.target.checked)}
-              className="mt-0.5 accent-[#E44548]"
+              className="mt-0.5 accent-brand"
             />
-            <span className="text-[13px] text-[#4e5969] leading-[20px]">
+            <span className="text-caption text-ink-2 leading-[20px]">
               我已阅读
-              <span onClick={() => setProtocolModal('register')} className="text-[#165DFF] mx-0.5" style={{ cursor: 'pointer' }}>《用户注册协议》</span>
+              <span onClick={() => setProtocolModal('register')} className="link mx-0.5" style={{ cursor: 'pointer' }}>《用户注册协议》</span>
               、
-              <span onClick={() => setProtocolModal('privacy')} className="text-[#165DFF] mx-0.5" style={{ cursor: 'pointer' }}>《用户隐私政策》</span>
+              <span onClick={() => setProtocolModal('privacy')} className="link mx-0.5" style={{ cursor: 'pointer' }}>《用户隐私政策》</span>
             </span>
           </label>
 
           {/* 协议弹窗 */}
           {protocolModal && (
-            <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40" onClick={() => setProtocolModal(null)}>
-              <div className="relative bg-white rounded-lg shadow-2xl w-[90%] max-w-[640px] max-h-[80vh] flex flex-col" onClick={e => e.stopPropagation()}>
-                <div className="flex items-center justify-between px-6 py-4 border-b border-[#e5e6eb]">
-                  <h3 className="text-[16px] font-bold text-[#1d2129]">
+            <div className="overlay" onClick={() => setProtocolModal(null)}>
+              <div className="relative modal w-[90%] max-w-[640px] max-h-[80vh]" onClick={e => e.stopPropagation()}>
+                <div className="modal-header">
+                  <h3 className="text-[16px] font-bold text-ink">
                     {protocolModal === 'register' ? '用户注册协议' : '用户隐私政策'}
                   </h3>
-                  <button onClick={() => setProtocolModal(null)} className="text-[#86909c] hover:text-[#1d2129] text-xl leading-none">&times;</button>
+                  <button onClick={() => setProtocolModal(null)} className="text-ink-3 hover:text-ink text-xl leading-none">&times;</button>
                 </div>
-                <div className="px-6 py-4 overflow-y-auto flex-1 agreement-content" dangerouslySetInnerHTML={{ __html: protocolHtml }} />
-                <div className="flex justify-end px-6 py-3 border-t border-[#e5e6eb]">
-                  <button onClick={() => setProtocolModal(null)} className="px-6 py-2 rounded bg-[#E44548] hover:bg-[#c93a3d] text-white text-[14px] transition-colors">
+                <div className="modal-body agreement-content" dangerouslySetInnerHTML={{ __html: protocolHtml }} />
+                <div className="modal-footer">
+                  <button onClick={() => setProtocolModal(null)} className="btn-primary btn-md">
                     关闭
                   </button>
                 </div>
@@ -243,9 +243,9 @@ export default function LoginPage() {
           )}
 
           {/* 底部链接（1:1 复刻官网样式与点击交互：免费注册→用户注册弹窗，忘记密码→忘记密码弹窗） */}
-          <div className="mt-4 mb-5 flex items-center justify-between text-[14px] text-[#515a6e]">
-            <button type="button" onClick={() => setShowRegister(true)} className="cursor-pointer">免费注册</button>
-            <button type="button" onClick={() => setShowReset(true)} className="cursor-pointer">忘记密码？</button>
+          <div className="mt-4 mb-5 flex items-center justify-between text-[14px] text-ink-2">
+            <button type="button" onClick={() => setShowRegister(true)} className="cursor-pointer link">免费注册</button>
+            <button type="button" onClick={() => setShowReset(true)} className="cursor-pointer link">忘记密码？</button>
           </div>
         </div>
       </div>

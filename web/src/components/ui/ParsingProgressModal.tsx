@@ -48,54 +48,51 @@ export default function ParsingProgressModal({
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg shadow-xl w-[520px]">
+    <div className="overlay">
+      <div className="modal w-[520px]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E6EB]">
-          <h2 className="text-[18px] font-bold text-[#1D2129]">解析进度</h2>
-          <button onClick={onClose} className="text-[#86909C] hover:text-[#1D2129] transition-colors">
+        <div className="modal-header">
+          <h2 className="section-title">解析进度</h2>
+          <button onClick={onClose} className="text-ink-3 hover:text-ink transition-colors" aria-label="关闭">
             <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
               <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
             </svg>
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="modal-body">
           {/* Warning Banner */}
-          <div className="mb-5 bg-[#FFF7E8] border border-[#FFD4A8] rounded px-4 py-3 flex items-start gap-2.5">
+          <div className="mb-5 bg-warning-soft border border-warning-border rounded-md px-4 py-3 flex items-start gap-2.5">
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0 mt-0.5">
-              <circle cx="8" cy="8" r="7" stroke="#F77234" strokeWidth="1.5" />
-              <path d="M8 4.5v4" stroke="#F77234" strokeWidth="1.5" strokeLinecap="round" />
-              <circle cx="8" cy="11" r="0.75" fill="#F77234" />
+              <circle cx="8" cy="8" r="7" stroke="#FF7D00" strokeWidth="1.5" />
+              <path d="M8 4.5v4" stroke="#FF7D00" strokeWidth="1.5" strokeLinecap="round" />
+              <circle cx="8" cy="11" r="0.75" fill="#FF7D00" />
             </svg>
-            <span className="text-[13px] text-[#F77234] leading-relaxed">
+            <span className="text-caption text-warning leading-relaxed">
               系统正在解析文档，各检测项耗时不同。若耗时较久，可前往"检测报告"页查看进度。
             </span>
           </div>
 
           {/* Detection Item Card */}
-          <div className="border border-[#E5E6EB] rounded-lg p-5">
+          <div className="card card-pad">
             <div className="flex items-center justify-between mb-3">
-              <span className="text-[15px] font-medium text-[#1D2129]">
+              <span className="text-body font-medium text-ink">
                 {detectionName} · {detectionVersion}
               </span>
-              <span className={`text-[14px] font-medium ${done ? 'text-[#00B42A]' : 'text-[#165DFF]'}`}>
+              <span className={`text-body font-medium ${done ? 'text-success' : 'text-brand-700'}`}>
                 {done ? '解析完成' : '解析中'}
               </span>
             </div>
 
-            <div className="w-full h-[10px] bg-[#F2F3F5] rounded-full overflow-hidden">
+            <div className="progress-track !h-2">
               {done ? (
-                <div
-                  className="h-full rounded-full transition-all duration-500"
-                  style={{ width: '100%', background: 'linear-gradient(90deg, #00B42A, #288463)' }}
-                />
+                <div className="h-full rounded-full transition-all duration-500 bg-brand-gradient" />
               ) : (
                 <div
                   className="h-full rounded-full transition-all duration-100"
                   style={{
                     width: `${Math.min(progress, 100)}%`,
-                    background: 'linear-gradient(90deg, #93B4FF, #165DFF, #93B4FF)',
+                    background: 'linear-gradient(90deg, #7dd0c2, #017173, #7dd0c2)',
                     backgroundSize: '200% 100%',
                     animation: 'shimmer 1.5s linear infinite',
                   }}

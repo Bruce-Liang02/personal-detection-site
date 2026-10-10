@@ -2,33 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ═══════════════════════════════════════════════════════════
+   设计令牌 — 单一事实来源
+   改这里即可全局换肤，组件只消费 var(--*) 与 @apply
+   ═══════════════════════════════════════════════════════════ */
 :root {
-  --brand: #1B6B5A;
-  --brand-dark: #144d40;
-  --brand-light: #2a9a82;
-  --brand-soft: #f0faf7;
-  --brand-line: #d4efe7;
-  --accent: #5B5BD6;
-  --accent-light: #8484f5;
-  --accent-soft: #f0f0ff;
-  --ink: #1e252e;
-  --ink-2: #4a5069;
-  --ink-3: #767d97;
-  --bg: #F8F7F4;
-  --card: #ffffff;
-  --line: #e5e7eb;
-  --success: #288463;
-  --success-soft: #d7f8e8;
-  --warning: #C87F2C;
-  --warning-soft: #ffeccc;
-  --danger: #D73431;
-  --danger-soft: #ffe7e4;
+  /* 品牌青绿 */
+  --brand:        #017173;
+  --brand-hover:  #045c5f;
+  --brand-active: #064b4e;
+  --brand-light:  #209488;
+  --brand-soft:   #f0faf8;
+  --brand-soft-2: #d9f2ec;
+  --brand-line:   #b0e5da;
 
-  /* Layer colors */
+  /* 辅助强调 */
+  --accent:      #6b5ef0;
+  --accent-soft: #f3f2ff;
+
+  /* 文字 */
+  --ink:   #1d2129;
+  --ink-2: #4e5969;
+  --ink-3: #86909c;
+  --ink-4: #c9cdd4;
+
+  /* 线与底 */
+  --line:        #e5e6eb;
+  --line-soft:   #f2f3f5;
+  --line-lighter:#f7f8fa;
+  --page:        #f5f6f8;
+  --card:        #ffffff;
+
+  /* 语义 */
+  --success:      #00B42A;
+  --success-soft: #e8ffea;
+  --warning:      #FF7D00;
+  --warning-soft: #fff7e8;
+  --danger:       #F53F3F;
+  --danger-soft:  #ffece8;
+  --info:         #165DFF;
+  --info-soft:    #e8f3ff;
+
+  /* 四层检测固定色 */
   --l1: #12A594;
   --l2: #3E7BFA;
   --l3: #7C6CF0;
   --l4: #D4639E;
+
+  /* 间距节奏 */
+  --gap-section: 24px;
+  --gap-card:    16px;
+  --pad-card:    20px;
 }
 
 *,
@@ -39,53 +63,181 @@
 
 html {
   scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
 }
 
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
-    "Microsoft YaHei", Arial, sans-serif;
-  background: var(--bg);
+    "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", Arial, sans-serif;
+  background: var(--page);
   color: var(--ink);
+  font-size: 14px;
+  line-height: 1.6;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
-/* Utility component classes */
+/* 统一焦点样式：键盘可达性 */
+:focus-visible {
+  outline: 2px solid var(--brand);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* 数字统一等宽，避免表格/金额跳动 */
+.tnum {
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum";
+}
+
+/* ═══════════════════════════════════════════════════════════
+   组件层
+   ═══════════════════════════════════════════════════════════ */
 @layer components {
+  /* ── 按钮 ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-md font-medium
+           transition-all duration-200 ease-out-soft select-none
+           disabled:opacity-50 disabled:cursor-not-allowed whitespace-nowrap;
+  }
+
   .btn-primary {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl px-6 py-3 font-bold text-white
-           bg-brand-700 hover:bg-brand-800 active:bg-brand-900 transition-colors shadow-sm;
+    @apply btn bg-brand text-white hover:bg-brand-800 active:bg-brand-900 shadow-brand;
+  }
+  .btn-secondary {
+    @apply btn bg-brand-soft text-brand-700 hover:bg-brand-soft-2 border border-brand-line;
   }
   .btn-outline {
-    @apply inline-flex items-center justify-center gap-2 rounded-xl border-2 border-brand-200
-           px-6 py-2.5 font-semibold text-brand-700 hover:bg-brand-50 transition-colors;
+    @apply btn bg-white text-ink-2 border border-line hover:border-brand hover:text-brand;
   }
   .btn-ghost {
-    @apply inline-flex items-center gap-2 rounded-lg px-4 py-2 text-sm font-medium text-ink-2
-           hover:bg-black/5 transition-colors;
+    @apply btn bg-transparent text-ink-2 hover:bg-line-soft;
   }
+  .btn-danger {
+    @apply btn bg-danger text-white hover:bg-[#d93030] active:bg-[#c02a2a];
+  }
+
+  /* 尺寸 */
+  .btn-sm  { @apply h-8  px-3 text-caption; }
+  .btn-md  { @apply h-10 px-5 text-body; }
+  .btn-lg  { @apply h-12 px-7 text-subtitle; }
+
+  /* ── 卡片 ── */
   .card {
-    @apply rounded-2xl bg-white border border-line shadow-card;
+    @apply bg-white rounded-lg border border-line shadow-card;
   }
+  .card-pad     { @apply p-5; }
+  .card-hover {
+    @apply transition-all duration-300 ease-out-soft hover:shadow-md hover:border-brand-line;
+  }
+
+  /* 区块标题：左侧品牌色竖条（与报告一致） */
+  .section-title {
+    @apply flex items-center gap-2 text-subtitle font-bold text-ink;
+  }
+  .section-title::before {
+    content: '';
+    @apply block w-[3px] h-[16px] rounded-full bg-brand shrink-0;
+  }
+
+  /* ── 徽标 ── */
   .badge {
-    @apply inline-flex items-center gap-1 rounded-full px-3 py-1 text-xs font-semibold;
+    @apply inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-micro font-medium
+           whitespace-nowrap;
   }
-  .badge-success { @apply bg-success-soft text-success; }
-  .badge-warning { @apply bg-warning-soft text-warning; }
-  .badge-danger  { @apply bg-danger-soft text-danger; }
-  .badge-info    { @apply bg-info-soft text-info; }
+  .badge-brand   { @apply badge bg-brand-soft text-brand-700; }
+  .badge-success { @apply badge bg-success-soft text-[#009a29]; }
+  .badge-warning { @apply badge bg-warning-soft text-[#d25f00]; }
+  .badge-danger  { @apply badge bg-danger-soft text-[#cb2634]; }
+  .badge-info    { @apply badge bg-info-soft text-[#0e5fd8]; }
+  .badge-neutral { @apply badge bg-line-soft text-ink-2; }
 
+  /* ── 表单 ── */
   .input-field {
-    @apply w-full rounded-xl border border-line bg-white px-4 py-3 text-sm text-ink
-           placeholder:text-ink-3 focus:border-brand-400 focus:ring-2 focus:ring-brand-100
-           focus:outline-none transition-all;
+    @apply w-full h-10 rounded-md border border-line bg-white px-3 text-body text-ink
+           placeholder:text-ink-3
+           focus:outline-none focus:border-brand focus:ring-2 focus:ring-brand-soft-2
+           transition-all duration-200;
+  }
+  .input-invalid {
+    @apply border-danger focus:border-danger focus:ring-danger-soft;
+  }
+  .label-text {
+    @apply block text-caption font-medium text-ink-2 mb-1.5;
+  }
+  .form-hint {
+    @apply text-micro text-ink-3 leading-relaxed;
   }
 
-  .label-text {
-    @apply block text-sm font-semibold text-ink mb-1.5;
+  /* ── 链接 ── */
+  .link {
+    @apply text-brand hover:text-brand-800 underline-offset-2 hover:underline transition-colors;
+  }
+
+  /* ── 数据卡片（指标卡） ── */
+  .metric-card {
+    @apply bg-white rounded-lg border border-line px-5 py-4;
+  }
+  .metric-label {
+    @apply text-micro text-ink-3;
+  }
+  .metric-value {
+    @apply text-[26px] font-bold tnum leading-tight;
+  }
+
+  /* ── 表格 ── */
+  .table-wrap {
+    @apply bg-white rounded-lg border border-line overflow-hidden;
+  }
+  .table-head {
+    @apply bg-line-lighter text-caption font-medium text-ink-2;
+  }
+  .table-row {
+    @apply border-t border-line-soft transition-colors;
+  }
+  .table-row:hover {
+    @apply bg-line-lighter;
+  }
+
+  /* ── 进度条 ── */
+  .progress-track {
+    @apply w-full h-1.5 rounded-full bg-line-soft overflow-hidden;
+  }
+  .progress-fill {
+    @apply h-full rounded-full bg-brand transition-all duration-500 ease-out-soft;
+  }
+
+  /* ── 页面容器 ── */
+  .page-title {
+    @apply text-title font-bold text-ink;
+  }
+  .page-desc {
+    @apply text-caption text-ink-3 mt-1;
+  }
+
+  /* ── 遮罩与弹层 ── */
+  .overlay {
+    @apply fixed inset-0 z-50 flex items-center justify-center
+           bg-[rgba(29,33,41,.45)] backdrop-blur-[2px];
+  }
+  .modal {
+    @apply bg-white rounded-xl shadow-lg flex flex-col max-h-[88vh] overflow-hidden;
+  }
+  .modal-header {
+    @apply flex items-center justify-between px-6 py-4 border-b border-line shrink-0;
+  }
+  .modal-body {
+    @apply px-6 py-5 overflow-y-auto flex-1;
+  }
+  .modal-footer {
+    @apply flex justify-end gap-3 px-6 py-4 border-t border-line shrink-0;
   }
 }
 
+/* ═══════════════════════════════════════════════════════════
+   工具层
+   ═══════════════════════════════════════════════════════════ */
 @layer utilities {
   .text-gradient-brand {
     background: linear-gradient(135deg, var(--brand), var(--brand-light));
@@ -93,37 +245,79 @@ body {
     -webkit-text-fill-color: transparent;
     background-clip: text;
   }
+
+  /* 品牌渐变（颜色类由 Tailwind 的 brand 色阶生成，此处只定义渐变） */
+  .bg-brand-gradient {
+    background-image: linear-gradient(135deg, var(--brand) 0%, var(--brand-light) 100%);
+  }
+  .bg-brand-gradient-hero {
+    background-image: linear-gradient(120deg, #064b4e 0%, #017173 45%, #209488 100%);
+  }
+
+  /* 隐藏滚动条但保留滚动 */
+  .no-scrollbar::-webkit-scrollbar { display: none; }
+  .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  /* 截断 */
+  .truncate-1 {
+    @apply overflow-hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+  }
+  .truncate-2 {
+    @apply overflow-hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+  }
+  .truncate-3 {
+    @apply overflow-hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+  }
 }
 
-/* Scrollbar */
-::-webkit-scrollbar { width: 6px; }
+/* ═══════════════════════════════════════════════════════════
+   滚动条
+   ═══════════════════════════════════════════════════════════ */
+::-webkit-scrollbar { width: 8px; height: 8px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: #c5cdd6; border-radius: 3px; }
+::-webkit-scrollbar-thumb {
+  background: #d0d4da;
+  border-radius: 4px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: #b8bec7; background-clip: content-box; }
 
-/* 协议弹窗内容渲染（兼容官网富文本 HTML） */
+/* ═══════════════════════════════════════════════════════════
+   协议弹窗内容渲染（兼容官网富文本 HTML）
+   ═══════════════════════════════════════════════════════════ */
 .agreement-content {
   font-size: 14px;
-  line-height: 1.8;
-  color: #4e5969;
+  line-height: 1.85;
+  color: var(--ink-2);
 }
 .agreement-content h3 {
   font-size: 15px;
-  font-weight: bold;
-  color: #1d2129;
-  margin: 16px 0 8px;
+  font-weight: 700;
+  color: var(--ink);
+  margin: 18px 0 8px;
 }
-.agreement-content p {
-  margin: 8px 0;
-}
+.agreement-content p { margin: 8px 0; }
 .agreement-content font {
   font-family: "黑体", "SimHei", "Microsoft YaHei", sans-serif;
   font-size: 14px;
-  color: #1d2129;
+  color: var(--ink);
 }
-.agreement-content b {
-  font-weight: bold;
-}
-.agreement-content a {
-  color: #165DFF;
-  text-decoration: underline;
+.agreement-content b { font-weight: 700; }
+.agreement-content a { color: var(--brand); text-decoration: underline; }
+
+/* 打印：隐藏导航，展开内容 */
+@media print {
+  header, aside, nav, .no-print { display: none !important; }
+  body { background: #fff; }
+  main { padding: 0 !important; }
 }

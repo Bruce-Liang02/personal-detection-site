@@ -38,32 +38,39 @@ function SliderCaptcha({ onVerified }: { onVerified: () => void }) {
   return (
     <div
       ref={sliderRef}
-      className="relative h-[40px] bg-[#F7F8FA] border border-[#E5E6EB] rounded overflow-hidden select-none"
+      className={`relative h-10 rounded-md border select-none overflow-hidden ${
+        done ? 'bg-success-soft border-success-border' : 'bg-line-soft border-line'
+      }`}
       onMouseDown={(e) => {
         if (!done) { e.preventDefault(); setDragging(true) }
       }}
     >
       {progress > 0 && (
-        <div className="absolute top-0 left-0 h-full bg-[#E8F0FE]" style={{ width: `${progress}%` }} />
+        <div
+          className={`absolute top-0 left-0 h-full ${done ? 'bg-success-soft' : 'bg-brand-soft-2'}`}
+          style={{ width: `${progress}%` }}
+        />
       )}
       <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <span className={`text-[14px] ${done ? 'text-[#00B42A]' : 'text-[#C9CDD4]'}`}>
+        <span className={`text-body ${done ? 'text-success font-medium' : 'text-ink-3'}`}>
           {done ? '验证通过' : '请按住滑块，拖动到最右边'}
         </span>
       </div>
       <div
-        className={`absolute top-0 left-0 h-full w-[40px] flex items-center justify-center border-r border-[#E5E6EB] cursor-grab active:cursor-grabbing transition-colors ${
-          done ? 'bg-[#00B42A] border-[#00B42A]' : 'bg-white hover:bg-[#F7F8FA]'
+        className={`absolute top-0 left-0 h-full w-10 flex items-center justify-center border-r cursor-grab active:cursor-grabbing transition-colors ${
+          done
+            ? 'bg-success border-success text-white'
+            : 'bg-white border-line text-ink-2 hover:text-brand hover:border-brand-line'
         }`}
         style={{ left: done ? 'calc(100% - 40px)' : `${Math.max(0, progress - 5)}%` }}
       >
-        <span className={done ? 'text-white' : 'text-[#4E5969]'}>{done ? '✓' : '>>'}</span>
+        <span className="text-caption font-bold">{done ? '✓' : '»'}</span>
       </div>
     </div>
   )
 }
 
-/* ─── 验证码倒计时 hook ── */
+/* ─── 验证码倒计时 hook ─── */
 function useCountdown() {
   const [countdown, setCountdown] = useState(0)
   useEffect(() => {
@@ -98,16 +105,16 @@ function ModalField({
 }) {
   return (
     <div className="mb-4">
-      {label && <p className="text-[14px] text-[#1D2129] font-medium mb-2">{label}</p>}
-      <div className={`flex items-center h-[40px] border rounded ${disabled ? 'bg-[#F7F8FA] border-[#E5E6EB]' : 'border-[#E5E6EB]'}`}>
-        {prefix && <span className="pl-4 text-[14px] text-[#1D2129] whitespace-nowrap">{prefix}</span>}
+      {label && <p className="label-text">{label}</p>}
+      <div className={`flex items-center h-10 border rounded-md ${disabled ? 'bg-line-lighter border-line' : 'border-line focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors'}`}>
+        {prefix && <span className="pl-3 text-body text-ink whitespace-nowrap">{prefix}</span>}
         <input
           type={type}
           value={value}
           onChange={e => onChange?.(e.target.value)}
           placeholder={placeholder}
           disabled={disabled}
-          className={`flex-1 h-full px-3 text-[14px] outline-none placeholder:text-[#C9CDD4] bg-transparent ${disabled ? 'text-[#86909C] cursor-not-allowed' : 'text-[#1D2129]'}`}
+          className={`flex-1 h-full px-3 text-body outline-none placeholder:text-ink-3 bg-transparent ${disabled ? 'text-ink-3 cursor-not-allowed' : 'text-ink'}`}
         />
         {right}
       </div>
@@ -149,34 +156,32 @@ export default function AccountPage() {
   return (
     <div className="w-full">
       {/* Banner */}
-      <div className="relative h-[120px] rounded overflow-hidden" style={{
-        background: 'linear-gradient(135deg, #E8F0FE 0%, #D4E4FC 30%, #C8DBF8 60%, #B8D0F4 100%)',
-      }}>
+      <div className="relative h-[140px] rounded-lg overflow-hidden bg-brand-gradient-hero">
         <div className="absolute inset-0" style={{
-          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.15) 20px, rgba(255,255,255,0.15) 40px)',
+          backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.07) 20px, rgba(255,255,255,0.07) 40px)',
         }} />
         <div className="relative flex flex-col items-center justify-center h-full">
-          <div className="w-[64px] h-[64px] rounded-full bg-[#FFE0E0] flex items-center justify-center mb-2">
-            <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
-              <circle cx="18" cy="14" r="8" fill="#FFB0B0" />
-              <path d="M4 32c0-7.7 6.3-14 14-14s14 6.3 14 14" fill="#FF8080" />
+          <div className="w-16 h-16 rounded-full bg-white/15 ring-2 ring-white/30 flex items-center justify-center mb-2.5">
+            <svg width="38" height="38" viewBox="0 0 36 36" fill="none">
+              <circle cx="18" cy="14" r="8" fill="rgba(255,255,255,.85)" />
+              <path d="M4 32c0-7.7 6.3-14 14-14s14 6.3 14 14" fill="rgba(255,255,255,.65)" />
             </svg>
           </div>
-          <p className="text-[16px] font-bold text-[#1D2129]">{nickname}</p>
+          <p className="text-subtitle font-bold text-white">{nickname}</p>
         </div>
       </div>
 
       {/* Content */}
-      <div className="mt-6 bg-white rounded-sm p-6">
-        <div className="flex items-center gap-1 mb-6">
+      <div className="mt-6 bg-white rounded-lg border border-line shadow-card p-6">
+        <div className="flex items-center gap-1 mb-6 border-b border-line-soft">
           {(['settings', 'delete'] as const).map(tab => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab)}
-              className={`text-[16px] font-bold px-4 pb-2 border-b-2 transition-colors ${
+              className={`text-body font-bold px-4 pb-3 -mb-px border-b-2 transition-colors ${
                 activeTab === tab
-                  ? 'border-[#F53F3F] text-[#F53F3F]'
-                  : 'border-transparent text-[#1D2129] hover:text-[#4E5969]'
+                  ? 'border-brand text-brand'
+                  : 'border-transparent text-ink-2 hover:text-ink'
               }`}
             >
               {tab === 'settings' ? '账号设置' : '账号注销'}
@@ -187,8 +192,8 @@ export default function AccountPage() {
         {activeTab === 'settings' ? (
           <>
             <div className="flex items-center gap-1.5 mb-4">
-              <h2 className="text-[16px] font-bold text-[#1D2129]">账号设置</h2>
-              <HelpCircle size={14} className="text-[#86909C] cursor-pointer" />
+              <h2 className="section-title">账号设置</h2>
+              <HelpCircle size={14} className="text-ink-3 cursor-pointer" />
             </div>
 
             <div className="grid grid-cols-2 gap-4">
@@ -196,26 +201,26 @@ export default function AccountPage() {
                 const Icon = item.icon
                 const displayValue = item.valueKey === 'phone' ? phone : '密码至少8位字符'
                 return (
-                  <div key={i} className="border border-[#E5E6EB] rounded px-5 py-4 flex items-center gap-4">
-                    <div className="w-[40px] h-[40px] rounded-full bg-[#F7F8FA] flex items-center justify-center shrink-0">
-                      <Icon size={20} color="#4E5969" />
+                  <div key={i} className="card card-hover px-5 py-4 flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-lg bg-brand-soft flex items-center justify-center shrink-0">
+                      <Icon size={20} className="text-brand-700" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-[15px] font-bold text-[#1D2129] mb-1">{item.label}</p>
+                      <p className="text-body font-bold text-ink mb-1">{item.label}</p>
                       <div className="flex items-center gap-1.5">
-                        <span className="text-[13px] text-[#00B42A] flex items-center gap-0.5">
+                        <span className="text-caption text-success flex items-center gap-0.5">
                           <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
-                            <circle cx="6" cy="6" r="5" fill="#00B42A" />
+                            <circle cx="6" cy="6" r="5" fill="currentColor" />
                             <path d="M3.5 6L5.5 8L8.5 4" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                           </svg>
                           {item.status}
                         </span>
-                        <span className="text-[13px] text-[#4E5969]">{displayValue}</span>
+                        <span className="text-caption text-ink-2">{displayValue}</span>
                       </div>
                     </div>
                     <button
                       onClick={() => setModalKind(item.modalType)}
-                      className="shrink-0 h-[32px] px-4 border border-[#E5E6EB] rounded text-[14px] text-[#4E5969] hover:border-[#F53F3F] hover:text-[#F53F3F] transition-colors"
+                      className="shrink-0 btn-outline btn-sm"
                     >
                       {item.action}
                     </button>
@@ -225,17 +230,17 @@ export default function AccountPage() {
             </div>
           </>
         ) : (
-          <div className="flex items-center gap-4 border border-[#E5E6EB] rounded px-5 py-5">
-            <div className="w-[40px] h-[40px] rounded-full bg-[#F7F8FA] flex items-center justify-center shrink-0">
-              <LogOut size={20} color="#4E5969" />
+          <div className="flex items-center gap-4 card px-5 py-5">
+            <div className="w-10 h-10 rounded-lg bg-danger-soft flex items-center justify-center shrink-0">
+              <LogOut size={20} className="text-danger" />
             </div>
             <div className="flex-1">
-              <p className="text-[15px] font-bold text-[#1D2129] mb-1">注销</p>
-              <p className="text-[13px] text-[#4E5969]">注销后将无法登录系统，无法保留检测报告等内容。</p>
+              <p className="text-body font-bold text-ink mb-1">注销</p>
+              <p className="text-caption text-ink-2">注销后将无法登录系统，无法保留检测报告等内容。</p>
             </div>
             <button
               onClick={() => setModalKind('delete')}
-              className="shrink-0 h-[32px] px-5 border border-[#F53F3F] rounded text-[14px] text-[#F53F3F] hover:bg-[#FFF2F0] transition-colors"
+              className="shrink-0 btn-danger btn-sm"
             >
               注销
             </button>
@@ -316,18 +321,18 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
   ]
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg shadow-xl w-[520px]">
+    <div className="overlay">
+      <div className="modal w-[520px]">
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E6EB]">
-          <h2 className="text-[18px] font-bold text-[#1D2129]">修改手机号</h2>
-          <button onClick={onClose} className="text-[#86909C] hover:text-[#1D2129] transition-colors">
+        <div className="modal-header">
+          <h2 className="section-title">修改手机号</h2>
+          <button onClick={onClose} className="text-ink-3 hover:text-ink transition-colors">
             <X size={20} />
           </button>
         </div>
 
         {/* Steps indicator */}
-        <div className="px-8 pt-6 pb-4">
+        <div className="px-8 pt-6 pb-4 border-b border-line-soft">
           <div className="flex items-center">
             {STEPS.map((s, i) => {
               const isActive = s.num === step
@@ -336,17 +341,17 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
                 <div key={s.num} className="flex items-center flex-1 last:flex-none">
                   {/* Circle + label */}
                   <div className="flex items-center gap-2 shrink-0">
-                    <div className={`w-[28px] h-[28px] rounded-full flex items-center justify-center text-[14px] font-bold ${
-                      isActive || isPast ? 'bg-[#F53F3F] text-white' : 'bg-[#F2F3F5] text-[#86909C]'
+                    <div className={`w-7 h-7 rounded-full flex items-center justify-center text-caption font-bold ${
+                      isActive || isPast ? 'bg-brand text-white' : 'bg-line-soft text-ink-3'
                     }`}>{s.num}</div>
-                    <span className={`text-[14px] ${isActive || isPast ? 'font-bold text-[#1D2129]' : 'font-normal text-[#86909C]'}`}>
+                    <span className={`text-body ${isActive || isPast ? 'font-bold text-ink' : 'font-normal text-ink-3'}`}>
                       {s.label}
                     </span>
                   </div>
                   {/* Connector line */}
                   {i < STEPS.length - 1 && (
                     <div className={`flex-1 mx-3 border-t-2 ${
-                      isPast ? 'border-dashed border-[#F53F3F]' : 'border-solid border-[#E5E6EB]'
+                      isPast ? 'border-dashed border-brand-300' : 'border-solid border-line'
                     }`} />
                   )}
                 </div>
@@ -356,18 +361,18 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
         </div>
 
         {/* Body */}
-        <div className="px-6 py-4 min-h-[200px]">
+        <div className="modal-body">
           {/* ── Step 1: 密码验证 ── */}
           {step === 1 && (
             <>
               {/* Warning */}
-              <div className="mb-4 bg-[#FFF7E8] border border-[#FFD4A8] rounded px-4 py-2.5 flex items-center gap-2">
+              <div className="mb-4 bg-warning-soft border border-warning-border rounded-md px-4 py-2.5 flex items-center gap-2">
                 <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="shrink-0">
-                  <circle cx="8" cy="8" r="7" stroke="#F77234" strokeWidth="1.5" />
-                  <path d="M8 4.5v4" stroke="#F77234" strokeWidth="1.5" strokeLinecap="round" />
-                  <circle cx="8" cy="11" r="0.75" fill="#F77234" />
+                  <circle cx="8" cy="8" r="7" stroke="var(--warning)" strokeWidth="1.5" />
+                  <path d="M8 4.5v4" stroke="var(--warning)" strokeWidth="1.5" strokeLinecap="round" />
+                  <circle cx="8" cy="11" r="0.75" fill="var(--warning)" />
                 </svg>
-                <span className="text-[13px] text-[#F77234]">修改手机号码后，将无法通过原手机号码登录</span>
+                <span className="text-caption text-warning">修改手机号码后，将无法通过原手机号码登录</span>
               </div>
 
               {/* Password input */}
@@ -375,9 +380,9 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
 
               {/* Current phone (greyed out) */}
               <div className="mb-4">
-                <div className="flex items-center h-[40px] bg-[#F7F8FA] border border-[#E5E6EB] rounded px-4">
-                  <span className="text-[14px] text-[#C9CDD4]">当前手机号码</span>
-                  <span className="ml-3 text-[14px] text-[#86909C]">{phone}</span>
+                <div className="flex items-center h-10 bg-line-lighter border border-line rounded-md px-4">
+                  <span className="text-body text-ink-3">当前手机号码</span>
+                  <span className="ml-3 text-body text-ink-2 tnum">{phone}</span>
                 </div>
               </div>
 
@@ -388,21 +393,21 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
 
               {/* SMS verification code */}
               <div className="mb-2 flex items-center gap-2">
-                <div className="flex-1 flex items-center border border-[#E5E6EB] rounded h-[40px] px-3">
-                  <span className="text-[14px] text-[#1D2129] mr-2 whitespace-nowrap">验证码</span>
+                <div className="flex-1 flex items-center border border-line rounded-md h-10 px-3 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors">
+                  <span className="text-body text-ink mr-2 whitespace-nowrap">验证码</span>
                   <input
                     type="text"
                     value={smsCode}
                     onChange={e => setSmsCode(e.target.value)}
                     placeholder="请输入"
-                    className="flex-1 h-full text-[14px] outline-none placeholder:text-[#C9CDD4]"
+                    className="flex-1 h-full text-body outline-none placeholder:text-ink-3"
                   />
                 </div>
                 <button
                   onClick={handleGetSms}
                   disabled={!sliderOk || countdown > 0}
-                  className={`h-[40px] px-4 text-[14px] rounded whitespace-nowrap transition-colors ${
-                    !sliderOk || countdown > 0 ? 'text-[#C9CDD4] cursor-not-allowed' : 'text-[#F53F3F] hover:text-[#F76560]'
+                  className={`h-10 px-4 text-body rounded-md whitespace-nowrap transition-colors ${
+                    !sliderOk || countdown > 0 ? 'text-ink-4 cursor-not-allowed' : 'text-brand hover:text-brand-800'
                   }`}
                 >
                   {countdown > 0 ? `${countdown}s 后重新获取` : '获取验证码'}
@@ -417,21 +422,21 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
               <ModalField label="新手机号码" prefix="+86" placeholder="请输入新手机号码" value={newPhone} onChange={setNewPhone} />
 
               <div className="mb-2 flex items-center gap-2">
-                <div className="flex-1 flex items-center border border-[#E5E6EB] rounded h-[40px] px-3">
-                  <span className="text-[14px] text-[#1D2129] mr-2 whitespace-nowrap">验证码</span>
+                <div className="flex-1 flex items-center border border-line rounded-md h-10 px-3 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors">
+                  <span className="text-body text-ink mr-2 whitespace-nowrap">验证码</span>
                   <input
                     type="text"
                     value={newPhoneCode}
                     onChange={e => setNewPhoneCode(e.target.value)}
                     placeholder="请输入"
-                    className="flex-1 h-full text-[14px] outline-none placeholder:text-[#C9CDD4]"
+                    className="flex-1 h-full text-body outline-none placeholder:text-ink-3"
                   />
                 </div>
                 <button
                   onClick={handleGetNewSms}
                   disabled={!newPhone || newCountdown > 0}
-                  className={`h-[40px] px-4 text-[14px] rounded whitespace-nowrap transition-colors ${
-                    !newPhone || newCountdown > 0 ? 'text-[#C9CDD4] cursor-not-allowed' : 'text-[#F53F3F] hover:text-[#F76560]'
+                  className={`h-10 px-4 text-body rounded-md whitespace-nowrap transition-colors ${
+                    !newPhone || newCountdown > 0 ? 'text-ink-4 cursor-not-allowed' : 'text-brand hover:text-brand-800'
                   }`}
                 >
                   {newCountdown > 0 ? `${newCountdown}s 后重新获取` : '获取验证码'}
@@ -444,51 +449,39 @@ function ChangePhoneModal({ phone, onClose }: { phone: string; onClose: () => vo
           {step === 3 && (
             <div className="flex flex-col items-center justify-center py-8">
               <svg width="64" height="64" viewBox="0 0 64 64" fill="none" className="mb-4">
-                <circle cx="32" cy="32" r="32" fill="#00B42A" opacity="0.1" />
-                <circle cx="32" cy="32" r="22" fill="#00B42A" opacity="0.2" />
-                <circle cx="32" cy="32" r="14" fill="#00B42A" />
+                <circle cx="32" cy="32" r="32" fill="currentColor" opacity="0.1" style={{ color: 'var(--success)' }} />
+                <circle cx="32" cy="32" r="22" fill="currentColor" opacity="0.2" style={{ color: 'var(--success)' }} />
+                <circle cx="32" cy="32" r="14" fill="currentColor" style={{ color: 'var(--success)' }} />
                 <path d="M24 32l6 6 10-10" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-              <p className="text-[16px] font-bold text-[#1D2129] mb-1">修改成功</p>
-              <p className="text-[14px] text-[#86909C]">您的手机号码已成功修改为 {newPhone ? newPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') : '新号码'}</p>
+              <p className="text-subtitle font-bold text-ink mb-1">修改成功</p>
+              <p className="text-body text-ink-3">您的手机号码已成功修改为 {newPhone ? newPhone.replace(/(\d{3})\d{4}(\d{4})/, '$1****$2') : '新号码'}</p>
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#E5E6EB]">
-          <button onClick={onClose} className="h-[40px] px-8 border border-[#E5E6EB] rounded-[4px] text-[14px] text-[#4E5969] hover:border-[#C9CDD4] transition-colors">
+        <div className="modal-footer">
+          <button onClick={onClose} className="btn-outline btn-md">
             取消
           </button>
           {step === 1 && (
-            <button
-              onClick={handleNext}
-              disabled={!password || !sliderOk || !smsCode}
-              className={`h-[40px] px-8 rounded-[4px] text-[14px] font-medium transition-colors ${
-                password && sliderOk && smsCode ? 'bg-[#F53F3F] hover:bg-[#F76560] text-white' : 'bg-[#F5F6FA] text-[#C9CDD4] cursor-not-allowed'
-              }`}
-            >
+            <button onClick={handleNext} disabled={!password || !sliderOk || !smsCode} className="btn-primary btn-md">
               下一步
             </button>
           )}
           {step === 2 && (
             <>
-              <button onClick={handlePrev} className="h-[40px] px-8 border border-[#E5E6EB] rounded-[4px] text-[14px] text-[#4E5969] hover:border-[#C9CDD4] transition-colors">
+              <button onClick={handlePrev} className="btn-outline btn-md">
                 上一步
               </button>
-              <button
-                onClick={handleNext}
-                disabled={!newPhone || !newPhoneCode}
-                className={`h-[40px] px-8 rounded-[4px] text-[14px] font-medium transition-colors ${
-                  newPhone && newPhoneCode ? 'bg-[#F53F3F] hover:bg-[#F76560] text-white' : 'bg-[#F5F6FA] text-[#C9CDD4] cursor-not-allowed'
-                }`}
-              >
+              <button onClick={handleNext} disabled={!newPhone || !newPhoneCode} className="btn-primary btn-md">
                 下一步
               </button>
             </>
           )}
           {step === 3 && (
-            <button onClick={handleConfirm} className="h-[40px] px-8 rounded-[4px] text-[14px] font-medium bg-[#F53F3F] hover:bg-[#F76560] text-white transition-colors">
+            <button onClick={handleConfirm} className="btn-primary btn-md">
               完成
             </button>
           )}
@@ -529,16 +522,16 @@ function ChangePasswordModal({ phone, onClose }: { phone: string; onClose: () =>
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg shadow-xl w-[480px]">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E6EB]">
-          <h2 className="text-[18px] font-bold text-[#1D2129]">修改账号密码</h2>
-          <button onClick={onClose} className="text-[#86909C] hover:text-[#1D2129] transition-colors">
+    <div className="overlay">
+      <div className="modal w-[480px]">
+        <div className="modal-header">
+          <h2 className="section-title">修改账号密码</h2>
+          <button onClick={onClose} className="text-ink-3 hover:text-ink transition-colors">
             <X size={20} />
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="modal-body">
           {/* 当前手机号 */}
           <ModalField prefix="当前手机号码" value={phone} disabled />
 
@@ -549,21 +542,21 @@ function ChangePasswordModal({ phone, onClose }: { phone: string; onClose: () =>
 
           {/* 短信验证码 */}
           <div className="mb-4 flex items-center gap-2">
-            <div className="flex-1 flex items-center border border-[#E5E6EB] rounded h-[40px] px-3">
-              <span className="text-[14px] text-[#1D2129] mr-2 whitespace-nowrap">验证码</span>
+            <div className="flex-1 flex items-center border border-line rounded-md h-10 px-3 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors">
+              <span className="text-body text-ink mr-2 whitespace-nowrap">验证码</span>
               <input
                 type="text"
                 value={smsCode}
                 onChange={e => setSmsCode(e.target.value)}
                 placeholder="请输入"
-                className="flex-1 h-full text-[14px] outline-none placeholder:text-[#C9CDD4]"
+                className="flex-1 h-full text-body outline-none placeholder:text-ink-3"
               />
             </div>
             <button
               onClick={handleGetSms}
               disabled={!sliderOk || countdown > 0}
-              className={`h-[40px] px-4 text-[14px] rounded whitespace-nowrap transition-colors ${
-                !sliderOk || countdown > 0 ? 'text-[#C9CDD4] cursor-not-allowed' : 'text-[#F53F3F] hover:text-[#F76560]'
+              className={`h-10 px-4 text-body rounded-md whitespace-nowrap transition-colors ${
+                !sliderOk || countdown > 0 ? 'text-ink-4 cursor-not-allowed' : 'text-brand hover:text-brand-800'
               }`}
             >
               {countdown > 0 ? `${countdown}s 后重新获取` : '获取验证码'}
@@ -572,16 +565,16 @@ function ChangePasswordModal({ phone, onClose }: { phone: string; onClose: () =>
 
           {/* 新密码 */}
           <div className="mb-4">
-            <p className="text-[14px] text-[#1D2129] font-medium mb-2">新密码</p>
-            <div className="flex items-center h-[40px] border border-[#E5E6EB] rounded">
+            <p className="label-text">新密码</p>
+            <div className="flex items-center h-10 border border-line rounded-md focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors">
               <input
                 type={showPwd ? 'text' : 'password'}
                 value={newPwd}
                 onChange={e => setNewPwd(e.target.value)}
                 placeholder="请输入新密码（至少8位字符）"
-                className="flex-1 h-full px-4 text-[14px] outline-none placeholder:text-[#C9CDD4] bg-transparent text-[#1D2129]"
+                className="flex-1 h-full px-3 text-body outline-none placeholder:text-ink-3 bg-transparent text-ink"
               />
-              <button onClick={() => setShowPwd(v => !v)} className="px-3 text-[#86909C] hover:text-[#4E5969]">
+              <button onClick={() => setShowPwd(v => !v)} className="px-3 text-ink-3 hover:text-brand transition-colors">
                 {showPwd ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
@@ -589,33 +582,27 @@ function ChangePasswordModal({ phone, onClose }: { phone: string; onClose: () =>
 
           {/* 确认密码 */}
           <div className="mb-4">
-            <p className="text-[14px] text-[#1D2129] font-medium mb-2">确认密码</p>
-            <div className="flex items-center h-[40px] border border-[#E5E6EB] rounded">
+            <p className="label-text">确认密码</p>
+            <div className="flex items-center h-10 border border-line rounded-md focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors">
               <input
                 type={showConfirm ? 'text' : 'password'}
                 value={confirmPwd}
                 onChange={e => setConfirmPwd(e.target.value)}
                 placeholder="请再次输入新密码"
-                className="flex-1 h-full px-4 text-[14px] outline-none placeholder:text-[#C9CDD4] bg-transparent text-[#1D2129]"
+                className="flex-1 h-full px-3 text-body outline-none placeholder:text-ink-3 bg-transparent text-ink"
               />
-              <button onClick={() => setShowConfirm(v => !v)} className="px-3 text-[#86909C] hover:text-[#4E5969]">
+              <button onClick={() => setShowConfirm(v => !v)} className="px-3 text-ink-3 hover:text-brand transition-colors">
                 {showConfirm ? <EyeOff size={18} /> : <Eye size={18} />}
               </button>
             </div>
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#E5E6EB]">
-          <button onClick={onClose} className="h-[40px] px-8 border border-[#E5E6EB] rounded-[4px] text-[14px] text-[#4E5969] hover:border-[#C9CDD4] transition-colors">
+        <div className="modal-footer">
+          <button onClick={onClose} className="btn-outline btn-md">
             取消
           </button>
-          <button
-            onClick={handleConfirm}
-            disabled={!smsCode || !newPwd || !confirmPwd}
-            className={`h-[40px] px-8 rounded-[4px] text-[14px] font-medium transition-colors ${
-              smsCode && newPwd && confirmPwd ? 'bg-[#F53F3F] hover:bg-[#F76560] text-white' : 'bg-[#F5F6FA] text-[#C9CDD4] cursor-not-allowed'
-            }`}
-          >
+          <button onClick={handleConfirm} disabled={!smsCode || !newPwd || !confirmPwd} className="btn-primary btn-md">
             确定
           </button>
         </div>
@@ -638,16 +625,16 @@ function DeleteAccountModal({ phone, onClose, onConfirmed }: { phone: string; on
   }
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40">
-      <div className="bg-white rounded-lg shadow-xl w-[480px]">
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E6EB]">
-          <h2 className="text-[18px] font-bold text-[#1D2129]">注销账号</h2>
-          <button onClick={onClose} className="text-[#86909C] hover:text-[#1D2129] transition-colors">
+    <div className="overlay">
+      <div className="modal w-[480px]">
+        <div className="modal-header">
+          <h2 className="section-title text-danger">注销账号</h2>
+          <button onClick={onClose} className="text-ink-3 hover:text-ink transition-colors">
             <X size={20} />
           </button>
         </div>
 
-        <div className="px-6 py-5">
+        <div className="modal-body">
           <ModalField prefix="当前手机号码" value={phone} disabled />
 
           <div className="mb-4">
@@ -655,41 +642,37 @@ function DeleteAccountModal({ phone, onClose, onConfirmed }: { phone: string; on
           </div>
 
           <div className="mb-4 flex items-center gap-2">
-            <div className="flex-1 flex items-center border border-[#E5E6EB] rounded h-[40px] px-3">
-              <span className="text-[14px] text-[#1D2129] mr-2 whitespace-nowrap">验证码</span>
+            <div className="flex-1 flex items-center border border-line rounded-md h-10 px-3 focus-within:border-brand focus-within:ring-2 focus-within:ring-brand-soft-2 transition-colors">
+              <span className="text-body text-ink mr-2 whitespace-nowrap">验证码</span>
               <input
                 type="text"
                 value={smsCode}
                 onChange={e => setSmsCode(e.target.value)}
                 placeholder="请输入"
-                className="flex-1 h-full text-[14px] outline-none placeholder:text-[#C9CDD4]"
+                className="flex-1 h-full text-body outline-none placeholder:text-ink-3"
               />
             </div>
             <button
               onClick={handleGetSms}
               disabled={!sliderOk || countdown > 0}
-              className={`h-[40px] px-4 text-[14px] rounded whitespace-nowrap transition-colors ${
-                !sliderOk || countdown > 0 ? 'text-[#C9CDD4] cursor-not-allowed' : 'text-[#F53F3F] hover:text-[#F76560]'
+              className={`h-10 px-4 text-body rounded-md whitespace-nowrap transition-colors ${
+                !sliderOk || countdown > 0 ? 'text-ink-4 cursor-not-allowed' : 'text-brand hover:text-brand-800'
               }`}
             >
               {countdown > 0 ? `${countdown}s 后重新获取` : '获取验证码'}
             </button>
           </div>
 
-          <p className="text-[13px] text-[#F53F3F]">注销后将无法登录系统，无法保留检测报告等内容！</p>
+          <div className="bg-danger-soft border border-danger-border rounded-md px-4 py-2.5">
+            <p className="text-caption text-danger">注销后将无法登录系统，无法保留检测报告等内容！</p>
+          </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-[#E5E6EB]">
-          <button onClick={onClose} className="h-[40px] px-8 border border-[#E5E6EB] rounded-[4px] text-[14px] text-[#4E5969] hover:border-[#C9CDD4] transition-colors">
+        <div className="modal-footer">
+          <button onClick={onClose} className="btn-outline btn-md">
             取消
           </button>
-          <button
-            onClick={onConfirmed}
-            disabled={!smsCode}
-            className={`h-[40px] px-8 rounded-[4px] text-[14px] font-medium transition-colors ${
-              smsCode ? 'bg-[#F53F3F] hover:bg-[#F76560] text-white' : 'bg-[#F5F6FA] text-[#C9CDD4] cursor-not-allowed'
-            }`}
-          >
+          <button onClick={onConfirmed} disabled={!smsCode} className="btn-danger btn-md">
             确定
           </button>
         </div>

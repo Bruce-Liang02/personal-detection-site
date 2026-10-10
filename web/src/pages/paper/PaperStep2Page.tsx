@@ -116,32 +116,32 @@ export default function PaperStep2Page() {
   return (
     <div>
       {/* ═ Step Progress ═══ */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6 mb-6">
+      <div className="card card-pad mb-6">
         <div className="flex items-center">
           {steps.map((step, i) => {
             const isFinish = step.status === 'finish'
             const isActive = step.status === 'process'
-            const descColor = isFinish ? 'text-[#E44548]' : 'text-[#4E5969]'
-            const titleColor = isActive ? 'font-medium text-[#E44548]' : 'font-normal text-[#1D2129]'
+            const descColor = isFinish ? 'text-brand-700' : 'text-ink-3'
+            const titleColor = isActive ? 'font-bold text-brand-700' : 'font-normal text-ink'
             return (
               <div key={step.num} className="flex items-center flex-1">
                 <div className="flex items-center flex-shrink-0">
                   {isFinish ? (
-                    <svg className="shrink-0 mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E44548" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="shrink-0 mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#017173" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   ) : (
-                    <div className={`w-7 h-7 mr-3 rounded-full flex items-center justify-center shrink-0 ${isActive ? 'bg-[#E44548] text-white' : 'bg-[#F2F3F5] text-[#4E5969]'}`}>
-                      <span className="text-[16px] font-medium">{step.num}</span>
+                    <div className={`w-7 h-7 mr-3 rounded-full flex items-center justify-center shrink-0 ${isActive ? 'bg-brand-700 text-white shadow-brand' : 'bg-line-soft text-ink-3'}`}>
+                      <span className="text-subtitle font-medium tnum">{step.num}</span>
                     </div>
                   )}
                   <div>
-                    <p className={`text-[16px] leading-[28px] whitespace-nowrap ${titleColor}`}>{step.label}</p>
-                    <p className={`text-[12px] leading-[18px] whitespace-nowrap ${descColor}`}>{step.desc}</p>
+                    <p className={`text-subtitle whitespace-nowrap ${titleColor}`}>{step.label}</p>
+                    <p className={`text-micro whitespace-nowrap ${descColor}`}>{step.desc}</p>
                   </div>
                 </div>
                 {i < steps.length - 1 && (
-                  <div className={`flex-1 mx-4 border-t-2 border-dashed ${(isFinish || isActive) ? 'border-[#E44548]' : 'border-[#E5E6EB]'}`} />
+                  <div className={`flex-1 mx-4 border-t-2 border-dashed ${(isFinish || isActive) ? 'border-brand-700' : 'border-line'}`} />
                 )}
               </div>
             )
@@ -153,38 +153,38 @@ export default function PaperStep2Page() {
       {currentStep === 2 && (
         <>
           {/* Detection Type Card */}
-          <div className="bg-white rounded-xl border border-gray-100 p-6 mb-6 relative">
+          <div className="card card-pad mb-6 relative">
             {/* 解析中蒙版 */}
             {!parsingDone && (
-              <div className="absolute inset-0 z-10 bg-white/70 rounded-xl flex items-center justify-center">
-                <div className="w-8 h-8 border-3 border-[#165DFF] border-t-transparent rounded-full animate-spin" />
+              <div className="absolute inset-0 z-10 bg-white/70 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 border-[3px] border-brand-700 border-t-transparent rounded-full animate-spin" />
               </div>
             )}
 
-            <h3 className="text-[16px] font-bold text-[#1D2129] mb-4">标题：{paperTitle} | 作者：{authorName}</h3>
-            
+            <h3 className="text-subtitle text-ink mb-4">标题：{paperTitle} | 作者：{authorName}</h3>
+
             <div className="grid grid-cols-3 gap-4 mb-6">
               {items.map(item => (
                 <div
                   key={item.id}
-                  className={`relative rounded-[4px] border-2 p-4 transition-all ${
+                  className={`relative rounded-lg border-2 p-4 transition-all ${
                     item.selected
-                      ? 'border-[#E44548] bg-[#FFF5F5]'
-                      : 'border-[#E5E6EB] bg-white'
+                      ? 'border-brand-700 bg-brand-soft'
+                      : 'border-line bg-white'
                   }`}
                 >
-                  <div className="absolute top-2 right-2 w-5 h-5 bg-[#E44548] rounded-full flex items-center justify-center">
+                  <div className="absolute top-2 right-2 w-5 h-5 bg-brand-700 rounded-full flex items-center justify-center">
                     <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
                       <path d="M2.5 6L5 8.5L9.5 3.5" stroke="white" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                     </svg>
                   </div>
                   <div className="flex items-center gap-2 mb-2">
-                    <span className="text-[12px] font-bold px-2 py-0.5 rounded bg-[#E44548] text-white">
+                    <span className="badge-brand">
                       {item.badge}
                     </span>
-                    <span className="text-[14px] font-bold text-[#1D2129]">{item.type}</span>
+                    <span className="text-body font-bold text-ink">{item.type}</span>
                   </div>
-                  <div className="text-[12px] text-[#86909C]">
+                  <div className="text-micro text-ink-3">
                     {item.version}
                   </div>
                 </div>
@@ -192,41 +192,42 @@ export default function PaperStep2Page() {
             </div>
 
             {/* Fee Details Table */}
-            <h4 className="text-[14px] font-medium text-[#1D2129] mb-3">
-              费用明细 <span className="text-[#86909C] font-normal">（默认选择当前最大优惠）</span>
+            <h4 className="section-title mb-3">
+              费用明细 <span className="text-micro text-ink-3 font-normal">（默认选择当前最大优惠）</span>
             </h4>
-            
-            <table className="w-full text-[14px] mb-4">
+
+            <div className="table-wrap mb-4">
+            <table className="w-full text-body">
               <thead>
-                <tr className="bg-[#F7F8FA]">
-                  <th className="text-left py-3 px-4 font-medium text-[#4E5969]">检测类型</th>
-                  <th className="text-left py-3 px-4 font-medium text-[#4E5969]">计费信息</th>
-                  <th className="text-left py-3 px-4 font-medium text-[#4E5969]">实付金额</th>
+                <tr className="table-head">
+                  <th className="text-left py-3 px-4 font-medium">检测类型</th>
+                  <th className="text-left py-3 px-4 font-medium">计费信息</th>
+                  <th className="text-left py-3 px-4 font-medium">实付金额</th>
                 </tr>
               </thead>
               <tbody>
                 {items.map(item => (
-                  <tr key={item.id} className="border-b border-[#F2F3F5]">
+                  <tr key={item.id} className="table-row">
                     <td className="py-3 px-4">
                       <div className="flex items-center gap-2">
-                        <span className="text-[12px] font-bold px-1.5 py-0.5 rounded bg-[#E44548] text-white">
+                        <span className="badge-brand">
                           {item.badge}
                         </span>
                         <div>
-                          <p className="text-[14px] text-[#1D2129] font-medium">{item.type}</p>
-                          <p className="text-[12px] text-[#86909C]">{item.version}</p>
+                          <p className="text-body text-ink font-medium">{item.type}</p>
+                          <p className="text-micro text-ink-3">{item.version}</p>
                         </div>
                       </div>
                     </td>
                     <td className="py-3 px-4">
                       {parsingDone ? (
                         <>
-                          <p className="text-[14px] text-[#1D2129]">{item.size}</p>
-                          <p className="text-[12px] text-[#86909C]">{item.unitPrice}</p>
+                          <p className="text-body text-ink tnum">{item.size}</p>
+                          <p className="text-micro text-ink-3 tnum">{item.unitPrice}</p>
                         </>
                       ) : (
-                        <p className="text-[14px] text-[#86909C] flex items-center gap-1.5">
-                          <span className="w-3.5 h-3.5 border-2 border-[#165DFF] border-t-transparent rounded-full animate-spin inline-block" />
+                        <p className="text-body text-ink-3 flex items-center gap-1.5">
+                          <span className="w-3.5 h-3.5 border-2 border-brand-700 border-t-transparent rounded-full animate-spin inline-block" />
                           计算中
                         </p>
                       )}
@@ -234,13 +235,13 @@ export default function PaperStep2Page() {
                     <td className="py-3 px-4">
                       {parsingDone ? (
                         item.selected ? (
-                          <span className="text-[16px] text-[#E44548] font-bold">￥{item.totalPrice}</span>
+                          <span className="text-subtitle text-brand-700 font-bold tnum">￥{item.totalPrice}</span>
                         ) : (
-                          <span className="text-[14px] text-[#C9CDD4]">—</span>
+                          <span className="text-body text-ink-4">—</span>
                         )
                       ) : (
-                        <span className="text-[14px] text-[#86909C] flex items-center gap-1.5">
-                          <span className="w-3.5 h-3.5 border-2 border-[#165DFF] border-t-transparent rounded-full animate-spin inline-block" />
+                        <span className="text-body text-ink-3 flex items-center gap-1.5">
+                          <span className="w-3.5 h-3.5 border-2 border-brand-700 border-t-transparent rounded-full animate-spin inline-block" />
                           计算中
                         </span>
                       )}
@@ -249,32 +250,33 @@ export default function PaperStep2Page() {
                 ))}
               </tbody>
             </table>
+            </div>
 
             {/* ══ 底部操作栏 ══ */}
             <div className="flex items-center justify-between pt-4">
-              <span className="text-[14px] text-[#4E5969]">共 <span className="text-[#E44548] font-medium">{selectedItems.length}</span> 项检测类型</span>
+              <span className="text-body text-ink-2">共 <span className="text-brand-700 font-medium tnum">{selectedItems.length}</span> 项检测类型</span>
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-2">
-                  <span className="text-[14px] text-[#4E5969]">金额总计：</span>
+                  <span className="text-body text-ink-2">金额总计：</span>
                   {parsingDone ? (
-                    <span className="text-[24px] text-[#E44548] font-bold">￥{totalPrice}</span>
+                    <span className="text-[24px] text-brand-700 font-bold tnum">￥{totalPrice}</span>
                   ) : (
-                    <span className="text-[16px] text-[#86909C] font-medium flex items-center gap-1.5">
-                      <span className="w-3.5 h-3.5 border-2 border-[#165DFF] border-t-transparent rounded-full animate-spin inline-block" />
+                    <span className="text-subtitle text-ink-3 font-medium flex items-center gap-1.5">
+                      <span className="w-3.5 h-3.5 border-2 border-brand-700 border-t-transparent rounded-full animate-spin inline-block" />
                       计算中
                     </span>
                   )}
                 </div>
                 <button
                   onClick={() => nav('/paper')}
-                  className="h-[40px] px-8 border border-[#E5E6EB] rounded-[4px] text-[14px] text-[#4E5969] hover:border-[#C9CDD4] transition-colors"
+                  className="btn-outline btn-md"
                 >
                   上一步
                 </button>
                 <button
                   disabled={!parsingDone || submitting || selectedItems.length === 0}
                   onClick={handleConfirmPayment}
-                  className="h-[40px] px-8 bg-[#E44548] hover:bg-[#c93a3d] disabled:opacity-50 disabled:cursor-not-allowed text-white text-[14px] font-medium rounded-[4px] transition-colors"
+                  className="btn-primary btn-md"
                 >
                   {submitting ? '提交中…' : '确认支付'}
                 </button>
@@ -284,56 +286,57 @@ export default function PaperStep2Page() {
 
           {/* Error */}
           {error && (
-            <div className="mb-4 bg-[#ffece8] text-[#f53f3f] text-[13px] rounded-lg px-4 py-3 font-medium">{error}</div>
+            <div className="mb-4 bg-danger-soft border border-danger-border text-danger text-caption rounded-lg px-4 py-3 font-medium">{error}</div>
           )}
         </>
       )}
 
       {/* ═══ Step 3: Detection in Progress ═══ */}
       {currentStep === 3 && (
-        <div className="bg-white rounded-xl border border-gray-100 p-6">
-          <table className="w-full text-[14px]">
+        <div className="card card-pad">
+          <div className="table-wrap">
+          <table className="w-full text-body">
             <thead>
-              <tr className="bg-[#F7F8FA]">
-                <th className="text-left py-3 px-4 font-medium text-[#4E5969]">检测类型</th>
-                <th className="text-left py-3 px-4 font-medium text-[#4E5969]">报告编号</th>
-                <th className="text-left py-3 px-4 font-medium text-[#4E5969]">消费时间</th>
-                <th className="text-left py-3 px-4 font-medium text-[#4E5969]">消费金额</th>
-                <th className="text-left py-3 px-4 font-medium text-[#4E5969]">状态</th>
-                <th className="text-left py-3 px-4 font-medium text-[#4E5969]">操作</th>
+              <tr className="table-head">
+                <th className="text-left py-3 px-4 font-medium">检测类型</th>
+                <th className="text-left py-3 px-4 font-medium">报告编号</th>
+                <th className="text-left py-3 px-4 font-medium">消费时间</th>
+                <th className="text-left py-3 px-4 font-medium">消费金额</th>
+                <th className="text-left py-3 px-4 font-medium">状态</th>
+                <th className="text-left py-3 px-4 font-medium">操作</th>
               </tr>
             </thead>
             <tbody>
               {items.filter(i => i.selected).map(item => (
-                <tr key={item.id} className="border-b border-[#F2F3F5]">
+                <tr key={item.id} className="table-row">
                   <td className="py-3 px-4">
                     <div className="flex items-center gap-2">
-                      <span className="text-[12px] font-bold px-1.5 py-0.5 rounded bg-[#E44548] text-white">
+                      <span className="badge-brand">
                         {item.badge}
                       </span>
                       <div>
-                        <p className="text-[14px] text-[#1D2129] font-medium">{item.type}</p>
-                        <p className="text-[12px] text-[#86909C]">{item.version}</p>
+                        <p className="text-body text-ink font-medium">{item.type}</p>
+                        <p className="text-micro text-ink-3">{item.version}</p>
                       </div>
                     </div>
                   </td>
-                  <td className="py-3 px-4 text-[14px] text-[#4E5969]">
+                  <td className="py-3 px-4 text-body text-ink-2 font-mono tnum">
                     {detectionDone && reportId ? reportId : '—'}
                   </td>
-                  <td className="py-3 px-4 text-[14px] text-[#4E5969]">{new Date().toLocaleString('zh-CN')}</td>
-                  <td className="py-3 px-4 text-[16px] text-[#E44548] font-bold">￥{item.totalPrice}</td>
+                  <td className="py-3 px-4 text-body text-ink-2 tnum">{new Date().toLocaleString('zh-CN')}</td>
+                  <td className="py-3 px-4 text-subtitle text-brand-700 font-bold tnum">￥{item.totalPrice}</td>
                   <td className="py-3 px-4">
                     {detectionDone ? (
-                      <span className="inline-flex items-center gap-1.5 text-[14px] text-[#00B42A]">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                          <circle cx="7" cy="7" r="6" stroke="#00B42A" strokeWidth="1.5" />
-                          <path d="M4.5 7L6.5 9L9.5 5" stroke="#00B42A" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      <span className="badge-success">
+                        <svg width="12" height="12" viewBox="0 0 14 14" fill="none">
+                          <circle cx="7" cy="7" r="6" stroke="currentColor" strokeWidth="1.5" />
+                          <path d="M4.5 7L6.5 9L9.5 5" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                         </svg>
                         检测完成
                       </span>
                     ) : (
-                      <span className="inline-flex items-center gap-1.5 text-[14px] text-[#165DFF]">
-                        <span className="w-2 h-2 rounded-full bg-[#165DFF] animate-pulse" />
+                      <span className="inline-flex items-center gap-1.5 text-body text-brand-700">
+                        <span className="w-2 h-2 rounded-full bg-brand-700 animate-pulse" />
                         检测中
                       </span>
                     )}
@@ -341,22 +344,23 @@ export default function PaperStep2Page() {
                   <td className="py-3 px-4">
                     {detectionDone ? (
                       <div className="flex items-center gap-3">
-                        <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#165DFF] hover:text-[#0E42D2]">查看报告</a>
-                        <a href="/report-demo.zip" download="检测报告.zip" className="text-[14px] text-[#165DFF] hover:text-[#0E42D2]">下载报告</a>
+                        <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="link text-body">查看报告</a>
+                        <a href="/report-demo.zip" download="检测报告.zip" className="link text-body">下载报告</a>
                       </div>
                     ) : (
-                      <span className="text-[14px] text-[#C9CDD4]">-</span>
+                      <span className="text-body text-ink-4">-</span>
                     )}
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          
+          </div>
+
           <div className="mt-6 flex justify-center">
             <button
               onClick={handleBack}
-              className="h-[40px] px-8 border border-[#E5E6EB] rounded-[4px] text-[14px] text-[#4E5969] hover:border-[#C9CDD4] transition-colors"
+              className="btn-outline btn-md"
             >
               返回
             </button>

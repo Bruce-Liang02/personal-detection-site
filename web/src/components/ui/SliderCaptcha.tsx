@@ -31,19 +31,19 @@ function SliderCaptcha({ done, onDone }: { done: boolean; onDone: () => void }) 
   return (
     <div
       ref={trackRef}
-      className={`relative h-10 rounded-sm select-none ${done ? 'bg-[#e8ffea] border border-[#a8d9b0]' : 'bg-[#f2f3f5]'}`}
+      className={`relative h-10 rounded-sm select-none ${done ? 'bg-success-soft border border-success-border' : 'bg-line-soft'}`}
     >
       <div
-        className={`absolute top-0 left-0 h-full rounded-sm ${done ? 'bg-[#e8ffea]' : 'bg-white border border-[#e5e6eb]'}`}
+        className={`absolute top-0 left-0 h-full rounded-sm ${done ? 'bg-success-soft' : 'bg-white border border-line'}`}
         style={{ width: `${Math.max(pos + 44, 44)}px` }}
       />
       <span className="absolute inset-0 flex items-center justify-center text-[13px] pointer-events-none">
         {done ? (
-          <span className="flex items-center gap-1.5 text-[#00b42a]">
+          <span className="flex items-center gap-1.5 text-success">
             <Check size={15} /> 验证通过
           </span>
         ) : (
-          <span className="text-[#86909c]">请按住滑块，拖动到最右边</span>
+          <span className="text-ink-3">请按住滑块，拖动到最右边</span>
         )}
       </span>
       <div
@@ -52,7 +52,7 @@ function SliderCaptcha({ done, onDone }: { done: boolean; onDone: () => void }) 
         onPointerUp={onEnd}
         onPointerCancel={onEnd}
         className={`absolute top-0 left-0 w-[44px] h-10 rounded-sm flex items-center justify-center cursor-grab active:cursor-grabbing transition-colors ${
-          done ? 'bg-[#00b42a] text-white' : 'bg-white border border-[#e5e6eb] text-[#86909c] shadow-sm'
+          done ? 'bg-success text-white' : 'bg-white border border-line text-ink-3 hover:text-brand hover:border-brand-line shadow-xs'
         }`}
         style={{ transform: `translateX(${pos}px)` }}
       >

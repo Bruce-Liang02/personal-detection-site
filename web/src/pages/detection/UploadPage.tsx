@@ -43,30 +43,30 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[#F8F7F4]">
+    <div className="min-h-screen bg-page">
       <Navbar />
       <main className="max-w-4xl mx-auto px-4 sm:px-6 py-8">
         <div className="mb-6">
-          <h1 className="text-2xl font-black text-ink">上传论文检测</h1>
-          <p className="text-ink-3 mt-1">上传论文文件，填写基本信息，提交四层维度全面检测</p>
+          <h1 className="page-title">上传论文检测</h1>
+          <p className="page-desc">上传论文文件，填写基本信息，提交四层维度全面检测</p>
         </div>
 
         {error && (
-          <div className="mb-6 bg-danger-soft text-danger text-sm rounded-xl px-4 py-3 font-medium">{error}</div>
+          <div className="mb-6 bg-danger-soft border border-danger-border text-danger text-body rounded-lg px-4 py-3 font-medium">{error}</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Upload */}
-          <div className="card p-6">
-            <h2 className="font-extrabold text-ink mb-4 flex items-center gap-2">
+          <div className="card card-pad">
+            <h2 className="section-title mb-4">
               <FileText size={18} className="text-brand-700" /> 论文文件
             </h2>
             <UploadZone onFileSelect={setFile} />
           </div>
 
           {/* Paper Info */}
-          <div className="card p-6">
-            <h2 className="font-extrabold text-ink mb-4">论文信息</h2>
+          <div className="card card-pad">
+            <h2 className="section-title mb-4">论文信息</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
                 <label className="label-text">论文标题</label>
@@ -96,7 +96,7 @@ export default function UploadPage() {
           </div>
 
           {/* Submit */}
-          <button type="submit" disabled={submitting || !file} className="btn-primary w-full !py-4 text-base disabled:opacity-50 disabled:cursor-not-allowed">
+          <button type="submit" disabled={submitting || !file} className="btn-primary btn-lg w-full">
             {submitting ? <Loader2 className="animate-spin" size={20} /> : <><Send size={18} /> 提交检测</>}
           </button>
         </form>

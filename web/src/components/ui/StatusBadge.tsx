@@ -10,7 +10,8 @@ const MAP: Record<string, { cls: string; label: string }> = {
   completed:{ cls: 'badge-success', label: '已完成' },
   warn:     { cls: 'badge-warning', label: '需关注' },
   pending:  { cls: 'badge-warning', label: '待检测' },
-  running:  { cls: 'badge-info',    label: '检测中' },
+  queued:   { cls: 'badge-neutral', label: '排队中' },
+  running:  { cls: 'badge-brand',   label: '检测中' },
   fail:     { cls: 'badge-danger',  label: '需改进' },
   failed:   { cls: 'badge-danger',  label: '失败' },
   risk:     { cls: 'badge-danger',  label: '需改进' },
@@ -22,7 +23,7 @@ const MAP: Record<string, { cls: string; label: string }> = {
 }
 
 export default function StatusBadge({ status, label }: StatusBadgeProps) {
-  const info = MAP[status] || { cls: 'badge-info', label: status }
+  const info = MAP[status] || { cls: 'badge-neutral', label: status }
   return (
     <span className={`badge ${info.cls}`}>
       {label || info.label}

@@ -17,6 +17,7 @@ import ReportPage from '@/pages/detection/ReportPage'
 import ProgressPage from '@/pages/detection/ProgressPage'
 import CreditsPage from '@/pages/account/CreditsPage'
 import AccountPage from '@/pages/account/AccountPage'
+import InvoicePage from '@/pages/account/InvoicePage'
 import InvitePage from '@/pages/referral/InvitePage'
 
 /** Route guard: redirects to /login if no valid token. */
@@ -51,6 +52,7 @@ export default function App() {
         <Route path="/detection/progress/:taskId" element={<ProgressPage />} />
         <Route path="/credits" element={<CreditsPage />} />
         <Route path="/credits/records" element={<ConsumptionRecordsPage />} />
+        <Route path="/invoice" element={<InvoicePage />} />
         <Route path="/account" element={<AccountPage />} />
         <Route path="/invite" element={<InvitePage />} />
       </Route>

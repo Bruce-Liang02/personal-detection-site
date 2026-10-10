@@ -62,9 +62,9 @@ const MOCK_REPORTS: ReportRecord[] = [
     typeCard: {
       label: 'CQMS（标签化）',
       sub: '课程论文检测',
-      bg: 'linear-gradient(135deg, #FFF0F0 0%, #FFE8E8 100%)',
+      bg: 'linear-gradient(135deg, #F0FAF8 0%, #D9F2EC 100%)',
       badge: 'CQMS',
-      badgeBg: '#E44548',
+      badgeBg: '#017173',
       badgeColor: '#fff',
       logo: '课程论文检测',
     },
@@ -87,9 +87,9 @@ const MOCK_REPORTS: ReportRecord[] = [
     typeCard: {
       label: 'CQMS（标签化）',
       sub: '课程论文检测',
-      bg: 'linear-gradient(135deg, #FFF0F0 0%, #FFE8E8 100%)',
+      bg: 'linear-gradient(135deg, #F0FAF8 0%, #D9F2EC 100%)',
       badge: 'CQMS',
-      badgeBg: '#E44548',
+      badgeBg: '#017173',
       badgeColor: '#fff',
       logo: '课程论文检测',
     },
@@ -113,9 +113,9 @@ const MOCK_REPORTS: ReportRecord[] = [
     typeCard: {
       label: 'CQMS（标签化）',
       sub: '课程论文检测',
-      bg: 'linear-gradient(135deg, #FFF0F0 0%, #FFE8E8 100%)',
+      bg: 'linear-gradient(135deg, #F0FAF8 0%, #D9F2EC 100%)',
       badge: 'CQMS',
-      badgeBg: '#E44548',
+      badgeBg: '#017173',
       badgeColor: '#fff',
       logo: '课程论文检测',
     },
@@ -132,16 +132,16 @@ const MOCK_REPORTS: ReportRecord[] = [
     size: '1篇',
     amount: 30,
     status: '检测中',
-    statusColor: '#165DFF',
+    statusColor: '#017173',
     paidAt: new Date(twoMinAgo).toLocaleString('zh-CN', { hour12: false }),
     createdAt: twoMinAgo,
     paid: true,
     typeCard: {
       label: 'CQMS（标签化）',
       sub: '课程论文检测',
-      bg: 'linear-gradient(135deg, #FFF0F0 0%, #FFE8E8 100%)',
+      bg: 'linear-gradient(135deg, #F0FAF8 0%, #D9F2EC 100%)',
       badge: 'CQMS',
-      badgeBg: '#E44548',
+      badgeBg: '#017173',
       badgeColor: '#fff',
       logo: '课程论文检测',
     },
@@ -166,9 +166,9 @@ const MOCK_REPORTS: ReportRecord[] = [
     typeCard: {
       label: 'CQMS（标签化）',
       sub: '课程论文检测',
-      bg: 'linear-gradient(135deg, #FFF0F0 0%, #FFE8E8 100%)',
+      bg: 'linear-gradient(135deg, #F0FAF8 0%, #D9F2EC 100%)',
       badge: 'CQMS',
-      badgeBg: '#E44548',
+      badgeBg: '#017173',
       badgeColor: '#fff',
       logo: '课程论文检测',
     },
@@ -193,9 +193,9 @@ const MOCK_REPORTS: ReportRecord[] = [
     typeCard: {
       label: 'CQMS（标签化）',
       sub: '课程论文检测',
-      bg: 'linear-gradient(135deg, #FFF0F0 0%, #FFE8E8 100%)',
+      bg: 'linear-gradient(135deg, #F0FAF8 0%, #D9F2EC 100%)',
       badge: 'CQMS',
-      badgeBg: '#E44548',
+      badgeBg: '#017173',
       badgeColor: '#fff',
       logo: '课程论文检测',
     },
@@ -224,9 +224,9 @@ function ExpiredStamp() {
   return (
     <div className="flex flex-col items-center gap-1.5">
       <svg width="72" height="72" viewBox="0 0 72 72" fill="none">
-        <circle cx="36" cy="36" r="32" stroke="#D9D9D9" strokeWidth="2.5" strokeDasharray="4 3" />
+        <circle cx="36" cy="36" r="32" stroke="#D0D4DA" strokeWidth="2.5" strokeDasharray="4 3" />
         <circle cx="36" cy="36" r="26" stroke="#C9CDD4" strokeWidth="1.5" />
-        <text x="36" y="38" textAnchor="middle" fill="#B0B5BE" fontSize="14" fontWeight="600">已失效</text>
+        <text x="36" y="38" textAnchor="middle" fill="#86909C" fontSize="14" fontWeight="600">已失效</text>
       </svg>
     </div>
   )
@@ -282,7 +282,7 @@ export default function HistoryPage() {
     setRecords(prev =>
       prev.map(rec =>
         rec.id === payingRecord.id
-          ? { ...rec, paid: true, paidAt: new Date().toLocaleString('zh-CN', { hour12: false }), status: '检测中' as DetectionStatus, statusColor: '#165DFF' }
+          ? { ...rec, paid: true, paidAt: new Date().toLocaleString('zh-CN', { hour12: false }), status: '检测中' as DetectionStatus, statusColor: '#017173' }
           : rec
       )
     )
@@ -290,24 +290,24 @@ export default function HistoryPage() {
 
   return (
     <div className="w-full">
-      <div className="bg-white rounded-sm">
+      <div className="card overflow-hidden">
         {/* Status filter + search */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#E5E6EB]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-line flex-wrap gap-3">
           <div className="flex items-center">
             {STATUS_TABS.map((tab, i) => (
               <button
                 key={tab}
                 onClick={() => setActiveStatus(tab)}
-                className={`text-[14px] px-5 py-1.5 border transition-colors ${
+                className={`text-body px-5 py-1.5 border transition-colors cursor-pointer ${
                   i > 0 ? '-ml-px' : ''
                 } ${
                   activeStatus === tab
-                    ? 'border-[#F53F3F] text-[#F53F3F] bg-white z-10 relative'
-                    : 'border-[#E5E6EB] text-[#4E5969] bg-white hover:text-[#1D2129]'
-                } ${i === 0 ? 'rounded-l' : ''} ${i === STATUS_TABS.length - 1 ? 'rounded-r' : ''}`}
+                    ? 'border-brand-700 text-brand-700 bg-white z-10 relative'
+                    : 'border-line text-ink-2 bg-white hover:text-ink hover:border-brand-200'
+                } ${i === 0 ? 'rounded-l-md' : ''} ${i === STATUS_TABS.length - 1 ? 'rounded-r-md' : ''}`}
               >
                 {tab}
-                <span className={`ml-1 ${activeStatus === tab ? 'text-[#F53F3F]' : 'text-[#86909C]'}`}>
+                <span className={`ml-1 tnum ${activeStatus === tab ? 'text-brand-700' : 'text-ink-3'}`}>
                   ({STATUS_COUNTS[tab]})
                 </span>
               </button>
@@ -317,7 +317,7 @@ export default function HistoryPage() {
             <select
               value={searchField}
               onChange={e => setSearchField(e.target.value)}
-              className="h-[32px] border border-[#E5E6EB] rounded px-2 text-[14px] text-[#4E5969] outline-none bg-white cursor-pointer"
+              className="h-8 px-2 rounded-md border border-line bg-white text-body text-ink-2 outline-none cursor-pointer focus:border-brand-700 transition-colors"
             >
               <option>标题</option>
               <option>报告编号</option>
@@ -327,17 +327,17 @@ export default function HistoryPage() {
               value={searchText}
               onChange={e => setSearchText(e.target.value)}
               placeholder="请输入"
-              className="h-[32px] w-[200px] border border-[#E5E6EB] rounded px-3 text-[14px] outline-none focus:border-[#165DFF] placeholder-[#C9CDD4]"
+              className="h-8 w-[200px] rounded-md border border-line bg-white px-3 text-body outline-none focus:border-brand-700 focus:ring-2 focus:ring-brand-100 transition-all placeholder:text-ink-4"
             />
-            <button className="h-[32px] px-4 bg-[#F53F3F] text-white text-[14px] rounded hover:bg-[#F76560] transition-colors">
+            <button className="btn-primary btn-sm">
               搜索
             </button>
           </div>
         </div>
 
         {/* Table */}
-        <div className="overflow-x-auto" style={{ maxHeight: '700px', overflowY: 'auto' }}>
-          <table className="text-[14px]" style={{ tableLayout: 'fixed', width: '100%' }}>
+        <div className="table-wrap border-0 rounded-none overflow-x-auto" style={{ maxHeight: '700px', overflowY: 'auto' }}>
+          <table className="text-body" style={{ tableLayout: 'fixed', width: '100%' }}>
             <colgroup>
               <col style={{ width: '18%' }} />
               <col style={{ width: '14%' }} />
@@ -347,13 +347,13 @@ export default function HistoryPage() {
               <col style={{ width: '12%' }} />
             </colgroup>
             <thead>
-              <tr className="bg-[#F7F8FA]">
-                <th className="text-center py-3 px-2 font-medium text-[#4E5969] text-[14px] border-b border-[#E5E6EB]">检测类型</th>
-                <th className="text-center py-3 px-2 font-medium text-[#4E5969] text-[14px] border-b border-[#E5E6EB]">报告编号</th>
-                <th className="text-center py-3 px-2 font-medium text-[#4E5969] text-[14px] border-b border-[#E5E6EB]">检测信息</th>
-                <th className="text-center py-3 px-2 font-medium text-[#4E5969] text-[14px] border-b border-[#E5E6EB]">付费信息</th>
-                <th className="text-center py-3 px-2 font-medium text-[#4E5969] text-[14px] border-b border-[#E5E6EB]">检测结果</th>
-                <th className="text-center py-3 px-2 font-medium text-[#4E5969] text-[14px] border-b border-[#E5E6EB]">操作</th>
+              <tr className="table-head">
+                <th className="text-center py-3 px-2 font-medium">检测类型</th>
+                <th className="text-center py-3 px-2 font-medium">报告编号</th>
+                <th className="text-center py-3 px-2 font-medium">检测信息</th>
+                <th className="text-center py-3 px-2 font-medium">付费信息</th>
+                <th className="text-center py-3 px-2 font-medium">检测结果</th>
+                <th className="text-center py-3 px-2 font-medium">操作</th>
               </tr>
             </thead>
             <tbody>
@@ -365,42 +365,43 @@ export default function HistoryPage() {
 
                 return (
                   <Fragment key={r.id}>
-                    {/* 检测信息行 - 浅紫灰底色 */}
-                    <tr className="bg-[#F0F0F8]">
+                    {/* 检测信息行 - 浅灰底色 */}
+                    <tr className="table-row bg-line-lighter">
                       <td colSpan={6} className="py-2 px-4">
-                        <div className="flex items-center gap-6">
-                          <span className="text-[13px] text-[#4E5969]">{r.date}</span>
-                          {r.title && <span className="text-[13px] text-[#4E5969]">标题：{r.title}</span>}
-                          {r.author && <span className="text-[13px] text-[#4E5969]">作者：{r.author}</span>}
+                        <div className="flex items-center gap-6 flex-wrap">
+                          <span className="text-caption text-ink-2 tnum">{r.date}</span>
+                          {r.title && <span className="text-caption text-ink-2">标题：{r.title}</span>}
+                          {r.author && <span className="text-caption text-ink-2">作者：{r.author}</span>}
                         </div>
                       </td>
                     </tr>
                     {/* 报告数据行 */}
-                    <tr className="border-b border-[#F2F3F5]">
+                    <tr className="table-row">
                       <td className="py-4 px-2">
+                        {/* 检测类型卡片（官网 .info_box 规格：80 高、圆角、内边距 16、背景 100% 拉伸） */}
                         <div
-                          className="w-[300px] max-w-full rounded-[8px] overflow-hidden flex flex-col justify-center gap-2.5 px-4"
-                          style={{ backgroundImage: `url(${cardBg})`, backgroundSize: 'cover', minHeight: '96px' }}
+                          className="w-fit min-w-[220px] h-[80px] rounded-md overflow-hidden flex flex-col justify-center gap-[7px] px-4"
+                          style={{ backgroundImage: `url(${cardBg})`, backgroundSize: '100% 100%', backgroundPosition: '0 0' }}
                         >
-                          <div className="flex items-center gap-2">
-                            <img src="/cmsq-logo.png" alt="CQMS" className="h-[20px] shrink-0" draggable={false} />
-                            <span className="text-[14px] font-bold text-[#1D2129]">{r.typeCard.logo}</span>
+                          <div className="flex items-center gap-[5px]">
+                            <img src="/cmsq-logo.png" alt="CQMS" className="w-[48px] h-[16px] shrink-0" draggable={false} />
+                            <span className="text-subtitle text-ink whitespace-nowrap">{r.typeCard.logo}</span>
                           </div>
-                          <span className="self-start inline-block text-[11px] px-1.5 py-0.5 rounded border text-[#F53F3F] border-[#F53F3F] bg-white">
+                          <span className="badge-brand self-start">
                             {r.version}
                           </span>
                         </div>
                       </td>
                       <td className="text-center py-4 px-2">
-                        <span className="text-[14px] text-[#1D2129] font-mono">{r.reportNo}</span>
-                        <button className="ml-1 text-[#86909C] hover:text-[#165DFF]">
+                        <span className="text-body text-ink font-mono tnum">{r.reportNo}</span>
+                        <button className="ml-1 text-ink-3 hover:text-brand-700 transition-colors">
                           <Copy size={13} />
                         </button>
                       </td>
-                      <td className="text-center py-4 px-2 text-[14px] text-[#1D2129]">{r.size}</td>
-                      <td className="text-center py-4 px-2 text-[14px] text-[#F53F3F]">￥{r.amount}</td>
+                      <td className="text-center py-4 px-2 text-body text-ink">{r.size}</td>
+                      <td className="text-center py-4 px-2 text-body text-brand-700 font-bold tnum">￥{r.amount}</td>
                       <td className="text-center py-4 px-2">
-                        <span className="text-[14px]" style={{ color: r.statusColor }}>{r.status}</span>
+                        <span className="text-body font-medium" style={{ color: r.statusColor }}>{r.status}</span>
                       </td>
                       <td className="text-center py-4 px-2">
                         {/* 未支付且未超时：立即支付 + 倒计时 + 删除记录 */}
@@ -408,19 +409,19 @@ export default function HistoryPage() {
                           <div className="flex flex-col items-center gap-1.5">
                             <button
                               onClick={() => handlePay(r)}
-                              className="w-[90px] h-[36px] bg-[#E44548] hover:bg-[#c93a3d] text-white text-[14px] font-medium rounded-[4px] transition-colors"
+                              className="btn-primary btn-sm w-[90px]"
                             >
                               立即支付
                             </button>
-                            <span className="text-[13px] text-[#4E5969]">剩余 {formatCountdown(remainingMs)}</span>
-                            <button onClick={() => handleDelete(r.id)} className="text-[14px] text-[#4E5969] hover:text-[#F53F3F]">删除记录</button>
+                            <span className="text-caption text-ink-2 tnum">剩余 {formatCountdown(remainingMs)}</span>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
                           </div>
                         )}
                         {/* 未支付且已超时：已失效 + 删除记录 */}
                         {r.status === '解析完成' && !r.paid && unpaidAndExpired && (
                           <div className="flex flex-col items-center gap-1.5">
                             <ExpiredStamp />
-                            <button onClick={() => handleDelete(r.id)} className="text-[14px] text-[#4E5969] hover:text-[#F53F3F]">删除记录</button>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
                           </div>
                         )}
                         {/* 待检测：立即支付 + 倒计时 + 删除记录 */}
@@ -428,38 +429,38 @@ export default function HistoryPage() {
                           <div className="flex flex-col items-center gap-1.5">
                             <button
                               onClick={() => handlePay(r)}
-                              className="w-[90px] h-[36px] bg-[#E44548] hover:bg-[#c93a3d] text-white text-[14px] font-medium rounded-[4px] transition-colors"
+                              className="btn-primary btn-sm w-[90px]"
                             >
                               立即支付
                             </button>
-                            <span className="text-[13px] text-[#4E5969]">剩余 {formatCountdown(remainingMs)}</span>
-                            <button onClick={() => handleDelete(r.id)} className="text-[14px] text-[#4E5969] hover:text-[#F53F3F]">删除记录</button>
+                            <span className="text-caption text-ink-2 tnum">剩余 {formatCountdown(remainingMs)}</span>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
                           </div>
                         )}
                         {/* 检测中：横杠 */}
                         {r.status === '检测中' && (
-                          <span className="text-[14px] text-[#C9CDD4]">-</span>
+                          <span className="text-body text-ink-4">-</span>
                         )}
                         {/* 检测完成未超期：查看报告 + 下载报告 + 删除记录 */}
                         {r.status === '检测完成' && !reportExpired && (
                           <div className="flex flex-col items-center gap-1.5">
-                            <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="text-[14px] text-[#165DFF] hover:text-[#0E42D2]">查看报告</a>
-                            <a href="/report-demo.zip" download="检测报告.zip" className="text-[14px] text-[#165DFF] hover:text-[#0E42D2]">下载报告</a>
-                            <button onClick={() => handleDelete(r.id)} className="text-[14px] text-[#4E5969] hover:text-[#F53F3F]">删除记录</button>
+                            <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="link text-body">查看报告</a>
+                            <a href="/report-demo.zip" download="检测报告.zip" className="link text-body">下载报告</a>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
                           </div>
                         )}
                         {/* 检测完成但超180天：已失效 + 删除记录 */}
                         {r.status === '检测完成' && reportExpired && (
                           <div className="flex flex-col items-center gap-1.5">
                             <ExpiredStamp />
-                            <button onClick={() => handleDelete(r.id)} className="text-[14px] text-[#4E5969] hover:text-[#F53F3F]">删除记录</button>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
                           </div>
                         )}
                         {/* 已失效 */}
                         {r.status === '已失效' && (
                           <div className="flex flex-col items-center gap-1.5">
                             <ExpiredStamp />
-                            <button onClick={() => handleDelete(r.id)} className="text-[14px] text-[#4E5969] hover:text-[#F53F3F]">删除记录</button>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
                           </div>
                         )}
                       </td>
@@ -472,8 +473,8 @@ export default function HistoryPage() {
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-4 border-t border-[#E5E6EB]">
-          <span className="text-[14px] text-[#4E5969]">共 {filtered.length} 条记录</span>
+        <div className="px-6 py-4 border-t border-line">
+          <span className="text-body text-ink-2">共 {filtered.length} 条记录</span>
         </div>
       </div>
 

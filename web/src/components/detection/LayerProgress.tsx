@@ -15,15 +15,15 @@ const LAYER_COLORS: Record<string, { from: string; to: string; icon: string }> =
 }
 
 export default function LayerProgress({ layer, label, score, grade, status, color }: LayerProgressProps) {
-  const cfg = LAYER_COLORS[layer] || { from: '#888', to: '#aaa', icon: '📋' }
+  const cfg = LAYER_COLORS[layer] || { from: '#86909c', to: '#c9cdd4', icon: '📋' }
   const progress = status === 'done' ? 100 : status === 'running' ? 50 : 0
 
   return (
-    <div className="card p-4 hover:shadow-card-hover transition-shadow">
+    <div className="card card-pad card-hover">
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2">
-          <span className="text-lg">{cfg.icon}</span>
-          <span className="font-bold text-sm" style={{ color: cfg.from }}>{label}</span>
+          <span className="text-subtitle">{cfg.icon}</span>
+          <span className="font-bold text-body" style={{ color: cfg.from }}>{label}</span>
         </div>
         {grade && (
           <span className="badge" style={{ backgroundColor: cfg.from + '18', color: cfg.from }}>{grade}</span>
@@ -31,9 +31,9 @@ export default function LayerProgress({ layer, label, score, grade, status, colo
       </div>
 
       {/* Progress bar */}
-      <div className="h-2 bg-gray-100 rounded-full overflow-hidden mb-2">
+      <div className="h-1.5 w-full bg-line-soft rounded-full overflow-hidden mb-2">
         <div
-          className="h-full rounded-full transition-all duration-500"
+          className="h-full rounded-full transition-all duration-500 ease-out-soft"
           style={{
             width: `${progress}%`,
             background: `linear-gradient(90deg, ${cfg.from}, ${cfg.to})`,
@@ -41,9 +41,9 @@ export default function LayerProgress({ layer, label, score, grade, status, colo
         />
       </div>
 
-      <div className="flex items-center justify-between text-xs text-ink-3">
+      <div className="flex items-center justify-between text-micro text-ink-3">
         <span>{status === 'done' ? '检测完成' : status === 'running' ? '正在检测…' : '等待检测'}</span>
-        {score != null && <span className="font-bold text-ink" style={{ color: cfg.from }}>{score.toFixed(1)}分</span>}
+        {score != null && <span className="font-bold text-subtitle tnum" style={{ color: cfg.from }}>{score.toFixed(1)}分</span>}
       </div>
     </div>
   )

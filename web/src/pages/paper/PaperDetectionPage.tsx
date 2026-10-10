@@ -36,8 +36,8 @@ function ToastContainer() {
       {toasts.map(t => (
         <div
           key={t.id}
-          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg shadow-lg text-[14px] font-medium pointer-events-auto ${
-            t.type === 'success' ? 'bg-[#00B42A] text-white' : 'bg-[#FFF0F0] text-[#F53F3F] border border-[#FECACA]'
+          className={`flex items-center gap-2 px-5 py-2.5 rounded-lg shadow-lg text-body font-medium pointer-events-auto ${
+            t.type === 'success' ? 'bg-success text-white' : 'bg-danger-soft text-danger border border-danger-border'
           }`}
           style={{ animation: 'toastIn 0.3s ease-out' }}
         >
@@ -195,7 +195,7 @@ export default function PaperDetectionPage() {
 
       {/* ═ Banner ═══ */}
       <div
-        className="h-[140px] rounded-[4px] mb-6 overflow-hidden"
+        className="h-[140px] rounded-lg mb-6 overflow-hidden"
         style={{
           backgroundImage: 'url(/paper-banner.png)',
           backgroundSize: 'cover',
@@ -207,14 +207,14 @@ export default function PaperDetectionPage() {
           <div className="flex items-center gap-[10px]">
             <h2 className="text-[20px] leading-[26px] font-bold text-[#1C2B57]">课程论文写作训练与学术规范检测</h2>
             <span className="shrink-0 inline-flex items-center h-[24px] rounded-full p-[1px] bg-[linear-gradient(90deg,#017173_0%,#8AE6DB_100%)]">
-              <span className="inline-flex items-center h-full px-[9px] rounded-full bg-white text-[12px] leading-none font-bold text-[#1C2B57]">全面升级</span>
+              <span className="inline-flex items-center h-full px-[9px] rounded-full bg-white text-micro leading-none font-bold text-[#1C2B57]">全面升级</span>
             </span>
           </div>
           <div className="mt-[12px]">
-            <p className="flex items-center gap-[6px] text-[14px] leading-[26px] text-[#1D2129]">
+            <p className="flex items-center gap-[6px] text-body text-ink">
               <TealCheck /> 从检测、报告、修改全链路优化
             </p>
-            <p className="flex items-center gap-[6px] text-[14px] leading-[26px] text-[#1D2129]">
+            <p className="flex items-center gap-[6px] text-body text-ink">
               <TealCheck /> 四层维度全面评估论文质量
             </p>
           </div>
@@ -222,33 +222,33 @@ export default function PaperDetectionPage() {
       </div>
 
       {/* ═══ Step Progress ═══ */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6 mb-6">
+      <div className="card card-pad mb-6">
         <div className="flex items-center">
           {STEPS.map((step, i) => {
             const isFinish = step.status === 'finish'
             const isActive = step.status === 'process'
-            const descColor = isFinish ? 'text-[#E44548]' : 'text-[#4E5969]'
-            const titleColor = isActive ? 'font-medium text-[#E44548]' : 'font-normal text-[#1D2129]'
+            const descColor = isFinish ? 'text-brand-700' : 'text-ink-3'
+            const titleColor = isActive ? 'font-bold text-brand-700' : 'font-normal text-ink'
             return (
               <div key={step.num} className="flex items-center flex-1">
                 <div className="flex items-center flex-shrink-0">
                   {isFinish ? (
-                    <svg className="shrink-0 mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#E44548" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                    <svg className="shrink-0 mr-3" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#017173" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <polyline points="20 6 9 17 4 12" />
                     </svg>
                   ) : (
                     <div className={`w-7 h-7 mr-3 rounded-full flex items-center justify-center shrink-0
-                      ${isActive ? 'bg-[#E44548] text-white' : 'bg-[#F2F3F5] text-[#4E5969]'}`}>
-                      <span className="text-[16px] font-medium">{step.num}</span>
+                      ${isActive ? 'bg-brand-700 text-white shadow-brand' : 'bg-line-soft text-ink-3'}`}>
+                      <span className="text-subtitle font-medium tnum">{step.num}</span>
                     </div>
                   )}
                   <div>
-                    <p className={`text-[16px] leading-[28px] whitespace-nowrap ${titleColor}`}>{step.label}</p>
-                    <p className={`text-[12px] leading-[18px] whitespace-nowrap ${descColor}`}>{step.desc}</p>
+                    <p className={`text-subtitle whitespace-nowrap ${titleColor}`}>{step.label}</p>
+                    <p className={`text-micro whitespace-nowrap ${descColor}`}>{step.desc}</p>
                   </div>
                 </div>
                 {i < STEPS.length - 1 && (
-                  <div className={`flex-1 mx-4 border-t-2 border-dashed ${isActive ? 'border-[#E44548]' : 'border-[#E5E6EB]'}`} />
+                  <div className={`flex-1 mx-4 border-t-2 border-dashed ${isActive ? 'border-brand-700' : 'border-line'}`} />
                 )}
               </div>
             )
@@ -257,24 +257,24 @@ export default function PaperDetectionPage() {
       </div>
 
       {/* ══ Upload Form ═══ */}
-      <div className="bg-white rounded-xl border border-gray-100 p-6">
+      <div className="card card-pad">
         {error && (
-          <div className="mb-5 bg-[#ffece8] text-[#f53f3f] text-[13px] rounded-lg px-4 py-3 font-medium">{error}</div>
+          <div className="mb-5 bg-danger-soft border border-danger-border text-danger text-caption rounded-lg px-4 py-3 font-medium">{error}</div>
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Upload zone */}
           <div className="flex items-start gap-3 mb-5">
-            <label className="shrink-0 w-[96px] text-right text-[14px] text-[#1D2129] pt-[10px]">
-              <span className="text-[#F53F3F] mr-0.5">*</span>上传文档
+            <label className="shrink-0 w-[96px] text-right text-body text-ink pt-[10px]">
+              <span className="text-danger mr-0.5">*</span>上传文档
             </label>
             <div className="flex-1 min-w-0">
               <div
-                className={`rounded-[4px] border h-[200px] px-6 text-center transition-colors relative overflow-hidden flex items-center justify-center
-                  ${uploadError ? 'border-2 border-[#F53F3F] bg-[#FAFBFC]' : ''}
-                  ${file && !uploading ? 'border border-[#E5E6EB] bg-[#FAFBFC]' : ''}
-                  ${!file && !uploading && !uploadError ? 'border-2 border-dashed border-[#E5E6EB] bg-[#F7F8FA] hover:border-[#C9CDD4]' : ''}
-                  ${dragOver ? '!border-[#165DFF] !bg-[#E8F0FE]' : ''}
+                className={`rounded-lg border h-[200px] px-6 text-center transition-colors relative overflow-hidden flex items-center justify-center
+                  ${uploadError ? 'border-2 border-danger bg-line-lighter' : ''}
+                  ${file && !uploading ? 'border border-line bg-line-lighter' : ''}
+                  ${!file && !uploading && !uploadError ? 'border-2 border-dashed border-line bg-line-lighter hover:border-ink-4 hover:bg-line-soft' : ''}
+                  ${dragOver ? '!border-brand-700 !bg-brand-soft' : ''}
                 `}
                 onDragOver={e => { e.preventDefault(); setDragOver(true) }}
                 onDragLeave={e => { e.preventDefault(); setDragOver(false) }}
@@ -298,8 +298,8 @@ export default function PaperDetectionPage() {
                 {uploading && (
                   <div className="absolute inset-0 z-10 flex flex-col items-center justify-center bg-[rgba(0,0,0,0.5)]">
                     <WordFileIcon />
-                    <p className="text-[14px] text-white mt-2 font-medium">{file ? file.name : ''}</p>
-                    <p className="text-[13px] text-white/80 mt-1">正在上传并提取文档名称，请稍等</p>
+                    <p className="text-body text-white mt-2 font-medium">{file ? file.name : ''}</p>
+                    <p className="text-caption text-white/80 mt-1">正在上传并提取文档名称，请稍等</p>
                   </div>
                 )}
 
@@ -307,12 +307,12 @@ export default function PaperDetectionPage() {
                 {file && !uploading && (
                   <div className="flex flex-col items-center">
                     <WordFileIcon />
-                    <p className="text-[14px] text-[#1D2129] mt-2.5 truncate max-w-[520px]">{file.name}</p>
+                    <p className="text-body text-ink mt-2.5 truncate max-w-[520px]">{file.name}</p>
                     <div className="flex items-center gap-5 mt-2">
-                      <button type="button" onClick={clearFile} className="text-[13px] text-[#86909C] hover:text-[#4E5969] transition-colors">
+                      <button type="button" onClick={clearFile} className="text-caption text-ink-3 hover:text-ink transition-colors">
                         删除
                       </button>
-                      <button type="button" onClick={() => inputRef.current?.click()} className="text-[13px] text-[#165DFF] hover:text-[#0E42D2] transition-colors">
+                      <button type="button" onClick={() => inputRef.current?.click()} className="link text-caption">
                         重新上传
                       </button>
                     </div>
@@ -324,11 +324,11 @@ export default function PaperDetectionPage() {
                   <label htmlFor="file-upload" className="cursor-pointer block">
                     <div className="flex flex-col items-center gap-3">
                       <FolderIcon />
-                      <p className="text-[14px] text-[#165DFF] font-medium">点击或拖拽文件到此处上传</p>
-                      <p className="text-[13px] text-[#86909C] leading-relaxed">
+                      <p className="text-body text-brand-700 font-medium">点击或拖拽文件到此处上传</p>
+                      <p className="text-caption text-ink-3 leading-relaxed">
                         支持文档格式：word文件（.doc .docx .wps）、文本文件（.txt）、PDF文件（.pdf）、WPS文件（.wps），文件大小在50M以内
                       </p>
-                      <p className="text-[13px] text-[#86909C] leading-relaxed">
+                      <p className="text-caption text-ink-3 leading-relaxed">
                         注：修订、批注模式会导致报告内容缺失，请核查论文内容后上传
                       </p>
                     </div>
@@ -337,66 +337,57 @@ export default function PaperDetectionPage() {
               </div>
               {/* 未上传文件的错误提示（红字） */}
               {uploadError && !file && (
-                <p className="text-[13px] text-[#F53F3F] mt-2 ml-1">请上传文件</p>
+                <p className="text-caption text-danger mt-2 ml-1">请上传文件</p>
               )}
             </div>
           </div>
 
           {/* Title */}
           <div className="flex items-start gap-3 mb-5">
-            <label className="shrink-0 w-[96px] text-right text-[14px] text-[#1D2129] pt-[10px]">
-              <span className="text-[#F53F3F] mr-0.5">*</span>标题
+            <label className="shrink-0 w-[96px] text-right text-body text-ink pt-[10px]">
+              <span className="text-danger mr-0.5">*</span>标题
             </label>
             <div className="flex-1 min-w-0">
               <div className="relative">
                 <input
-                  className={`w-full h-[40px] px-3 pr-12 rounded-[4px] border text-[14px] text-[#1D2129] focus:outline-none transition-colors ${
-                    fieldErrors.title
-                      ? 'border-[#F53F3F] placeholder:text-[#F53F3F]'
-                      : 'border-[#E5E6EB] placeholder:text-[#C9CDD4] focus:border-[#165DFF]'
-                  }`}
+                  className={`input-field !pr-12 tnum ${fieldErrors.title ? 'input-invalid placeholder:text-danger' : ''}`}
                   placeholder="请输入（系统将自动识别文档名称）"
                   maxLength={248}
                   value={paperTitle}
                   onChange={e => { setPaperTitle(e.target.value); if (fieldErrors.title) setFieldErrors(prev => ({ ...prev, title: false })) }}
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[12px] text-[#C9CDD4]">{paperTitle.length}/248</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-micro text-ink-4 tnum">{paperTitle.length}/248</span>
               </div>
-              <p className="text-[13px] text-[#86909C] mt-[10px] leading-relaxed">
-                提交前请认真核对<span className="text-[#F53F3F] font-medium">标题</span>，其准确性将直接<span className="text-[#F53F3F] font-medium">影响检测结果</span>，且会在报告中展示，提交检测后<span className="text-[#F53F3F] font-medium">无法修改</span>。
+              <p className="text-caption text-ink-3 mt-3 leading-relaxed">
+                提交前请认真核对<span className="text-brand-700 font-medium">标题</span>，其准确性将直接<span className="text-brand-700 font-medium">影响检测结果</span>，且会在报告中展示，提交检测后<span className="text-brand-700 font-medium">无法修改</span>。
               </p>
             </div>
           </div>
 
           {/* Author */}
           <div className="flex items-start gap-3 mb-5">
-            <label className="shrink-0 w-[96px] text-right text-[14px] text-[#1D2129] pt-[10px]">
-              <span className="text-[#F53F3F] mr-0.5">*</span>作者
+            <label className="shrink-0 w-[96px] text-right text-body text-ink pt-[10px]">
+              <span className="text-danger mr-0.5">*</span>作者
             </label>
             <div className="flex-1 min-w-0">
               <div className="relative">
                 <input
-                  className={`w-full h-[40px] px-3 pr-12 rounded-[4px] border text-[14px] text-[#1D2129] focus:outline-none transition-colors ${
-                    fieldErrors.author
-                      ? 'border-[#F53F3F] placeholder:text-[#F53F3F]'
-                      : 'border-[#E5E6EB] placeholder:text-[#C9CDD4] focus:border-[#165DFF]'
-                  }`}
+                  className={`input-field !pr-12 tnum ${fieldErrors.author ? 'input-invalid placeholder:text-danger' : ''}`}
                   placeholder="请输入"
                   maxLength={50}
                   value={authorName}
                   onChange={e => { setAuthorName(e.target.value); if (fieldErrors.author) setFieldErrors(prev => ({ ...prev, author: false })) }}
                 />
-                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-[12px] text-[#C9CDD4]">{authorName.length}/50</span>
+                <span className="absolute right-3 top-1/2 -translate-y-1/2 text-micro text-ink-4 tnum">{authorName.length}/50</span>
               </div>
-              <p className="text-[13px] text-[#86909C] mt-[10px] leading-relaxed">
-                请准确填写<span className="text-[#F53F3F] font-medium">作者姓名</span>，多名作者用"，"分隔；其准确性将直接<span className="text-[#F53F3F] font-medium">影响检测结果</span>，且会在报告中展示，提交检测后<span className="text-[#F53F3F] font-medium">无法修改</span>。
+              <p className="text-caption text-ink-3 mt-3 leading-relaxed">
+                请准确填写<span className="text-brand-700 font-medium">作者姓名</span>，多名作者用"，"分隔；其准确性将直接<span className="text-brand-700 font-medium">影响检测结果</span>，且会在报告中展示，提交检测后<span className="text-brand-700 font-medium">无法修改</span>。
               </p>
             </div>
           </div>
 
           {/* Submit */}
-          <button type="submit" disabled={submitting || !file}
-            className="w-full h-[40px] bg-[#E44548] hover:bg-[#c93a3d] disabled:opacity-50 text-white text-[14px] font-medium rounded-[4px] transition-colors flex items-center justify-center gap-2">
+          <button type="submit" disabled={submitting || !file} className="btn-primary btn-md w-full">
             {submitting ? '提交中…' : '下一步'}
           </button>
         </form>

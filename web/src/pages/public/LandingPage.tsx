@@ -55,51 +55,58 @@ export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* ═══ HEADER ═══ */}
-      <header className="sticky top-0 z-50 bg-white border-b border-gray-100">
+      <header className="sticky top-0 z-50 bg-white border-b border-line">
         <div className="w-full px-6 h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-6">
-            <Link to={isLoggedIn ? '/dashboard' : '/'} className="flex items-center gap-3 shrink-0">
+            <Link to="/" className="flex items-center gap-3 shrink-0">
               <BrandLogo size={48} />
               <div className="leading-tight">
-                <p className="text-[20px] font-black text-[#017173] tracking-wide">
+                <p className="text-[20px] font-black text-brand-700 tracking-wide">
                   研究生课程论文写作训练与学术规范检测系统
                 </p>
-                <p className="text-[11px] text-gray-400 font-semibold tracking-wider -mt-0.5">
+                <p className="text-[11px] text-ink-3 font-semibold tracking-wider -mt-0.5">
                   GRADUATE COURSE PAPER WRITING &amp; ACADEMIC NORMS DETECTION SYSTEM
                 </p>
               </div>
             </Link>
             <div className="hidden md:flex items-center gap-0.5">
-              <Link to="/verify" className="px-3.5 py-1.5 text-[15px] font-medium text-gray-600 hover:text-[#D73431] transition-colors rounded">报告验真</Link>
-              <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="px-3.5 py-1.5 text-[15px] font-medium text-gray-600 hover:text-[#D73431] transition-colors rounded">报告演示</a>
-              <Link to="/download-report" className="px-3.5 py-1.5 text-[15px] font-medium text-gray-600 hover:text-[#D73431] transition-colors rounded">下载报告</Link>
+              <Link to="/verify" className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-brand transition-colors rounded">报告验真</Link>
+              <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-brand transition-colors rounded">报告演示</a>
+              <Link to="/download-report" className="px-3.5 py-1.5 text-[15px] font-medium text-ink-2 hover:text-brand transition-colors rounded">下载报告</Link>
             </div>
           </div>
           <div className="flex items-center gap-4">
-            <div className="hidden sm:flex items-center gap-1.5 text-sm text-gray-800">
+            <div className="hidden sm:flex items-center gap-1.5 text-sm text-ink-2">
               <Phone size={13} />
               <span className="font-medium">400-607-5550</span>
             </div>
             {isLoggedIn ? (
               <>
-                <span className="text-[#d6dae5]">|</span>
+                <span className="text-line">|</span>
                 <div className="relative" ref={menuRef}>
                   <button
                     onClick={() => setMenuOpen(!menuOpen)}
-                    className="flex items-center gap-2 rounded hover:bg-gray-50 transition-colors px-2 py-1"
+                    className="flex items-center gap-2 rounded hover:bg-line-lighter transition-colors px-2 py-1"
                   >
                     <img src="/avatar.png" alt="avatar" className="w-8 h-8 rounded-full" />
-                    <span className="text-[14px] text-[#1d2129]">{user?.nickname || user?.username}</span>
-                    <ChevronDown size={13} className="text-[#86909c]" />
+                    <div className="leading-tight text-left">
+                      <div className="flex items-center gap-1">
+                        <span className="text-[14px] text-ink">{user?.nickname || user?.username}</span>
+                        <ChevronDown size={13} className="text-ink-3" />
+                      </div>
+                      <div className="mt-0.5">
+                        <span className="badge-brand">个人用户</span>
+                      </div>
+                    </div>
                   </button>
                   {menuOpen && (
-                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg border border-[#e5e6eb] shadow-lg py-1 z-50">
-                      <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-[#4e5969] hover:bg-gray-50">
+                    <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg border border-line shadow-lg py-1 z-50">
+                      <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-ink-2 hover:bg-line-lighter">
                         <User size={13} /> 个人资料
                       </Link>
                       <button
                         onClick={() => { logout(); setMenuOpen(false); navigate('/login') }}
-                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[#E44548] hover:bg-[#ffece8]"
+                        className="flex items-center gap-2 w-full px-3 py-2 text-sm text-danger hover:bg-danger-soft"
                       >
                         <LogOut size={13} /> 退出登录
                       </button>
@@ -108,7 +115,7 @@ export default function LandingPage() {
                 </div>
               </>
             ) : (
-              <Link to="/login" className="bg-[#D73431] hover:bg-[#c0292a] text-white text-sm font-bold px-5 py-2 rounded transition-colors">
+              <Link to="/login" className="btn-primary btn-md text-caption">
                 登录/注册
               </Link>
             )}
@@ -128,14 +135,14 @@ export default function LandingPage() {
           {/* Left: text content */}
           <div className="flex-[1.1] max-w-[520px]">
             {/* Main heading */}
-            <h1 className="text-[42px] font-black text-gray-900 leading-[1.2] mb-6">
+            <h1 className="text-[42px] font-black text-ink leading-[1.2] mb-6" style={{ textShadow: '0 1px 12px rgba(255,255,255,.9)' }}>
               研究生课程论文<br />
-              <span className="text-[#017173]">写作训练与学术规范</span><br />
+              <span className="text-brand-700">写作训练与学术规范</span><br />
               检测系统
             </h1>
 
             {/* Description */}
-            <p className="text-[16px] text-gray-600 mb-10 leading-relaxed">
+            <p className="text-[16px] text-ink-2 mb-10 leading-relaxed" style={{ textShadow: '0 1px 10px rgba(255,255,255,.9)' }}>
               四层维度评估体系，从学术规范到批判性思维全面分析论文质量，
               自动生成详细的诊断报告与修改建议。
             </p>
@@ -145,7 +152,7 @@ export default function LandingPage() {
               <button
                 type="button"
                 onClick={handlePersonal}
-                className="inline-flex items-center gap-2 bg-[#D73431] hover:bg-[#c0292a] text-white font-bold px-7 py-3 rounded-lg transition-all hover:shadow-xl hover:scale-105 text-[15px]"
+                className="btn-primary btn-lg hover:scale-105"
               >
                 提交检测
                 <ArrowRight size={16} />
@@ -161,16 +168,16 @@ export default function LandingPage() {
               <div className="absolute bottom-12 left-1/2 -translate-x-1/2" style={{ transformStyle: 'preserve-3d' }}>
 
                 {/* Platform base shadow */}
-                <div className="absolute w-[340px] h-[340px] left-1/2 -translate-x-1/2 bottom-0 rounded-full opacity-20 blur-2xl"
+                <div className="absolute w-[340px] h-[340px] left-1/2 -translate-x-1/2 bottom-0 rounded-full opacity-30 blur-2xl"
                   style={{ background: 'radial-gradient(ellipse, #017173, transparent 70%)' }} />
 
                 {/* Outer ring - deepest layer */}
                 <div className="absolute w-[380px] h-[380px] left-1/2 -translate-x-1/2 bottom-[10px] rounded-full"
                   style={{
                     transform: 'rotateX(72deg)',
-                    background: 'linear-gradient(135deg, rgba(1,113,115,0.06), rgba(1,113,115,0.02))',
-                    border: '2px solid rgba(1,113,115,0.10)',
-                    boxShadow: '0 4px 30px rgba(1,113,115,0.08), inset 0 2px 20px rgba(255,255,255,0.5)',
+                    background: 'linear-gradient(135deg, rgba(1,113,115,0.20), rgba(1,113,115,0.08))',
+                    border: '2px solid rgba(1,113,115,0.28)',
+                    boxShadow: '0 4px 30px rgba(1,113,115,0.16), inset 0 2px 20px rgba(255,255,255,0.6)',
                     animation: 'discRotate 25s linear infinite',
                   }}>
                   <div className="absolute inset-0 rounded-full" style={{ border: '1px solid rgba(255,255,255,0.3)', transform: 'translateY(-3px)' }} />
@@ -181,9 +188,9 @@ export default function LandingPage() {
                 <div className="absolute w-[300px] h-[300px] left-1/2 -translate-x-1/2 bottom-[30px] rounded-full"
                   style={{
                     transform: 'rotateX(72deg)',
-                    background: 'linear-gradient(135deg, rgba(1,113,115,0.08), rgba(1,113,115,0.03))',
-                    border: '2px solid rgba(1,113,115,0.14)',
-                    boxShadow: '0 3px 24px rgba(1,113,115,0.10), inset 0 2px 16px rgba(255,255,255,0.6)',
+                    background: 'linear-gradient(135deg, rgba(1,113,115,0.26), rgba(1,113,115,0.12))',
+                    border: '2px solid rgba(1,113,115,0.36)',
+                    boxShadow: '0 3px 24px rgba(1,113,115,0.20), inset 0 2px 16px rgba(255,255,255,0.7)',
                     animation: 'discRotate 18s linear infinite reverse',
                   }}>
                   <div className="absolute inset-0 rounded-full" style={{ border: '1px solid rgba(255,255,255,0.35)', transform: 'translateY(-2px)' }} />
@@ -194,9 +201,9 @@ export default function LandingPage() {
                 <div className="absolute w-[220px] h-[220px] left-1/2 -translate-x-1/2 bottom-[50px] rounded-full"
                   style={{
                     transform: 'rotateX(72deg)',
-                    background: 'linear-gradient(135deg, rgba(255,255,255,0.8), rgba(240,244,255,0.6))',
-                    border: '2px solid rgba(1,113,115,0.18)',
-                    boxShadow: '0 2px 20px rgba(1,113,115,0.12), inset 0 2px 12px rgba(255,255,255,0.8)',
+                    background: 'linear-gradient(135deg, rgba(255,255,255,0.92), rgba(1,113,115,0.16))',
+                    border: '2px solid rgba(1,113,115,0.45)',
+                    boxShadow: '0 2px 20px rgba(1,113,115,0.22), inset 0 2px 12px rgba(255,255,255,0.85)',
                     animation: 'discRotate 14s linear infinite',
                   }}>
                   <div className="absolute inset-0 rounded-full" style={{ border: '1px solid rgba(255,255,255,0.5)', transform: 'translateY(-1.5px)' }} />
@@ -227,14 +234,14 @@ export default function LandingPage() {
                     <div className="w-9 h-9 rounded-xl bg-gradient-to-br from-[#017173] to-[#02b1a6] flex items-center justify-center shadow-lg">
                       <FileSearch size={16} className="text-white" />
                     </div>
-                    <span className="text-[12px] font-bold text-[#017173]">论文检测</span>
+                    <span className="text-[12px] font-bold text-brand-700">论文检测</span>
                   </div>
                   <div className="space-y-2">
-                    <div className="h-2 bg-gray-100 rounded-full w-full" />
-                    <div className="h-2 bg-gray-100 rounded-full w-[85%]" />
+                    <div className="h-2 bg-line-soft rounded-full w-full" />
+                    <div className="h-2 bg-line-soft rounded-full w-[85%]" />
                     <div className="h-2 rounded-full w-[65%]" style={{ background: 'linear-gradient(90deg, #12A594, #2BBBA8)', opacity: 0.3 }} />
-                    <div className="h-2 bg-gray-100 rounded-full w-full" />
-                    <div className="h-2 bg-gray-100 rounded-full w-[70%]" />
+                    <div className="h-2 bg-line-soft rounded-full w-full" />
+                    <div className="h-2 bg-line-soft rounded-full w-[70%]" />
                     <div className="h-2 rounded-full w-[50%]" style={{ background: 'linear-gradient(90deg, #3E7BFA, #6A9BFF)', opacity: 0.25 }} />
                   </div>
                   <div className="mt-3 flex items-center gap-2">
@@ -307,15 +314,15 @@ export default function LandingPage() {
       <section className="py-20 bg-white">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-14">
-            <p className="text-sm font-bold text-[#017173] tracking-widest mb-2">DETECTION SYSTEM</p>
-            <h2 className="text-[32px] font-black text-gray-900 mb-3">四维检测体系</h2>
-            <p className="text-gray-400 text-[15px]">从格式规范到批判性思维，全面覆盖论文质量评估</p>
+            <p className="text-sm font-bold text-brand-700 tracking-widest mb-2">DETECTION SYSTEM</p>
+            <h2 className="text-[32px] font-black text-ink mb-3">四维检测体系</h2>
+            <p className="text-ink-3 text-[15px]">从格式规范到批判性思维，全面覆盖论文质量评估</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {LAYERS.map((l, i) => {
               const Icon = l.icon
               return (
-                <div key={i} className="group bg-white rounded-2xl border border-gray-100 p-7 hover:shadow-lg hover:border-gray-200 transition-all">
+                <div key={i} className="group card card-hover card-pad">
                   <div
                     className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-transform group-hover:scale-110"
                     style={{ background: l.color + '12' }}
@@ -323,8 +330,8 @@ export default function LandingPage() {
                     <Icon size={26} style={{ color: l.color }} />
                   </div>
                   <p className="text-[10px] font-bold tracking-widest mb-1" style={{ color: l.color }}>LAYER 0{i + 1}</p>
-                  <p className="font-extrabold text-[17px] text-gray-900 mb-2">{l.title}</p>
-                  <p className="text-[13px] text-gray-400 leading-relaxed">{l.desc}</p>
+                  <p className="font-extrabold text-[17px] text-ink mb-2">{l.title}</p>
+                  <p className="text-[13px] text-ink-3 leading-relaxed">{l.desc}</p>
                 </div>
               )
             })}
@@ -333,23 +340,23 @@ export default function LandingPage() {
       </section>
 
       {/* ═══ FEATURES ═══ */}
-      <section className="py-20 bg-gradient-to-b from-gray-50 to-white">
+      <section className="py-20 bg-gradient-to-b from-line-lighter to-white">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-14">
-            <p className="text-sm font-bold text-[#017173] tracking-widest mb-2">FEATURES</p>
-            <h2 className="text-[32px] font-black text-gray-900 mb-3">核心优势</h2>
-            <p className="text-gray-400 text-[15px]">技术驱动，为论文质量保驾护航</p>
+            <p className="text-sm font-bold text-brand-700 tracking-widest mb-2">FEATURES</p>
+            <h2 className="text-[32px] font-black text-ink mb-3">核心优势</h2>
+            <p className="text-ink-3 text-[15px]">技术驱动，为论文质量保驾护航</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-8">
             {FEATURES.map((f, i) => {
               const Icon = f.icon
               return (
                 <div key={i} className="text-center">
-                  <div className="w-16 h-16 mx-auto rounded-2xl bg-[#017173]/8 flex items-center justify-center mb-5">
-                    <Icon size={28} className="text-[#017173]" />
+                  <div className="w-16 h-16 mx-auto rounded-2xl bg-brand-soft flex items-center justify-center mb-5">
+                    <Icon size={28} className="text-brand" />
                   </div>
-                  <p className="font-extrabold text-[17px] text-gray-900 mb-2">{f.title}</p>
-                  <p className="text-[13px] text-gray-400 leading-relaxed max-w-xs mx-auto">{f.desc}</p>
+                  <p className="font-extrabold text-[17px] text-ink mb-2">{f.title}</p>
+                  <p className="text-[13px] text-ink-3 leading-relaxed max-w-xs mx-auto">{f.desc}</p>
                 </div>
               )
             })}
@@ -361,9 +368,9 @@ export default function LandingPage() {
       <section className="py-20 bg-white">
         <div className="max-w-[1200px] mx-auto px-6">
           <div className="text-center mb-14">
-            <p className="text-sm font-bold text-[#017173] tracking-widest mb-2">HOW IT WORKS</p>
-            <h2 className="text-[32px] font-black text-gray-900 mb-3">使用流程</h2>
-            <p className="text-gray-400 text-[15px]">四步完成论文质量诊断</p>
+            <p className="text-sm font-bold text-brand-700 tracking-widest mb-2">HOW IT WORKS</p>
+            <h2 className="text-[32px] font-black text-ink mb-3">使用流程</h2>
+            <p className="text-ink-3 text-[15px]">四步完成论文质量诊断</p>
           </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
             {STEPS.map((s, i) => {
@@ -371,14 +378,14 @@ export default function LandingPage() {
               return (
                 <div key={i} className="text-center relative">
                   {i < STEPS.length - 1 && (
-                    <div className="hidden lg:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-gray-100" />
+                    <div className="hidden lg:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-line-soft" />
                   )}
-                  <div className="relative z-10 w-16 h-16 mx-auto rounded-2xl bg-[#017173] flex items-center justify-center mb-4 shadow-lg">
+                  <div className="relative z-10 w-16 h-16 mx-auto rounded-2xl bg-brand-gradient flex items-center justify-center mb-4 shadow-brand">
                     <Icon size={26} className="text-white" />
                   </div>
-                  <p className="text-[10px] font-bold text-[#017173] tracking-widest mb-1">STEP 0{i + 1}</p>
-                  <p className="font-extrabold text-[16px] text-gray-900 mb-1">{s.title}</p>
-                  <p className="text-[13px] text-gray-400">{s.desc}</p>
+                  <p className="text-[10px] font-bold text-brand-700 tracking-widest mb-1">STEP 0{i + 1}</p>
+                  <p className="font-extrabold text-[16px] text-ink mb-1">{s.title}</p>
+                  <p className="text-[13px] text-ink-3">{s.desc}</p>
                 </div>
               )
             })}

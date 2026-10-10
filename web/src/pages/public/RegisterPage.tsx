@@ -39,25 +39,25 @@ export default function RegisterPage() {
   return (
     <div className="min-h-screen flex">
       {/* Left: brand panel */}
-      <div className="hidden lg:flex lg:w-1/2 bg-gradient-to-br from-accent-600 via-accent-700 to-[#373780] text-white p-12 flex-col justify-between relative overflow-hidden">
+      <div className="hidden lg:flex lg:w-1/2 bg-brand-gradient-hero text-white p-12 flex-col justify-between relative overflow-hidden">
         <div>
           <div className="flex items-center gap-3 mb-16">
             <BrandLogo size={40} />
             <div>
               <p className="font-extrabold text-xl">课程论文检测平台</p>
-              <p className="text-accent-200 text-sm">Course Paper Detection Platform</p>
+              <p className="text-brand-100 text-sm">Course Paper Detection Platform</p>
             </div>
           </div>
           <h1 className="text-4xl font-black mb-4">
             开启学术<br />
-            <span className="text-accent-200">规范之旅</span>
+            <span className="text-brand-100">规范之旅</span>
           </h1>
-          <p className="text-accent-100 text-lg max-w-md leading-relaxed">
+          <p className="text-brand-100 text-lg max-w-md leading-relaxed">
             注册即享 1 次免费论文检测，四层维度全面评估你的论文质量。
           </p>
         </div>
         <div className="absolute -bottom-20 -right-20 w-80 h-80 rounded-full bg-white/5" />
-        <p className="text-accent-200 text-sm">&copy; 2026 课程论文检测平台</p>
+        <p className="text-brand-100 text-sm">&copy; 2026 课程论文检测平台</p>
       </div>
 
       {/* Right: register form */}
@@ -72,7 +72,7 @@ export default function RegisterPage() {
           <p className="text-ink-3 mb-8">注册即可开始论文检测</p>
 
           {error && (
-            <div className="mb-4 bg-danger-soft text-danger text-sm rounded-xl px-4 py-3 font-medium">{error}</div>
+            <div className="mb-4 bg-danger-soft text-danger text-caption rounded-md px-4 py-3 font-medium">{error}</div>
           )}
 
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -108,10 +108,10 @@ export default function RegisterPage() {
 
           <p className="mt-6 text-center text-sm text-ink-3">
             已有账号？{' '}
-            <Link to="/login" className="text-brand-600 font-semibold hover:underline">立即登录</Link>
+            <Link to="/login" className="link font-semibold">立即登录</Link>
           </p>
           <p className="mt-2 text-center text-sm">
-            <Link to="/" className="text-ink-3 hover:text-brand-600">返回首页</Link>
+            <Link to="/" className="text-ink-3 hover:text-brand">返回首页</Link>
           </p>
         </div>
       </div>

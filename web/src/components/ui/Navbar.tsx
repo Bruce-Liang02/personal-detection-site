@@ -8,7 +8,7 @@ import { maskPhone, IconVerify, IconDemo, IconDownload } from './officialIcons'
 
 export default function Navbar() {
   const { user, logout } = useAuthStore()
-  const { balance, refresh } = useCreditStore()
+  const { refresh } = useCreditStore()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const loc = useLocation()
@@ -30,17 +30,17 @@ export default function Navbar() {
   ]
 
   return (
-    <nav className="sticky top-0 z-50 bg-white border-b border-[#e5e6eb]">
-      <div className="w-full h-[64px] pl-5 pr-6 flex items-center justify-between">
+    <nav className="sticky top-0 z-50 bg-white border-b border-line">
+      <div className="w-full h-16 pl-5 pr-6 flex items-center justify-between">
 
         {/* ── LEFT: Logo + 系统名 ── */}
-        <Link to={isLoggedIn ? '/dashboard' : '/'} className="flex items-center gap-3 shrink-0">
-          <BrandLogo size={48} />
+        <Link to={isLoggedIn ? '/dashboard' : '/'} className="flex items-center gap-3 shrink-0 group">
+          <BrandLogo size={44} />
           <div className="leading-tight">
-            <p className="text-[20px] font-black text-[#017173] tracking-wide">
+            <p className="text-[18px] font-extrabold text-brand tracking-wide">
               研究生课程论文写作训练与学术规范检测系统
             </p>
-            <p className="text-[11px] text-gray-400 font-semibold tracking-wider -mt-0.5">
+            <p className="text-[10px] text-ink-3 font-medium tracking-wider -mt-0.5">
               GRADUATE COURSE PAPER WRITING &amp; ACADEMIC NORMS DETECTION SYSTEM
             </p>
           </div>
@@ -49,8 +49,7 @@ export default function Navbar() {
         {/* ── RIGHT ── */}
         {isLoggedIn ? (
           <div className="flex items-center">
-            {/* 官网同款右侧入口（图标 + 文字） */}
-            <div className="hidden md:flex items-center gap-[24px] mr-5">
+            <div className="hidden md:flex items-center gap-6 mr-5">
               {navItems.map(item =>
                 item.external ? (
                   <a
@@ -58,7 +57,7 @@ export default function Navbar() {
                     href={item.href}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-[6px] text-[14px] text-[#1d2129] hover:text-[#E44548] transition-colors"
+                    className="flex items-center gap-1.5 text-body text-ink-2 hover:text-brand transition-colors"
                   >
                     {item.icon} {item.label}
                   </a>
@@ -66,8 +65,8 @@ export default function Navbar() {
                   <Link
                     key={item.key}
                     to={item.href}
-                    className={`flex items-center gap-[6px] text-[14px] transition-colors ${
-                      loc.pathname === item.href ? 'text-[#E44548]' : 'text-[#1d2129] hover:text-[#E44548]'
+                    className={`flex items-center gap-1.5 text-body transition-colors ${
+                      loc.pathname === item.href ? 'text-brand font-medium' : 'text-ink-2 hover:text-brand'
                     }`}
                   >
                     {item.icon} {item.label}
@@ -76,41 +75,39 @@ export default function Navbar() {
               )}
             </div>
 
-            {/* 分隔线 */}
-            <div className="hidden md:block w-px h-4 bg-[#d6dae5] mr-4" />
+            <div className="hidden md:block w-px h-4 bg-line mr-4" />
 
-            {/* 头像 + 脱敏手机号 + 个人用户标签 */}
             <div className="relative" ref={menuRef}>
               <button
                 onClick={() => setMenuOpen(!menuOpen)}
-                className="flex items-center gap-[12px] rounded hover:bg-gray-50 transition-colors pr-1"
+                className="flex items-center gap-3 rounded-md hover:bg-line-lighter transition-colors pr-1"
               >
-                <img src="/avatar.png" alt="avatar" className="w-11 h-11 rounded-full" />
+                <img src="/avatar.png" alt="avatar" className="w-10 h-10 rounded-full ring-2 ring-brand-soft" />
                 <div className="leading-tight text-left">
                   <div className="flex items-center gap-1">
-                    <span className="text-[14px] text-[#1d2129]">{maskPhone(user?.phone || user?.username)}</span>
-                    <ChevronDown size={13} className="text-[#86909c]" />
+                    <span className="text-body text-ink">{maskPhone(user?.phone || user?.username)}</span>
+                    <ChevronDown size={13} className="text-ink-3" />
                   </div>
                   <div className="mt-0.5">
-                    <span className="inline-block text-[10px] leading-[14px] text-[#E44548] bg-[#FFDEDE] rounded-[2px] px-1">个人用户</span>
+                    <span className="badge-brand text-[10px] leading-[16px]">个人用户</span>
                   </div>
                 </div>
               </button>
               {menuOpen && (
-                <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg border border-[#e5e6eb] shadow-lg py-1">
-                  <div className="px-3 py-2 border-b border-[#f0f2f7]">
-                    <p className="text-sm font-bold text-[#1d2129]">{user?.nickname || user?.username}</p>
-                    <p className="text-xs text-gray-400">@{user?.username}</p>
+                <div className="absolute right-0 mt-2 w-48 bg-white rounded-lg border border-line shadow-lg py-1">
+                  <div className="px-3 py-2 border-b border-line-soft">
+                    <p className="text-body font-medium text-ink">{user?.nickname || user?.username}</p>
+                    <p className="text-micro text-ink-3">@{user?.username}</p>
                   </div>
-                  <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-[#4e5969] hover:bg-gray-50">
+                  <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-body text-ink-2 hover:bg-line-lighter">
                     <User size={13} /> 个人资料
                   </Link>
-                  <Link to="/detection/history" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-[#4e5969] hover:bg-gray-50">
+                  <Link to="/detection/history" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-body text-ink-2 hover:bg-line-lighter">
                     <Coins size={13} /> 检测报告
                   </Link>
                   <button
                     onClick={() => { logout(); setMenuOpen(false); window.location.href = '/login' }}
-                    className="flex items-center gap-2 w-full px-3 py-2 text-sm text-[#E44548] hover:bg-[#ffece8]"
+                    className="flex items-center gap-2 w-full px-3 py-2 text-body text-danger hover:bg-danger-soft"
                   >
                     <LogOut size={13} /> 退出登录
                   </button>
@@ -119,13 +116,12 @@ export default function Navbar() {
             </div>
           </div>
         ) : (
-          <div className="flex items-center gap-4">
-            {/* 未登录：导航入口（文字版） */}
-            <div className="hidden md:flex items-center gap-0.5">
+          <div className="flex items-center gap-5">
+            <div className="hidden md:flex items-center gap-1">
               <Link
                 to="/verify"
-                className={`px-3.5 py-1.5 text-[15px] font-medium transition-colors rounded ${
-                  loc.pathname === '/verify' ? 'text-[#D73431] font-bold' : 'text-gray-600 hover:text-[#D73431]'
+                className={`px-3 py-1.5 text-body font-medium transition-colors rounded-sm ${
+                  loc.pathname === '/verify' ? 'text-brand font-semibold' : 'text-ink-2 hover:text-brand'
                 }`}
               >
                 报告验真
@@ -134,24 +130,24 @@ export default function Navbar() {
                 href="/report-demo.html"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="px-3.5 py-1.5 text-[15px] font-medium text-gray-600 hover:text-[#D73431] transition-colors rounded"
+                className="px-3 py-1.5 text-body font-medium text-ink-2 hover:text-brand transition-colors rounded-sm"
               >
                 报告演示
               </a>
               <Link
                 to="/download-report"
-                className={`px-3.5 py-1.5 text-[15px] font-medium transition-colors rounded ${
-                  loc.pathname === '/download-report' ? 'text-[#D73431] font-bold' : 'text-gray-600 hover:text-[#D73431]'
+                className={`px-3 py-1.5 text-body font-medium transition-colors rounded-sm ${
+                  loc.pathname === '/download-report' ? 'text-brand font-semibold' : 'text-ink-2 hover:text-brand'
                 }`}
               >
                 下载报告
               </Link>
             </div>
-            <div className="hidden sm:flex items-center gap-1.5 text-sm text-gray-800">
+            <div className="hidden sm:flex items-center gap-1.5 text-caption text-ink-2">
               <Phone size={13} />
-              <span className="font-medium">400-607-5550</span>
+              <span className="font-medium tnum">400-607-5550</span>
             </div>
-            <Link to="/login" className="bg-[#E44548] hover:bg-[#c93a3d] text-white text-sm font-bold px-5 py-2 rounded transition-colors">
+            <Link to="/login" className="btn-primary btn-md !rounded-md px-6">
               登录/注册
             </Link>
           </div>
@@ -160,7 +156,7 @@ export default function Navbar() {
 
       {/* Authenticated sub-nav */}
       {isLoggedIn && (
-        <div className="border-t border-[#f0f2f7] bg-gray-50/60">
+        <div className="border-t border-line-soft bg-page">
           <div className="w-full px-6 flex items-center gap-1 h-9">
             {[
               { path: '/dashboard', label: '工作台' },
@@ -173,8 +169,9 @@ export default function Navbar() {
                 <Link
                   key={item.path}
                   to={item.path}
-                  className={`px-3 py-1 text-[13px] font-medium rounded transition-colors
-                    ${active ? 'bg-[#017173] text-white' : 'text-gray-500 hover:text-[#017173] hover:bg-white'}`}
+                  className={`px-3 py-1 text-caption font-medium rounded-sm transition-colors ${
+                    active ? 'bg-brand text-white shadow-brand' : 'text-ink-2 hover:text-brand hover:bg-white'
+                  }`}
                 >
                   {item.label}
                 </Link>
