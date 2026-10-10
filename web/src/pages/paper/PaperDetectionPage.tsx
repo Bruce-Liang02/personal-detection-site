@@ -197,7 +197,7 @@ export default function PaperDetectionPage() {
       <div
         className="h-[140px] rounded-[4px] mb-6 overflow-hidden"
         style={{
-          backgroundImage: 'url(/paper-banner.jpg)',
+          backgroundImage: 'url(/paper-banner.png)',
           backgroundSize: 'cover',
           backgroundPosition: '0 0',
           backgroundRepeat: 'no-repeat',
