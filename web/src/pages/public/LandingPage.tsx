@@ -338,67 +338,19 @@ export default function LandingPage() {
             <h2 className="text-[32px] font-black text-ink mb-3">四维检测体系</h2>
             <p className="text-ink-3 text-[15px]">从格式规范到批判性思维，全面覆盖论文质量评估</p>
           </div>
-          {/* 官网「了解我们的检测产品」同款比例再放宽：左图 62% / 右文 38% */}
-          <div className="grid lg:grid-cols-[62fr_38fr] gap-10 items-start">
-            {/* 左：绿色简介卡 + 宽幅检测报告视觉 */}
-            <div className="rounded-2xl p-7 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #e9f8f3 0%, #d4f0e7 100%)' }}>
-              <p className="text-[14px] leading-[26px] text-ink-2">
+          {/* 官网「了解我们的检测产品」同款比例再放宽：左图 62% / 右文 38%；左卡与右栏等高 */}
+          <div className="grid lg:grid-cols-[62fr_38fr] gap-10">
+            {/* 左：绿色简介卡 + 检测报告视觉（flex-1 填满剩余高度，图片按比例自适应） */}
+            <div className="rounded-2xl p-6 relative overflow-hidden flex flex-col" style={{ background: 'linear-gradient(135deg, #e9f8f3 0%, #d4f0e7 100%)' }}>
+              <p className="text-[14px] leading-[26px] text-ink">
                 研究生课程论文检测系统构建四层递进式检测体系，从样式规范、学术诚信到语言表达、批判性思维逐层深入。系统全面定位论文问题，帮助学生在修改中提升写作水平，助力教师高效评阅论文。
               </p>
-              <div className="mt-6 relative rounded-xl bg-white border border-white shadow-[0_12px_40px_rgba(1,113,115,0.12)] p-5 overflow-visible">
-                <div className="relative">
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="w-9 h-9 rounded-full bg-brand-soft flex items-center justify-center">
-                        <FileCheck size={18} className="text-brand-700" />
-                      </span>
-                      <div>
-                        <p className="text-[15px] font-bold text-ink leading-tight">学术规范检测报告</p>
-                        <p className="text-[11px] text-ink-3">四维检测 · 全部完成</p>
-                      </div>
-                    </div>
-                    <span className="px-2.5 py-1 rounded-full bg-brand-soft text-[11px] font-semibold text-brand-700">已生成</span>
-                  </div>
-                  {/* 核心指标速览（参照报告 demo） */}
-                  <div className="grid grid-cols-2 gap-3 mb-3">
-                    <div className="rounded-lg bg-line-lighter/60 px-3.5 py-2">
-                      <p className="text-[11px] text-ink-3 mb-0.5">全文总相似比</p>
-                      <p className="text-[18px] font-bold text-ink tnum leading-tight">39.42%<span className="text-[11px] font-normal text-ink-3 ml-1.5">复写率 38.97%</span></p>
-                    </div>
-                    <div className="rounded-lg bg-line-lighter/60 px-3.5 py-2">
-                      <p className="text-[11px] text-ink-3 mb-0.5">AIGC 疑似率</p>
-                      <p className="text-[18px] font-bold text-ink tnum leading-tight">85.77%<span className="text-[11px] font-normal text-ink-3 ml-1.5">人工 14.23%</span></p>
-                    </div>
-                  </div>
-                  {/* 四维结论（维度计数，不以分数呈现） */}
-                  <div className="space-y-2">
-                    {REPORT_ROWS.map(r => (
-                      <div key={r.no} className="flex items-center gap-2">
-                        <span className="w-[18px] h-[18px] rounded-full text-white text-[10px] leading-[18px] text-center shrink-0" style={{ background: r.color }}>{r.no}</span>
-                        <span className="text-[13px] font-bold text-ink shrink-0">{r.alias}</span>
-                        <span className="text-[12px] text-ink-3 truncate">{r.title}</span>
-                        <span className="ml-auto shrink-0 text-[11px] text-ink-3 tnum">
-                          <span className="text-[#D4639E] font-semibold">需改进 {r.fix}</span>
-                          <span className="mx-1 text-line">·</span>
-                          <span className="text-[#ff7d00] font-semibold">待关注 {r.watch}</span>
-                          <span className="mx-1 text-line">·</span>
-                          <span className="text-success font-semibold">已达标 {r.pass}</span>
-                        </span>
-                      </div>
-                    ))}
-                  </div>
-                  <div className="flex items-center justify-between border-t border-line mt-4 pt-3">
-                    <p className="text-[12px] text-ink-3">问题总览 <span className="text-[#D4639E] font-semibold tnum">9</span> 需改进 · <span className="text-[#ff7d00] font-semibold tnum">2</span> 待关注 · <span className="text-success font-semibold tnum">5</span> 已达标</p>
-                    <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold text-brand-700 hover:text-brand transition-colors shrink-0">查看完整报告 →</a>
-                  </div>
-                </div>
-                {/* 浮动徽章（仅压面板两角，不遮内容） */}
-                <span className="absolute -left-3 -top-3 px-3 py-1.5 rounded-lg bg-white shadow-md text-[11px] font-semibold text-ink-2">全维覆盖</span>
-                <span className="absolute -right-3 -bottom-3 px-3 py-1.5 rounded-lg bg-brand-700 shadow-md text-[11px] font-semibold text-white">逐层深入</span>
+              <div className="mt-6 flex-1 min-h-0 flex items-center justify-center">
+                <img src="/detection-system.png" alt="学术规范检测报告" className="max-h-full max-w-full w-auto h-auto" />
               </div>
             </div>
 
-            {/* 右：四层要点（高度不超过左侧卡片） */}
+            {/* 右：四层要点 */}
             <div className="lg:pt-2">
               <div className="space-y-5">
                 {LAYERS.map((l, i) => {
@@ -408,7 +360,7 @@ export default function LandingPage() {
                       <span className="mt-[8px] w-2.5 h-2.5 rotate-45 rounded-[2px] shrink-0" style={{ background: l.color }} />
                       <div className="min-w-0">
                         <p className="font-bold text-[18px] text-ink mb-2">{l.title}</p>
-                        <p className="text-[15px] text-ink-2 leading-[28px]">{l.desc}</p>
+                        <p className="text-[15px] text-ink-2 leading-[26px]">{l.desc}</p>
                       </div>
                     </div>
                   )
