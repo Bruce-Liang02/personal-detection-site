@@ -11,16 +11,39 @@ import Footer from '@/components/ui/Footer'
 import { useState, useRef, useEffect } from 'react'
 
 const LAYERS = [
-  { icon: FileCheck, title: '学术规范', desc: '论文结构、标题层级、字体字号、段落间距、图表格式、引用标注、参考文献等8项格式规范检测', color: '#12A594' },
+  { icon: FileCheck, title: '学术规范', desc: '论文结构、标题层级、字体字号、段落间距、图表格式、引用标注等7项格式规范检测', color: '#12A594' },
   { icon: ShieldCheck, title: '学术诚信', desc: '文本相似度检测、AIGC生成内容检测、虚假参考文献检测，守护学术诚信底线', color: '#3E7BFA' },
   { icon: PenTool, title: '学术表达', desc: '学术语言规范检测，识别成分缺失、指代不明、搭配不当、冗余表达、数字书写不规范等问题', color: '#7C6CF0' },
   { icon: BrainCircuit, title: '批判性思维', desc: '逻辑一致性、论证严密性、结论综合分析、结构表达清晰度四维批判性思维评估', color: '#D4639E' },
 ]
 
+/* 报告面板四维结论数据（与 report-demo.html 报告一致，计数式呈现） */
+const REPORT_ROWS = [
+  { no: '一', alias: '规范筑基', title: '学术格式规范', color: '#12A594', fix: 4, watch: 0, pass: 4 },
+  { no: '二', alias: '诚信守正', title: '学术诚信意识', color: '#3E7BFA', fix: 2, watch: 1, pass: 0 },
+  { no: '三', alias: '严谨表达', title: '学术表达水平', color: '#7C6CF0', fix: 1, watch: 0, pass: 0 },
+  { no: '四', alias: '思辨逻辑', title: '学术思辨能力', color: '#D4639E', fix: 2, watch: 1, pass: 1 },
+]
+
 const FEATURES = [
-  { icon: Target, title: '检测维度全面', desc: '四层递进式评估体系，从格式规范到批判性思维逐层深入，覆盖论文质量全维度。' },
-  { icon: Zap, title: '智能高效', desc: '基于深度学习算法，自动识别论文问题并生成详尽的修改建议，平均检测时间仅3-5分钟。' },
-  { icon: Shield, title: '结果精准可靠', desc: '依托海量学术文献数据库，相似度比对覆盖全面，AIGC检测准确率高，结果权威可信。' },
+  {
+    icon: Target,
+    title: '检测维度全面',
+    desc: '四层递进式评估体系，从格式规范到批判性思维逐层深入，覆盖论文质量全维度。',
+    img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=photorealistic%20open%20thesis%20papers%20with%20teal%20holographic%20analysis%20layers%2C%20clean%20desk%2C%20soft%20daylight&image_size=landscape_16_9',
+  },
+  {
+    icon: Zap,
+    title: '智能高效',
+    desc: '基于深度学习算法，自动识别论文问题并生成详尽的修改建议，平均检测时间仅3-5分钟。',
+    img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=photorealistic%20laptop%20with%20AI%20document%20analysis%20dashboard%2C%20glowing%20light%20trails%2C%20modern%20office%2C%20teal%20tones&image_size=landscape_16_9',
+  },
+  {
+    icon: Shield,
+    title: '结果精准可靠',
+    desc: '依托海量学术文献数据库，相似度比对覆盖全面，AIGC检测准确率高，结果权威可信。',
+    img: 'https://trae-api-cn.mchost.guru/api/ide/v1/text_to_image?prompt=photorealistic%20magnifier%20and%20shield%20over%20academic%20papers%2C%20verification%20concept%2C%20soft%20studio%20light%2C%20teal%20accents&image_size=landscape_16_9',
+  },
 ]
 
 const STEPS = [
@@ -310,66 +333,90 @@ export default function LandingPage() {
         `}
         </style>
       </section>
-      {/* ═══ FOUR DETECTION LAYERS（参照维普格式检测区块排版：左视觉卡 + 右要点列表） ═══ */}
+      {/* ═══ FOUR DETECTION LAYERS（参照维普格式检测区块排版：居中标题 + 左宽图卡 + 右要点列表） ═══ */}
       <section className="py-20 bg-white">
-        <div className="max-w-[1200px] mx-auto px-6 grid lg:grid-cols-2 gap-14 items-start">
-          {/* 左：绿色简介卡 + 检测面板视觉 */}
-          <div className="rounded-2xl p-7 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #e9f8f3 0%, #d4f0e7 100%)' }}>
-            <p className="text-[14px] leading-[26px] text-ink-2">
-              研究生课程论文检测系统构建四层递进式检测体系，从样式规范、学术诚信到语言表达、批判性思维逐层深入。系统全面定位论文问题，帮助学生在修改中提升写作水平，助力教师高效评阅论文。
-            </p>
-            <div className="mt-6 relative rounded-xl bg-white/80 backdrop-blur-sm border border-white h-[260px] overflow-hidden">
-              {/* 网格底纹 */}
-              <div className="absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(#0171730d 1px, transparent 1px), linear-gradient(90deg, #0171730d 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
-              {/* 中央检测面板 */}
-              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] bg-white rounded-xl shadow-[0_12px_40px_rgba(1,113,115,0.14)] p-5">
-                <div className="flex items-center gap-3 mb-4">
-                  <span className="w-9 h-9 rounded-full bg-brand-soft flex items-center justify-center">
-                    <FileCheck size={18} className="text-brand-700" />
-                  </span>
-                  <div className="min-w-0">
-                    <p className="text-[14px] font-bold text-ink leading-tight">综合检测报告</p>
-                    <p className="text-[11px] text-ink-3">四维检测 · 全部完成</p>
-                  </div>
-                </div>
-                <div className="space-y-2.5">
-                  {LAYERS.map((l, i) => {
-                    const Icon = l.icon
-                    return (
-                      <div key={i} className="flex items-center gap-2.5">
-                        <Icon size={13} style={{ color: l.color }} className="shrink-0" />
-                        <span className="text-[12px] text-ink-2 w-[64px] shrink-0">{l.title}</span>
-                        <div className="flex-1 h-[6px] rounded-full bg-line-lighter overflow-hidden">
-                          <div className="h-full rounded-full" style={{ width: `${94 - i * 6}%`, background: l.color }} />
-                        </div>
-                      </div>
-                    )
-                  })}
-                </div>
-              </div>
-              {/* 浮动徽章 */}
-              <span className="absolute left-5 top-6 px-3 py-1.5 rounded-lg bg-white shadow-md text-[11px] font-semibold text-ink-2">全维覆盖</span>
-              <span className="absolute right-5 bottom-6 px-3 py-1.5 rounded-lg bg-brand-700 shadow-md text-[11px] font-semibold text-white">逐层深入</span>
-            </div>
+        <div className="max-w-[1200px] mx-auto px-6">
+          <div className="text-center mb-14">
+            <p className="text-sm font-bold text-brand-700 tracking-widest mb-2">DETECTION SYSTEM</p>
+            <h2 className="text-[32px] font-black text-ink mb-3">四维检测体系</h2>
+            <p className="text-ink-3 text-[15px]">从格式规范到批判性思维，全面覆盖论文质量评估</p>
           </div>
-
-          {/* 右：标题 + 四层要点 */}
-          <div>
-            <h2 className="text-[26px] font-black text-ink">四维检测体系</h2>
-            <div className="w-10 h-1 bg-brand rounded-full mt-3 mb-9" />
-            <div className="space-y-7">
-              {LAYERS.map((l, i) => {
-                const Icon = l.icon
-                return (
-                  <div key={i} className="flex gap-3.5">
-                    <span className="mt-[6px] w-2.5 h-2.5 rotate-45 rounded-[2px] shrink-0" style={{ background: l.color }} />
-                    <div className="min-w-0">
-                      <p className="font-bold text-[16px] text-ink mb-1.5">{l.title}</p>
-                      <p className="text-[14px] text-ink-2 leading-[25px]">{l.desc}</p>
+          {/* 官网「了解我们的检测产品」同款比例再放宽：左图 62% / 右文 38% */}
+          <div className="grid lg:grid-cols-[62fr_38fr] gap-10 items-start">
+            {/* 左：绿色简介卡 + 宽幅检测报告视觉 */}
+            <div className="rounded-2xl p-7 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #e9f8f3 0%, #d4f0e7 100%)' }}>
+              <p className="text-[14px] leading-[26px] text-ink-2">
+                研究生课程论文检测系统构建四层递进式检测体系，从样式规范、学术诚信到语言表达、批判性思维逐层深入。系统全面定位论文问题，帮助学生在修改中提升写作水平，助力教师高效评阅论文。
+              </p>
+              <div className="mt-6 relative rounded-xl bg-white border border-white shadow-[0_12px_40px_rgba(1,113,115,0.12)] p-5 overflow-visible">
+                <div className="relative">
+                  <div className="flex items-center justify-between mb-4">
+                    <div className="flex items-center gap-3">
+                      <span className="w-9 h-9 rounded-full bg-brand-soft flex items-center justify-center">
+                        <FileCheck size={18} className="text-brand-700" />
+                      </span>
+                      <div>
+                        <p className="text-[15px] font-bold text-ink leading-tight">学术规范检测报告</p>
+                        <p className="text-[11px] text-ink-3">四维检测 · 全部完成</p>
+                      </div>
+                    </div>
+                    <span className="px-2.5 py-1 rounded-full bg-brand-soft text-[11px] font-semibold text-brand-700">已生成</span>
+                  </div>
+                  {/* 核心指标速览（参照报告 demo） */}
+                  <div className="grid grid-cols-2 gap-3 mb-3">
+                    <div className="rounded-lg bg-line-lighter/60 px-3.5 py-2">
+                      <p className="text-[11px] text-ink-3 mb-0.5">全文总相似比</p>
+                      <p className="text-[18px] font-bold text-ink tnum leading-tight">39.42%<span className="text-[11px] font-normal text-ink-3 ml-1.5">复写率 38.97%</span></p>
+                    </div>
+                    <div className="rounded-lg bg-line-lighter/60 px-3.5 py-2">
+                      <p className="text-[11px] text-ink-3 mb-0.5">AIGC 疑似率</p>
+                      <p className="text-[18px] font-bold text-ink tnum leading-tight">85.77%<span className="text-[11px] font-normal text-ink-3 ml-1.5">人工 14.23%</span></p>
                     </div>
                   </div>
-                )
-              })}
+                  {/* 四维结论（维度计数，不以分数呈现） */}
+                  <div className="space-y-2">
+                    {REPORT_ROWS.map(r => (
+                      <div key={r.no} className="flex items-center gap-2">
+                        <span className="w-[18px] h-[18px] rounded-full text-white text-[10px] leading-[18px] text-center shrink-0" style={{ background: r.color }}>{r.no}</span>
+                        <span className="text-[13px] font-bold text-ink shrink-0">{r.alias}</span>
+                        <span className="text-[12px] text-ink-3 truncate">{r.title}</span>
+                        <span className="ml-auto shrink-0 text-[11px] text-ink-3 tnum">
+                          <span className="text-[#D4639E] font-semibold">需改进 {r.fix}</span>
+                          <span className="mx-1 text-line">·</span>
+                          <span className="text-[#ff7d00] font-semibold">待关注 {r.watch}</span>
+                          <span className="mx-1 text-line">·</span>
+                          <span className="text-success font-semibold">已达标 {r.pass}</span>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="flex items-center justify-between border-t border-line mt-4 pt-3">
+                    <p className="text-[12px] text-ink-3">问题总览 <span className="text-[#D4639E] font-semibold tnum">9</span> 需改进 · <span className="text-[#ff7d00] font-semibold tnum">2</span> 待关注 · <span className="text-success font-semibold tnum">5</span> 已达标</p>
+                    <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="text-[13px] font-semibold text-brand-700 hover:text-brand transition-colors shrink-0">查看完整报告 →</a>
+                  </div>
+                </div>
+                {/* 浮动徽章（仅压面板两角，不遮内容） */}
+                <span className="absolute -left-3 -top-3 px-3 py-1.5 rounded-lg bg-white shadow-md text-[11px] font-semibold text-ink-2">全维覆盖</span>
+                <span className="absolute -right-3 -bottom-3 px-3 py-1.5 rounded-lg bg-brand-700 shadow-md text-[11px] font-semibold text-white">逐层深入</span>
+              </div>
+            </div>
+
+            {/* 右：四层要点（高度不超过左侧卡片） */}
+            <div className="lg:pt-2">
+              <div className="space-y-5">
+                {LAYERS.map((l, i) => {
+                  const Icon = l.icon
+                  return (
+                    <div key={i} className="flex gap-4">
+                      <span className="mt-[8px] w-2.5 h-2.5 rotate-45 rounded-[2px] shrink-0" style={{ background: l.color }} />
+                      <div className="min-w-0">
+                        <p className="font-bold text-[18px] text-ink mb-2">{l.title}</p>
+                        <p className="text-[15px] text-ink-2 leading-[28px]">{l.desc}</p>
+                      </div>
+                    </div>
+                  )
+                })}
+              </div>
             </div>
           </div>
         </div>
@@ -387,12 +434,22 @@ export default function LandingPage() {
             {FEATURES.map((f, i) => {
               const Icon = f.icon
               return (
-                <div key={i} className="text-center">
-                  <div className="w-16 h-16 mx-auto rounded-2xl bg-brand-soft flex items-center justify-center mb-5">
-                    <Icon size={28} className="text-brand" />
+                <div key={i} className="group rounded-2xl overflow-hidden border border-line bg-white shadow-sm hover:shadow-lg hover:-translate-y-1 transition-all duration-300">
+                  {/* 顶部配图 */}
+                  <div className="h-[190px] overflow-hidden relative">
+                    <img src={f.img} alt={f.title} loading="lazy" className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                   </div>
-                  <p className="font-extrabold text-[17px] text-ink mb-2">{f.title}</p>
-                  <p className="text-[13px] text-ink-3 leading-relaxed max-w-xs mx-auto">{f.desc}</p>
+                  {/* 卡身（浅蓝渐变，官网同款）；图标徽章跨界摆放，不受图片容器裁切 */}
+                  <div className="relative p-6 pt-8" style={{ background: 'linear-gradient(180deg, #f3f8fc 0%, #e9f1f9 100%)' }}>
+                    <span className="absolute -top-5 left-6 w-10 h-10 rounded-xl bg-white shadow-md flex items-center justify-center">
+                      <Icon size={20} className="text-brand-700" />
+                    </span>
+                    <p className="font-extrabold text-[18px] text-ink mb-2">{f.title}</p>
+                    <p className="text-[13px] text-ink-3 leading-relaxed">{f.desc}</p>
+                    <span className="inline-flex mt-6 text-ink-2 group-hover:text-brand group-hover:translate-x-1 transition-all">
+                      <ArrowRight size={18} />
+                    </span>
+                  </div>
                 </div>
               )
             })}
@@ -412,16 +469,18 @@ export default function LandingPage() {
             {STEPS.map((s, i) => {
               const Icon = s.icon
               return (
-                <div key={i} className="text-center relative">
+                <div key={i} className="relative">
                   {i < STEPS.length - 1 && (
-                    <div className="hidden lg:block absolute top-8 left-[60%] w-[80%] h-[2px] bg-line-soft" />
+                    <div className="hidden lg:block absolute top-[72px] left-[60%] w-[80%] h-[2px] bg-line-soft" />
                   )}
-                  <div className="relative z-10 w-16 h-16 mx-auto rounded-2xl bg-brand-gradient flex items-center justify-center mb-4 shadow-brand">
-                    <Icon size={26} className="text-white" />
+                  <div className="relative z-10 card card-hover rounded-2xl p-6 text-center h-full">
+                    <p className="text-[10px] font-bold text-brand-700 tracking-widest mb-4">STEP 0{i + 1}</p>
+                    <div className="relative z-10 w-16 h-16 mx-auto rounded-2xl bg-brand-gradient flex items-center justify-center mb-4 shadow-brand">
+                      <Icon size={26} className="text-white" />
+                    </div>
+                    <p className="font-extrabold text-[16px] text-ink mb-1.5">{s.title}</p>
+                    <p className="text-[13px] text-ink-3 leading-relaxed">{s.desc}</p>
                   </div>
-                  <p className="text-[10px] font-bold text-brand-700 tracking-widest mb-1">STEP 0{i + 1}</p>
-                  <p className="font-extrabold text-[16px] text-ink mb-1">{s.title}</p>
-                  <p className="text-[13px] text-ink-3">{s.desc}</p>
                 </div>
               )
             })}
