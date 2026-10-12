@@ -4,6 +4,7 @@ from __future__ import annotations
 import os
 
 from fastapi import APIRouter, Depends, UploadFile, File, Form
+from pydantic import BaseModel, Field
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.deps import get_db, get_current_user
@@ -13,6 +14,10 @@ from app.schemas.detection import DetectionSubmitIn, DetectionTaskOut, Detection
 from app.services import detection_report_service
 
 router = APIRouter(prefix="/detection", tags=["检测"])
+
+
+class VerifyReportIn(BaseModel):
+    report_number: str = Field(..., min_length=1, max_length=64)
 
 
 @router.post("/upload")
@@ -119,3 +124,19 @@ async def get_report(
     if not report:
         return R.fail("报告不存在")
     return R.ok(DetectionReportOut.model_validate(report).dict())
+
+
+@router.post("/verify")
+async def verify_report(
+    body: VerifyReportIn,
+    db: AsyncSession = Depends(get_db),
+):
+    """Public report verification — no auth required."""
+    parsed = detection_report_service.parse_report_number(body.report_number)
+    if parsed is None:
+        return R.fail("报告编号格式有误", code=1)
+
+    result = await detection_report_service.verify_report(db, body.report_number)
+    if result is None:
+        return R.fail("未查询到报告", code=2)
+    return R.ok(result)

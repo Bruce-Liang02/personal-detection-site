@@ -62,22 +62,27 @@ export const detectionApi = {
 
   getReport: (reportId: number) =>
     api.get<DetectionReport>(`/detection/reports/${reportId}`),
-}
 
-/* ── Credits ── */
-export const creditApi = {
-  getAccount: () =>
-    api.get<{ balance: number; total_recharged: number; total_consumed: number; frozen: number }>('/credits/account'),
-
-  listTransactions: (page = 1, pageSize = 20) =>
-    api.get<{ total: number; page: number; page_size: number; items: { id: number; amount: number; type: string; reference: string | null; description: string | null; balance_after: number; created_at: string }[] }>('/credits/transactions'),
-
-  listPackages: () =>
-    api.get<Record<string, { name: string; credits: number; price: number }>>('/credits/packages'),
-
-  createOrder: (data: { package_type: string; credit_amount: number; pay_method?: string }) =>
-    api.post('/credits/recharge', data),
-
-  payOrder: (orderId: number) =>
-    api.post(`/credits/orders/${orderId}/pay`),
+  /** Public report verification — no auth required */
+  verifyReport: (reportNumber: string) =>
+    api.post<{
+      report_number: string
+      detection_type: string
+      paper_title: string | null
+      author_name: string | null
+      overall_score: number | null
+      overall_grade: string | null
+      l1_score: number | null
+      l1_grade: string | null
+      l2_score: number | null
+      l2_grade: string | null
+      l3_score: number | null
+      l3_grade: string | null
+      l4_score: number | null
+      l4_grade: string | null
+      similarity_rate: number | null
+      aigc_rate: number | null
+      generated_at: string | null
+      created_at: string | null
+    }>('/detection/verify', { report_number: reportNumber }),
 }

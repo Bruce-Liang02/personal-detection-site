@@ -49,18 +49,12 @@ async def register(db: AsyncSession, data: RegisterIn) -> User:
     db.add(user)
     await db.flush()
 
-    # Create credit account with 1 free detection
-    from app.models.credit import CreditAccount
-    account = CreditAccount(user_id=user.id, balance=1, total_recharged=1)
-    db.add(account)
-
     # Create referral record if applicable
     if user.referred_by:
         from app.models.referral import Referral
         db.add(Referral(
             inviter_id=user.referred_by,
             invitee_id=user.id,
-            reward_credits=1,
             status="active",
         ))
 

@@ -175,15 +175,8 @@ export default function PaperDetectionPage() {
       nav('/paper/step2')
     } catch (err: any) {
       const errMsg = err?.message || ''
-      if (errMsg.includes('检测次数不足') || errMsg.includes('余额') || errMsg.includes('充值')) {
-        sessionStorage.setItem('paper_task_id', '')
-        sessionStorage.setItem('paper_file_name', file.name)
-        sessionStorage.setItem('paper_title', paperTitle)
-        sessionStorage.setItem('paper_author', authorName)
-        nav('/paper/step2')
-      } else {
-        setError(errMsg || '上传失败，请稍后重试')
-      }
+      showToast(errMsg || '上传失败', 'error')
+      setError(errMsg || '上传失败，请稍后重试')
     } finally {
       setSubmitting(false)
     }
@@ -326,7 +319,7 @@ export default function PaperDetectionPage() {
                       <FolderIcon />
                       <p className="text-body text-brand-700 font-medium">点击或拖拽文件到此处上传</p>
                       <p className="text-caption text-ink-3 leading-relaxed">
-                        支持文档格式：word文件（.doc .docx .wps）、文本文件（.txt）、PDF文件（.pdf）、WPS文件（.wps），文件大小在50M以内
+                        支持文档格式：word文件（.doc .docx .wps）、文本文件（.txt）、WPS文件（.wps），文件大小在50M以内
                       </p>
                       <p className="text-caption text-ink-3 leading-relaxed">
                         注：修订、批注模式会导致报告内容缺失，请核查论文内容后上传
@@ -381,7 +374,7 @@ export default function PaperDetectionPage() {
                 <span className="absolute right-3 top-1/2 -translate-y-1/2 text-micro text-ink-4 tnum">{authorName.length}/50</span>
               </div>
               <p className="text-caption text-ink-3 mt-3 leading-relaxed">
-                请准确填写<span className="text-brand-700 font-medium">作者姓名</span>，多名作者用"，"分隔；其准确性将直接<span className="text-brand-700 font-medium">影响检测结果</span>，且会在报告中展示，提交检测后<span className="text-brand-700 font-medium">无法修改</span>。
+                请准确填写<span className="text-brand-700 font-medium">作者姓名</span>；其准确性将直接<span className="text-brand-700 font-medium">影响检测结果</span>，且会在报告中展示，提交检测后<span className="text-brand-700 font-medium">无法修改</span>。
               </p>
             </div>
           </div>

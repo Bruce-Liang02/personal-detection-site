@@ -33,12 +33,11 @@ app.add_middleware(
 
 
 # Mount API v1 routers
-from app.api.v1 import auth, user, detection, credits  # noqa: E402
+from app.api.v1 import auth, user, detection  # noqa: E402
 
 app.include_router(auth.router, prefix=settings.api_prefix)
 app.include_router(user.router, prefix=settings.api_prefix)
 app.include_router(detection.router, prefix=settings.api_prefix)
-app.include_router(credits.router, prefix=settings.api_prefix)
 
 
 @app.get("/health")

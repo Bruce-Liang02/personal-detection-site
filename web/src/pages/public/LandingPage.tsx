@@ -53,9 +53,9 @@ export default function LandingPage() {
   }
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-white flex flex-col">
       {/* ═══ HEADER ═══ */}
-      <header className="sticky top-0 z-50 bg-white border-b border-line">
+      <header className="sticky top-0 z-50 bg-white border-b border-line shrink-0">
         <div className="w-full px-6 h-[60px] flex items-center justify-between">
           <div className="flex items-center gap-6">
             <Link to="/" className="flex items-center gap-3 shrink-0">
@@ -124,7 +124,7 @@ export default function LandingPage() {
       </header>
 
       {/* === HERO SECTION - CSS 3D Animation (VPCS Style) === */}
-      <section className="relative overflow-hidden h-[600px]" style={{ background: 'url(/hero-bg.png) center / cover no-repeat' }}>
+      <section className="relative overflow-hidden h-[600px] !mt-0" style={{ background: 'url(/hero-bg.png) center 3% / cover no-repeat' }}>
         {/* Animated background orbs */}
         <div className="absolute inset-0 pointer-events-none overflow-hidden">
           <div className="absolute -top-32 -right-32 w-[700px] h-[700px] rounded-full opacity-[0.08]" style={{ background: 'radial-gradient(circle, #017173, transparent 70%)', animation: 'glow1 8s ease-in-out infinite' }} />
@@ -310,31 +310,67 @@ export default function LandingPage() {
         `}
         </style>
       </section>
-      {/* ═══ FOUR DETECTION LAYERS ═══ */}
+      {/* ═══ FOUR DETECTION LAYERS（参照维普格式检测区块排版：左视觉卡 + 右要点列表） ═══ */}
       <section className="py-20 bg-white">
-        <div className="max-w-[1200px] mx-auto px-6">
-          <div className="text-center mb-14">
-            <p className="text-sm font-bold text-brand-700 tracking-widest mb-2">DETECTION SYSTEM</p>
-            <h2 className="text-[32px] font-black text-ink mb-3">四维检测体系</h2>
-            <p className="text-ink-3 text-[15px]">从格式规范到批判性思维，全面覆盖论文质量评估</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {LAYERS.map((l, i) => {
-              const Icon = l.icon
-              return (
-                <div key={i} className="group card card-hover card-pad">
-                  <div
-                    className="w-14 h-14 rounded-xl flex items-center justify-center mb-5 transition-transform group-hover:scale-110"
-                    style={{ background: l.color + '12' }}
-                  >
-                    <Icon size={26} style={{ color: l.color }} />
+        <div className="max-w-[1200px] mx-auto px-6 grid lg:grid-cols-2 gap-14 items-start">
+          {/* 左：绿色简介卡 + 检测面板视觉 */}
+          <div className="rounded-2xl p-7 relative overflow-hidden" style={{ background: 'linear-gradient(135deg, #e9f8f3 0%, #d4f0e7 100%)' }}>
+            <p className="text-[14px] leading-[26px] text-ink-2">
+              研究生课程论文检测系统构建四层递进式检测体系，从样式规范、学术诚信到语言表达、批判性思维逐层深入。系统全面定位论文问题，帮助学生在修改中提升写作水平，助力教师高效评阅论文。
+            </p>
+            <div className="mt-6 relative rounded-xl bg-white/80 backdrop-blur-sm border border-white h-[260px] overflow-hidden">
+              {/* 网格底纹 */}
+              <div className="absolute inset-0 opacity-60" style={{ backgroundImage: 'linear-gradient(#0171730d 1px, transparent 1px), linear-gradient(90deg, #0171730d 1px, transparent 1px)', backgroundSize: '28px 28px' }} />
+              {/* 中央检测面板 */}
+              <div className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-[300px] bg-white rounded-xl shadow-[0_12px_40px_rgba(1,113,115,0.14)] p-5">
+                <div className="flex items-center gap-3 mb-4">
+                  <span className="w-9 h-9 rounded-full bg-brand-soft flex items-center justify-center">
+                    <FileCheck size={18} className="text-brand-700" />
+                  </span>
+                  <div className="min-w-0">
+                    <p className="text-[14px] font-bold text-ink leading-tight">综合检测报告</p>
+                    <p className="text-[11px] text-ink-3">四维检测 · 全部完成</p>
                   </div>
-                  <p className="text-[10px] font-bold tracking-widest mb-1" style={{ color: l.color }}>LAYER 0{i + 1}</p>
-                  <p className="font-extrabold text-[17px] text-ink mb-2">{l.title}</p>
-                  <p className="text-[13px] text-ink-3 leading-relaxed">{l.desc}</p>
                 </div>
-              )
-            })}
+                <div className="space-y-2.5">
+                  {LAYERS.map((l, i) => {
+                    const Icon = l.icon
+                    return (
+                      <div key={i} className="flex items-center gap-2.5">
+                        <Icon size={13} style={{ color: l.color }} className="shrink-0" />
+                        <span className="text-[12px] text-ink-2 w-[64px] shrink-0">{l.title}</span>
+                        <div className="flex-1 h-[6px] rounded-full bg-line-lighter overflow-hidden">
+                          <div className="h-full rounded-full" style={{ width: `${94 - i * 6}%`, background: l.color }} />
+                        </div>
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+              {/* 浮动徽章 */}
+              <span className="absolute left-5 top-6 px-3 py-1.5 rounded-lg bg-white shadow-md text-[11px] font-semibold text-ink-2">全维覆盖</span>
+              <span className="absolute right-5 bottom-6 px-3 py-1.5 rounded-lg bg-brand-700 shadow-md text-[11px] font-semibold text-white">逐层深入</span>
+            </div>
+          </div>
+
+          {/* 右：标题 + 四层要点 */}
+          <div>
+            <h2 className="text-[26px] font-black text-ink">四维检测体系</h2>
+            <div className="w-10 h-1 bg-brand rounded-full mt-3 mb-9" />
+            <div className="space-y-7">
+              {LAYERS.map((l, i) => {
+                const Icon = l.icon
+                return (
+                  <div key={i} className="flex gap-3.5">
+                    <span className="mt-[6px] w-2.5 h-2.5 rotate-45 rounded-[2px] shrink-0" style={{ background: l.color }} />
+                    <div className="min-w-0">
+                      <p className="font-bold text-[16px] text-ink mb-1.5">{l.title}</p>
+                      <p className="text-[14px] text-ink-2 leading-[25px]">{l.desc}</p>
+                    </div>
+                  </div>
+                )
+              })}
+            </div>
           </div>
         </div>
       </section>

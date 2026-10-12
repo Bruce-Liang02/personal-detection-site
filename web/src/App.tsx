@@ -15,9 +15,9 @@ import ConsumptionRecordsPage from '@/pages/paper/ConsumptionRecordsPage'
 import HistoryPage from '@/pages/detection/HistoryPage'
 import ReportPage from '@/pages/detection/ReportPage'
 import ProgressPage from '@/pages/detection/ProgressPage'
-import CreditsPage from '@/pages/account/CreditsPage'
 import AccountPage from '@/pages/account/AccountPage'
 import InvoicePage from '@/pages/account/InvoicePage'
+import InvoicePreviewContent from '@/pages/account/InvoicePreviewContent'
 import InvitePage from '@/pages/referral/InvitePage'
 
 /** Route guard: redirects to /login if no valid token. */
@@ -39,6 +39,8 @@ export default function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/verify" element={<ReportVerifyPage />} />
       <Route path="/download-report" element={<DownloadReportPage />} />
+      {/* 发票票面预览（开票历史「查看」新标签页打开） */}
+      <Route path="/billPreview/index" element={<Protected><InvoicePreviewContent /></Protected>} />
 
       {/* Sidebar layout routes (logged-in) */}
       <Route element={<Protected><SidebarLayout /></Protected>}>
@@ -50,7 +52,6 @@ export default function App() {
         <Route path="/detection/history" element={<HistoryPage />} />
         <Route path="/detection/report/:reportId" element={<ReportPage />} />
         <Route path="/detection/progress/:taskId" element={<ProgressPage />} />
-        <Route path="/credits" element={<CreditsPage />} />
         <Route path="/credits/records" element={<ConsumptionRecordsPage />} />
         <Route path="/invoice" element={<InvoicePage />} />
         <Route path="/account" element={<AccountPage />} />

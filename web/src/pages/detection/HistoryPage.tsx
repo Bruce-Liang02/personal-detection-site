@@ -409,7 +409,7 @@ export default function HistoryPage() {
                           <div className="flex flex-col items-center gap-1.5">
                             <button
                               onClick={() => handlePay(r)}
-                              className="btn-primary btn-sm w-[90px]"
+                              className="btn-sm w-[90px] bg-[#E44548] hover:bg-[#c93a3d] text-white rounded transition-colors"
                             >
                               立即支付
                             </button>
@@ -429,7 +429,7 @@ export default function HistoryPage() {
                           <div className="flex flex-col items-center gap-1.5">
                             <button
                               onClick={() => handlePay(r)}
-                              className="btn-primary btn-sm w-[90px]"
+                              className="btn-sm w-[90px] bg-[#E44548] hover:bg-[#c93a3d] text-white rounded transition-colors"
                             >
                               立即支付
                             </button>
@@ -441,19 +441,19 @@ export default function HistoryPage() {
                         {r.status === '检测中' && (
                           <span className="text-body text-ink-4">-</span>
                         )}
-                        {/* 检测完成未超期：查看报告 + 下载报告 + 删除记录 */}
+                        {/* 检测完成未超期：查看报告 + 下载报告 + 删除报告 */}
                         {r.status === '检测完成' && !reportExpired && (
                           <div className="flex flex-col items-center gap-1.5">
                             <a href="/report-demo.html" target="_blank" rel="noopener noreferrer" className="link text-body">查看报告</a>
                             <a href="/report-demo.zip" download="检测报告.zip" className="link text-body">下载报告</a>
-                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除报告</button>
                           </div>
                         )}
-                        {/* 检测完成但超180天：已失效 + 删除记录 */}
+                        {/* 检测完成但超180天：已失效 + 删除报告 */}
                         {r.status === '检测完成' && reportExpired && (
                           <div className="flex flex-col items-center gap-1.5">
                             <ExpiredStamp />
-                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除记录</button>
+                            <button onClick={() => handleDelete(r.id)} className="text-caption text-ink-3 hover:text-danger transition-colors">删除报告</button>
                           </div>
                         )}
                         {/* 已失效 */}

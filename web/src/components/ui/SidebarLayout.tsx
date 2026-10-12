@@ -1,27 +1,34 @@
 import { Link, useLocation, Outlet } from 'react-router-dom'
 import { useAuthStore } from '@/stores/authStore'
-import { useCreditStore } from '@/stores/creditStore'
 import { useEffect, useState } from 'react'
-import { FileText, FileSearch, Coins, Receipt, ReceiptText, User, ChevronDown, LogOut } from 'lucide-react'
+import { FileText, FileSearch, Coins, ReceiptText, User, ChevronDown, LogOut } from 'lucide-react'
 import BrandLogo from '@/components/ui/BrandLogo'
 import { maskPhone, IconVerify, IconDemo, IconDownload } from '@/components/ui/officialIcons'
 
-const SIDEBAR_ITEMS = [
-  { path: '/paper', label: '论文检测', icon: FileSearch },
-  { path: '/detection/history', label: '检测报告', icon: FileText },
-  { path: '/credits', label: '账户充值', icon: Receipt },
-  { path: '/credits/records', label: '消费记录', icon: Coins },
-  { path: '/invoice', label: '发票管理', icon: ReceiptText },
-  { path: '/account', label: '个人资料', icon: User },
+const SIDEBAR_GROUPS = [
+  {
+    label: '功能导航',
+    items: [
+      { path: '/paper', label: '论文检测', icon: FileSearch },
+      { path: '/detection/history', label: '检测报告', icon: FileText },
+      { path: '/credits/records', label: '消费记录', icon: Coins },
+      { path: '/account', label: '个人资料', icon: User },
+    ],
+  },
+  {
+    label: '不开发实现',
+    items: [
+      { path: '/invoice', label: '发票管理', icon: ReceiptText },
+    ],
+  },
 ]
 
 export default function SidebarLayout() {
   const { user, logout } = useAuthStore()
-  const { refresh } = useCreditStore()
   const loc = useLocation()
   const [menuOpen, setMenuOpen] = useState(false)
 
-  useEffect(() => { refresh() }, [loc.pathname])
+  useEffect(() => {}, [loc.pathname])
 
   return (
     <div className="min-h-screen bg-page flex flex-col">
@@ -41,7 +48,12 @@ export default function SidebarLayout() {
 
         <div className="flex items-center">
           <div className="flex items-center gap-6 mr-5 whitespace-nowrap">
-            <Link to="/verify" className="flex items-center gap-1.5 text-body text-ink-2 hover:text-brand transition-colors">
+            <Link
+              to="/paperVerifyListed/index"
+              className={`flex items-center gap-1.5 text-body transition-colors ${
+                loc.pathname === '/paperVerifyListed/index' ? 'text-brand font-bold' : 'text-ink-2 hover:text-brand'
+              }`}
+            >
               <IconVerify /> 报告验真
             </Link>
             <a
@@ -52,7 +64,12 @@ export default function SidebarLayout() {
             >
               <IconDemo /> 报告演示
             </a>
-            <Link to="/download-report" className="flex items-center gap-1.5 text-body text-ink-2 hover:text-brand transition-colors">
+            <Link
+              to="/downloadListed/index"
+              className={`flex items-center gap-1.5 text-body transition-colors ${
+                loc.pathname === '/downloadListed/index' ? 'text-brand font-bold' : 'text-ink-2 hover:text-brand'
+              }`}
+            >
               <IconDownload /> 下载报告
             </Link>
           </div>
@@ -99,37 +116,33 @@ export default function SidebarLayout() {
       {/* ═══ 下方：侧边栏 + 内容区 ═══ */}
       <div className="flex-1 flex">
         <aside className="w-[168px] bg-white border-r border-line-soft flex flex-col shrink-0">
-          <div className="px-4 pt-4 pb-2">
-            <p className="text-micro font-semibold text-ink-3 tracking-wider">功能导航</p>
-          </div>
           <nav className="flex-1 py-1 px-3">
-            {SIDEBAR_ITEMS.map(item => {
-              const Icon = item.icon
-              const active = loc.pathname === item.path ||
-                (item.path === '/paper' && loc.pathname.startsWith('/paper/')) ||
-                (item.path === '/detection/history' && loc.pathname.startsWith('/detection/report'))
-              return (
-                <Link
-                  key={item.path}
-                  to={item.path}
-                  className={`flex items-center gap-2.5 px-3 py-2.5 rounded-md text-body font-medium mb-0.5 transition-all duration-200
-                    ${active
-                      ? 'bg-brand-soft text-brand'
-                      : 'text-ink-2 hover:bg-line-lighter hover:text-ink'
-                    }`}
-                >
-                  <Icon size={15} className={active ? 'text-brand' : 'text-ink-3'} />
-                  {item.label}
-                </Link>
-              )
-            })}
+            {SIDEBAR_GROUPS.map(group => (
+              <div key={group.label} className="mb-2">
+                <p className="text-micro font-semibold text-ink-3 tracking-wider px-3 pb-1.5 pt-2">{group.label}</p>
+                {group.items.map(item => {
+                  const Icon = item.icon
+                  const active = loc.pathname === item.path ||
+                    (item.path === '/paper' && loc.pathname.startsWith('/paper/')) ||
+                    (item.path === '/detection/history' && loc.pathname.startsWith('/detection/report'))
+                  return (
+                    <Link
+                      key={item.path}
+                      to={item.path}
+                      className={`flex items-center gap-2.5 px-3 py-2.5 rounded-md text-body font-medium mb-0.5 transition-all duration-200
+                        ${active
+                          ? 'bg-brand-soft text-brand'
+                          : 'text-ink-2 hover:bg-line-lighter hover:text-ink'
+                        }`}
+                    >
+                      <Icon size={15} className={active ? 'text-brand' : 'text-ink-3'} />
+                      {item.label}
+                    </Link>
+                  )
+                })}
+              </div>
+            ))}
           </nav>
-          {/* 底部品牌标语 */}
-          <div className="px-4 py-4 border-t border-line-soft">
-            <p className="text-[11px] text-ink-3 leading-relaxed">
-              四层维度<br />全面评估论文质量
-            </p>
-          </div>
         </aside>
 
         {/* Page content */}

@@ -19,7 +19,6 @@ class Order(Base, AuditMixin):
     package_type: Mapped[str] = mapped_column(String(32), nullable=False)
     # single / monthly / yearly
     package_name: Mapped[str] = mapped_column(String(64), nullable=False)
-    credit_amount: Mapped[int] = mapped_column(Integer, nullable=False)
 
     # Payment
     amount: Mapped[float] = mapped_column(Float, nullable=False)

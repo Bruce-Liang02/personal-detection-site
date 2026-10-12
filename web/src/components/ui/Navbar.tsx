@@ -1,19 +1,15 @@
 import { Link, useLocation } from 'react-router-dom'
 import BrandLogo from './BrandLogo'
 import { useAuthStore } from '@/stores/authStore'
-import { useCreditStore } from '@/stores/creditStore'
 import { Coins, ChevronDown, LogOut, User, Phone } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import { maskPhone, IconVerify, IconDemo, IconDownload } from './officialIcons'
 
 export default function Navbar() {
   const { user, logout } = useAuthStore()
-  const { refresh } = useCreditStore()
   const [menuOpen, setMenuOpen] = useState(false)
   const menuRef = useRef<HTMLDivElement>(null)
   const loc = useLocation()
-
-  useEffect(() => { refresh() }, [loc.pathname])
   useEffect(() => {
     const handler = (e: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(e.target as Node)) setMenuOpen(false)
@@ -162,7 +158,6 @@ export default function Navbar() {
               { path: '/dashboard', label: '工作台' },
               { path: '/detection/upload', label: '论文检测' },
               { path: '/detection/history', label: '检测报告' },
-              { path: '/credits', label: '充值中心' },
             ].map(item => {
               const active = loc.pathname.startsWith(item.path)
               return (

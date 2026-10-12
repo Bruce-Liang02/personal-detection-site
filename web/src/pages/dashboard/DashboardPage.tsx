@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import Navbar from '@/components/ui/Navbar'
 import { useAuthStore } from '@/stores/authStore'
-import { useCreditStore } from '@/stores/creditStore'
 import { detectionApi, type DetectionReport } from '@/api'
 import { Upload, FileText, Clock, ArrowRight, ShieldCheck, FileCheck, PenTool, BrainCircuit } from 'lucide-react'
 import StatusBadge from '@/components/ui/StatusBadge'
@@ -16,13 +15,11 @@ const LAYER_ICONS = [
 
 export default function DashboardPage() {
   const { user, fetchProfile } = useAuthStore()
-  const { balance, refresh } = useCreditStore()
   const [recentReports, setRecentReports] = useState<(DetectionReport & { file_name: string; paper_title: string | null; status: string })[]>([])
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
     fetchProfile()
-    refresh()
     detectionApi.listReports(1, 5).then(res => {
       setRecentReports(res.data.items)
     }).finally(() => setLoading(false))
@@ -90,11 +87,7 @@ export default function DashboardPage() {
       {/* ═══ Main Content ═══ */}
       <main className="max-w-[1200px] mx-auto px-6 py-8">
         {/* Stats row */}
-        <div className="grid grid-cols-3 gap-6 mb-8">
-          <div className="metric-card card-hover">
-            <p className="metric-label mb-1.5">剩余检测次数</p>
-            <p className="metric-value text-brand-700">{balance}</p>
-          </div>
+        <div className="grid grid-cols-2 gap-6 mb-8">
           <div className="metric-card card-hover">
             <p className="metric-label mb-1.5">累计已检测</p>
             <p className="metric-value text-ink">{recentReports.length}</p>
@@ -108,7 +101,7 @@ export default function DashboardPage() {
         </div>
 
         {/* Quick actions */}
-        <div className="grid grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-2 gap-6 mb-8">
           <Link to="/detection/upload" className="card card-pad card-hover group">
             <div className="w-12 h-12 rounded-xl bg-brand-soft flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
               <Upload size={22} className="text-brand-700" />
@@ -122,13 +115,6 @@ export default function DashboardPage() {
             </div>
             <p className="font-bold text-ink mb-1 text-body">历史报告</p>
             <p className="text-caption text-ink-3">查看和管理所有检测报告</p>
-          </Link>
-          <Link to="/credits" className="card card-pad card-hover group">
-            <div className="w-12 h-12 rounded-xl bg-warning-soft flex items-center justify-center mb-3 group-hover:scale-110 transition-transform">
-              <FileText size={22} className="text-warning" />
-            </div>
-            <p className="font-bold text-ink mb-1 text-body">充值中心</p>
-            <p className="text-caption text-ink-3">购买检测次数套餐</p>
           </Link>
         </div>
 

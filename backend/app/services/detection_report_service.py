@@ -12,7 +12,6 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from app.core.config import settings
 from app.models.detection import DetectionTask, DetectionReport
-from app.models.credit import CreditAccount, CreditTransaction
 
 
 ALLOWED_EXT = {".doc", ".docx", ".pdf"}
@@ -49,18 +48,6 @@ async def submit_detection(
     paper_info: dict,
 ) -> DetectionTask:
     """Create a detection task and start detection via adapter."""
-    # Check credit balance
-    account = await db.execute(
-        select(CreditAccount).where(CreditAccount.user_id == user_id)
-    )
-    acc = account.scalar_one_or_none()
-    if not acc or acc.balance < 1:
-        raise ValueError("检测次数不足，请先充值")
-
-    # Freeze 1 credit
-    acc.balance -= 1
-    acc.frozen += 1
-
     task = DetectionTask(
         user_id=user_id,
         status="pending",
@@ -76,20 +63,6 @@ async def submit_detection(
     )
     db.add(task)
     await db.flush()
-
-    # Record transaction
-    txn = CreditTransaction(
-        user_id=user_id,
-        account_id=acc.id,
-        amount=-1,
-        type="consume",
-        reference=f"task-{task.id}",
-        description=f"检测任务 #{task.id} 提交",
-        balance_after=acc.balance,
-    )
-    db.add(txn)
-    await db.commit()
-    await db.refresh(task)
 
     # Start detection via adapter
     from app.detection.adapter import get_adapter
@@ -164,14 +137,6 @@ async def poll_and_finalize(db: AsyncSession, task_id: int) -> DetectionReport |
     task.l4_status = "done"
     task.current_layer = None
 
-    # Unfreeze credit
-    account = await db.execute(
-        select(CreditAccount).where(CreditAccount.user_id == task.user_id)
-    )
-    acc = account.scalar_one_or_none()
-    if acc:
-        acc.frozen = max(0, acc.frozen - 1)
-
     # Create report
     report = DetectionReport(
         task_id=task.id,
@@ -231,3 +196,78 @@ async def get_report(db: AsyncSession, report_id: int, user_id: int) -> Detectio
         )
     )
     return result.scalar_one_or_none()
+
+
+# ── Report number format & detection types ──────────────────────────
+
+# Report number: 4-digit hex type prefix + 16 hex chars (8 bytes random)
+# Total: 20 hex characters
+DETECTION_TYPE_MAP = {
+    "0001": "查重检测",
+    "0002": "格式检测",
+    "0003": "AIGC检测",
+    "0004": "智评检测",
+}
+
+REPORT_NUMBER_RE = __import__("re").compile(r"^[0-9a-fA-F]{20}$")
+
+
+def parse_report_number(report_number: str) -> dict | None:
+    """
+    Parse a report number. Returns dict with detection_type info, or None if format invalid.
+    Format: 4 hex chars (type prefix) + 16 hex chars (unique token)
+    """
+    report_number = report_number.strip()
+    if not REPORT_NUMBER_RE.match(report_number):
+        return None
+    type_prefix = report_number[:4].upper()
+    detection_type_label = DETECTION_TYPE_MAP.get(type_prefix, None)
+    return {
+        "report_number": report_number,
+        "type_prefix": type_prefix,
+        "detection_type": detection_type_label,
+    }
+
+
+async def verify_report(db: AsyncSession, report_number: str) -> dict | None:
+    """
+    Look up a report by its report_number (public, no auth).
+    Returns dict with report + task info, or None if not found.
+    """
+    report_number = report_number.strip()
+    result = await db.execute(
+        select(DetectionReport)
+        .join(DetectionTask, DetectionReport.task_id == DetectionTask.id)
+        .where(DetectionReport.report_number == report_number)
+    )
+    report = result.scalar_one_or_none()
+    if not report:
+        return None
+
+    task = await db.get(DetectionTask, report.task_id)
+
+    detection_type_label = None
+    if task:
+        type_prefix = report_number[:4].upper()
+        detection_type_label = DETECTION_TYPE_MAP.get(type_prefix)
+
+    return {
+        "report_number": report.report_number,
+        "detection_type": detection_type_label or "未知",
+        "paper_title": task.paper_title if task else None,
+        "author_name": task.author_name if task else None,
+        "overall_score": report.overall_score,
+        "overall_grade": report.overall_grade,
+        "l1_score": report.l1_score,
+        "l1_grade": report.l1_grade,
+        "l2_score": report.l2_score,
+        "l2_grade": report.l2_grade,
+        "l3_score": report.l3_score,
+        "l3_grade": report.l3_grade,
+        "l4_score": report.l4_score,
+        "l4_grade": report.l4_grade,
+        "similarity_rate": report.similarity_rate,
+        "aigc_rate": report.aigc_rate,
+        "generated_at": report.generated_at.isoformat() if report.generated_at else None,
+        "created_at": report.created_at.isoformat() if report.created_at else None,
+    }
