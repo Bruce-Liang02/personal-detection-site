@@ -222,9 +222,9 @@ export default function LoginPage() {
             </span>
           </label>
 
-          {/* 协议弹窗 */}
+          {/* 协议弹窗（z-[60] 确保在注册弹窗 z-50 之上） */}
           {protocolModal && (
-            <div className="overlay" onClick={() => setProtocolModal(null)}>
+            <div className="fixed inset-0 z-[60] flex items-center justify-center bg-[rgba(29,33,41,.45)] backdrop-blur-[2px]" onClick={() => setProtocolModal(null)}>
               <div className="relative modal w-[90%] max-w-[640px] max-h-[80vh]" onClick={e => e.stopPropagation()}>
                 <div className="modal-header">
                   <h3 className="text-[16px] font-bold text-ink">

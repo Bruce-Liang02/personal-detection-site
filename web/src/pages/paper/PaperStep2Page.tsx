@@ -55,16 +55,33 @@ export default function PaperStep2Page() {
 
   const steps = currentStep === 2 ? STEPS_DEFAULT : STEPS_DONE
 
-  // 进入步骤3时立即生成报告编号
+  // 解析成功时生成报告编号
   useEffect(() => {
-    if (currentStep !== 3) return
+    if (!parsingDone || reportId) return
     const now = new Date()
     const dateStr = now.getFullYear().toString() +
       String(now.getMonth() + 1).padStart(2, '0') +
       String(now.getDate()).padStart(2, '0')
     const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase()
     setReportId(`RPT${dateStr}${randomStr}`)
-    setDetectionDone(true)
+  }, [parsingDone])
+
+  // 进入步骤3时确保报告编号已生成，先显示「检测中」，3s后变为「检测完成」
+  useEffect(() => {
+    if (currentStep !== 3) return
+    if (!reportId) {
+      const now = new Date()
+      const dateStr = now.getFullYear().toString() +
+        String(now.getMonth() + 1).padStart(2, '0') +
+        String(now.getDate()).padStart(2, '0')
+      const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase()
+      setReportId(`RPT${dateStr}${randomStr}`)
+    }
+    setDetectionDone(false)
+    const timer = setTimeout(() => {
+      setDetectionDone(true)
+    }, 3000)
+    return () => clearTimeout(timer)
   }, [currentStep])
 
   // 进入步骤2时自动弹出解析进度弹窗，重置解析状态，3s后自动完成
@@ -103,6 +120,15 @@ export default function PaperStep2Page() {
   }
 
   function handlePaid() {
+    // 支付完成时立即生成报告编号
+    if (!reportId) {
+      const now = new Date()
+      const dateStr = now.getFullYear().toString() +
+        String(now.getMonth() + 1).padStart(2, '0') +
+        String(now.getDate()).padStart(2, '0')
+      const randomStr = Math.random().toString(36).substring(2, 8).toUpperCase()
+      setReportId(`RPT${dateStr}${randomStr}`)
+    }
     setShowModal(false)
     setCurrentStep(3)
   }
@@ -321,7 +347,7 @@ export default function PaperStep2Page() {
                     </div>
                   </td>
                   <td className="py-3 px-4 text-body text-ink-2 font-mono tnum">
-                    {detectionDone && reportId ? reportId : '—'}
+                    {reportId || '—'}
                   </td>
                   <td className="py-3 px-4 text-body text-ink-2 tnum">{new Date().toLocaleString('zh-CN')}</td>
                   <td className="py-3 px-4 text-subtitle text-brand-700 font-bold tnum">￥{item.totalPrice}</td>
