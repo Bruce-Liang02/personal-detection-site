@@ -98,9 +98,6 @@ export default function SidebarLayout() {
                   <p className="text-body font-medium text-ink">{user?.nickname || user?.username}</p>
                   <p className="text-micro text-ink-3">@{user?.username}</p>
                 </div>
-                <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-body text-ink-2 hover:bg-line-lighter">
-                  <User size={13} /> 个人资料
-                </Link>
                 <button
                   onClick={() => { logout(); setMenuOpen(false); window.location.href = '/login' }}
                   className="flex items-center gap-2 w-full px-3 py-2 text-body text-danger hover:bg-danger-soft"

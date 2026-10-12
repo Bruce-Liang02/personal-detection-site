@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import BrandLogo from '@/components/ui/BrandLogo'
 import { useAuthStore } from '@/stores/authStore'
 import { detectionApi } from '@/api'
-import { Phone, Search, ChevronDown, LogOut, User } from 'lucide-react'
+import { Phone, Search, ChevronDown, LogOut } from 'lucide-react'
 import Footer from '@/components/ui/Footer'
 
 /* ── Report number format: 4 hex type prefix + 16 hex unique token = 20 hex chars ── */
@@ -290,9 +290,6 @@ export default function ReportVerifyPage() {
                   </button>
                   {menuOpen && (
                     <div className="absolute right-0 mt-2 w-44 bg-white rounded-lg border border-line shadow-lg py-1 z-50">
-                      <Link to="/account" onClick={() => setMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-ink-2 hover:bg-line-lighter">
-                        <User size={13} /> 个人资料
-                      </Link>
                       <button
                         onClick={() => { logout(); setMenuOpen(false); navigate('/login') }}
                         className="flex items-center gap-2 w-full px-3 py-2 text-sm text-danger hover:bg-danger-soft"
