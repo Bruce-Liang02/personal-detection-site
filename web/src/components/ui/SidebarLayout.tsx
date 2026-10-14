@@ -142,11 +142,20 @@ export default function SidebarLayout() {
           </nav>
         </aside>
 
-        {/* Page content */}
-        <main className="flex-1 p-6 min-w-0">
-          <Outlet />
-        </main>
+        {/* Page content（右侧内容区；左侧导航保持通栏） */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <main className="flex-1 p-6 pb-[64px] min-w-0">
+            <Outlet />
+          </main>
+        </div>
       </div>
+
+      {/* ═══ 底部版权栏（固定于视口底部，仅覆盖内容区宽度） ═══ */}
+      <footer className="fixed bottom-0 left-[168px] right-0 z-30 bg-white border-t border-line-soft py-3 text-center shadow-[0_-2px_8px_rgba(0,0,0,0.03)]">
+        <p className="text-micro text-ink-3">
+          重庆泛语科技有限公司&emsp;&emsp;渝ICP备16011291号-1&emsp;&emsp;渝公网安备50019002503141号&emsp;&emsp;泛语科技【荣誉出品】版权所有1998-2026
+        </p>
+      </footer>
     </div>
   )
 }
